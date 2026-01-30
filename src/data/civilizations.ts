@@ -51,64 +51,8 @@ export interface CivilizationRelation {
   description?: string;
 }
 
-// Trunk (pre-vines, deep roots) - earliest time, spread across longitudes
-export const trunkNodes: CivilizationNode[] = [
-  {
-    id: 'trunk-language',
-    name: 'Language',
-    type: 'trunk',
-    themes: ['communication', 'abstraction', 'memory'],
-    gifts: ['symbolic thought', 'narrative', 'transmission'],
-    color: '#4a4a4a',
-    timeStart: -100000,
-    timeEnd: -10000,
-    longitude: 0, // Center
-  },
-  {
-    id: 'trunk-fire',
-    name: 'Fire',
-    type: 'trunk',
-    themes: ['transformation', 'energy', 'control'],
-    gifts: ['cooking', 'metallurgy', 'ceramics'],
-    color: '#8b4513',
-    timeStart: -400000,
-    timeEnd: -10000,
-    longitude: -20, // West
-  },
-  {
-    id: 'trunk-ritual',
-    name: 'Ritual',
-    type: 'trunk',
-    themes: ['meaning', 'order', 'continuity'],
-    gifts: ['ceremony', 'calendar', 'social cohesion'],
-    color: '#5d4037',
-    timeStart: -50000,
-    timeEnd: -10000,
-    longitude: 20, // East
-  },
-  {
-    id: 'trunk-tools',
-    name: 'Tool-making',
-    type: 'trunk',
-    themes: ['extension', 'efficiency', 'adaptation'],
-    gifts: ['technology', 'craft', 'innovation'],
-    color: '#616161',
-    timeStart: -3000000,
-    timeEnd: -10000,
-    longitude: 0, // Center
-  },
-  {
-    id: 'trunk-kinship',
-    name: 'Kinship & Myth',
-    type: 'trunk',
-    themes: ['identity', 'belonging', 'narrative'],
-    gifts: ['social structure', 'cosmology', 'tradition'],
-    color: '#424242',
-    timeStart: -100000,
-    timeEnd: -10000,
-    longitude: 40, // Further east
-  },
-];
+// Trunk nodes removed - focusing on actual civilizations
+export const trunkNodes: CivilizationNode[] = [];
 
 // Major Civilizational Vines
 export const majorVines: CivilizationNode[] = [
@@ -695,56 +639,6 @@ export const allCivilizationNodes = [...trunkNodes, ...majorVines, ...crossVines
 
 // Relations: How vines connect
 export const civilizationRelations: CivilizationRelation[] = [
-  // Trunk to major vines - all civilizations grow from the shared roots
-  {
-    id: 'rel-trunk-mesopotamian',
-    from_id: 'trunk-language',
-    to_id: 'vine-mesopotamian',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-egyptian',
-    from_id: 'trunk-ritual',
-    to_id: 'vine-egyptian',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-mediterranean',
-    from_id: 'trunk-tools',
-    to_id: 'vine-mediterranean',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-hebraic',
-    from_id: 'trunk-kinship',
-    to_id: 'vine-hebraic',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-indic',
-    from_id: 'trunk-ritual',
-    to_id: 'vine-indic',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-sinitic',
-    from_id: 'trunk-tools',
-    to_id: 'vine-sinitic',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-mesoamerican',
-    from_id: 'trunk-ritual',
-    to_id: 'vine-mesoamerican',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-indigenous',
-    from_id: 'trunk-kinship',
-    to_id: 'vine-indigenous',
-    relation_type: 'grows_from',
-  },
-  
   // Inter-civilizational connections - how vines intertwine
   {
     id: 'rel-mesopotamian-egyptian',
@@ -1170,31 +1064,5 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-modern',
     relation_type: 'strangles',
     description: 'Colonial encounter and cultural exchange',
-  },
-  
-  // More trunk connections
-  {
-    id: 'rel-trunk-fire-technology',
-    from_id: 'trunk-fire',
-    to_id: 'cross-technology',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-language-all',
-    from_id: 'trunk-language',
-    to_id: 'cross-language-families',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-ritual-religion',
-    from_id: 'trunk-ritual',
-    to_id: 'cross-religion',
-    relation_type: 'grows_from',
-  },
-  {
-    id: 'rel-trunk-tools-technology',
-    from_id: 'trunk-tools',
-    to_id: 'cross-technology',
-    relation_type: 'grows_from',
   },
 ];
