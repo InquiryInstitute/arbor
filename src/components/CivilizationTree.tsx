@@ -244,6 +244,30 @@ export default function CivilizationTree({
       };
 
       setLayout(graph);
+      
+      // Set initial transform to show the full map area
+      // The map area is from mapStartX/mapStartY to mapStartX+mapWidth/mapStartY+mapHeight
+      // We want to fit this in the SVG viewport
+      const mapEndX = mapStartX + mapWidth;
+      const mapEndY = mapStartY + mapHeight;
+      const mapCenterX = (mapStartX + mapEndX) / 2;
+      const mapCenterY = (mapStartY + mapEndY) / 2;
+      
+      // Calculate scale to fit the map area in the viewport
+      const scaleX = (width * 0.9) / mapWidth;
+      const scaleY = (height * 0.9) / mapHeight;
+      const initialScale = Math.min(scaleX, scaleY, 1);
+      
+      // Center the map in the viewport
+      const initialX = width / 2 - mapCenterX * initialScale;
+      const initialY = height / 2 - mapCenterY * initialScale;
+      
+      setTransform({
+        x: initialX,
+        y: initialY,
+        scale: initialScale,
+      });
+      
       setLoading(false);
     }
 
