@@ -1,0 +1,116 @@
+---
+import CommonCoreTree from '../components/CommonCoreTree';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Common Core Curriculum Tree — Bottom to Top" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Common Core | Curriculum Tree</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/arbor/">← Back to Home</a>
+      </nav>
+      <h1>📚 Common Core Curriculum</h1>
+      <p class="subtitle">A Tree of Learning — From Kindergarten to Grade 12</p>
+    </header>
+
+    <main>
+      <div class="intro">
+        <p>
+          The Common Core State Standards are organized as a tree, with Kindergarten at the bottom 
+          and Grade 12 at the top. Each grade level branches into Mathematics and English Language Arts, 
+          which further branch into domains, clusters, and standards.
+        </p>
+        <p class="note">
+          <strong>Click</strong> on any node to see detailed information. 
+          <strong>Drag</strong> to pan, <strong>scroll</strong> to zoom.
+        </p>
+      </div>
+      <CommonCoreTree client:load width={1600} height={1200} />
+    </main>
+
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+      }
+
+      header {
+        background: white;
+        border-bottom: 2px solid #2196f3;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      nav {
+        margin-bottom: 0.5rem;
+      }
+
+      nav a {
+        color: #2196f3;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #2196f3;
+        margin: 0;
+      }
+
+      .subtitle {
+        color: #666;
+        margin: 0.25rem 0 0 0;
+        font-style: italic;
+        font-size: 1.1rem;
+      }
+
+      main {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .intro {
+        max-width: 900px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .intro p {
+        margin: 0.75rem 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .intro p:first-child {
+        font-size: 1.1rem;
+      }
+
+      .intro .note {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+        font-size: 0.9rem;
+        color: #666;
+      }
+    </style>
+  </body>
+</html>

@@ -118,8 +118,8 @@ class MITOCWScraper:
                 print(f"    Trying sitemap: {sitemap_url}")
                 response = self.session.get(sitemap_url, timeout=30)
                 if response.status_code == 200:
-                    # Parse XML sitemap
-                    soup = BeautifulSoup(response.content, 'xml')
+                    # Parse XML sitemap - use lxml parser
+                    soup = BeautifulSoup(response.content, 'lxml-xml')
                     for loc in soup.find_all('loc'):
                         url = loc.text.strip()
                         # MIT OCW course URLs: https://ocw.mit.edu/courses/SUBJECT-NUMBER-title/
@@ -129,7 +129,8 @@ class MITOCWScraper:
                             if len(parts) > 1:
                                 course_path = parts[1].rstrip('/')
                                 # Check if it matches course pattern (has numbers like 18-01 or 6.042)
-                                if re.search(r'\d+[-.]\d+', course_path):
+                                # And has more than just numbers (has title)
+                                if re.search(r'\d+[-.]\d+', course_path) and len(course_path.split('-')) > 2:
                                     course_links.append(url)
             except Exception as e:
                 print(f"    Sitemap error: {e}")
@@ -169,48 +170,34 @@ class MITOCWScraper:
         return course_links
     
     def _fetch_from_search(self) -> List[str]:
-        """Try to get courses by generating common course number patterns."""
+        """Try to get courses from MIT OCW browse/search pages."""
         course_links = []
         
-        # MIT course numbers follow patterns like:
-        # - 18.01, 18.02 (Math)
-        # - 6.042, 6.006 (EECS)
-        # - etc.
-        
-        # Try common department prefixes
-        departments = {
-            '18': range(1, 100),  # Math
-            '6': range(1, 200),   # EECS
-            '8': range(1, 50),    # Physics
-            '7': range(1, 50),    # Biology
-            '5': range(1, 50),    # Chemistry
-            '14': range(1, 50),   # Economics
-            '21': range(1, 50),   # Humanities
-            '24': range(1, 50),   # Linguistics
-        }
-        
-        print("  Generating course URLs from common patterns...")
-        for dept, numbers in departments.items():
-            for num in numbers:
-                # Try different URL formats
-                course_num = f"{dept}.{num:02d}"
-                # MIT OCW URLs use dashes: 18-01 not 18.01
-                url_num = course_num.replace('.', '-')
+        # Try to get courses from the browse page which lists all courses
+        try:
+            # MIT OCW has a courses listing page
+            browse_url = "https://ocw.mit.edu/courses/"
+            print(f"  Fetching from browse page: {browse_url}")
+            response = self.session.get(browse_url, timeout=30)
+            
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
                 
-                # Try common URL patterns
-                patterns = [
-                    f"/courses/{url_num}-",
-                    f"/courses/{dept}-{num:02d}-",
-                ]
-                
-                for pattern in patterns:
-                    # We can't actually verify these exist without fetching,
-                    # but we'll let fetch_course_page handle 404s
-                    full_url = urljoin(self.BASE_URL, pattern)
-                    if full_url not in course_links:
-                        course_links.append(full_url)
+                # Look for course links - they're typically in lists or cards
+                for link in soup.find_all('a', href=True):
+                    href = link['href']
+                    # MIT OCW course URLs: /courses/SUBJECT-NUMBER-title-semester-year/
+                    if '/courses/' in href and href != '/courses/':
+                        # Check if it's a full course URL (has numbers and title)
+                        if re.search(r'\d+[-.]\d+', href) and href.count('-') >= 3:
+                            full_url = urljoin(self.BASE_URL, href)
+                            # Make sure it's a complete URL, not a partial one
+                            if full_url.count('/') >= 5:  # Full course URLs have more path segments
+                                course_links.append(full_url)
+        except Exception as e:
+            print(f"  Error fetching from browse: {e}")
         
-        return course_links[:5000]  # Limit to avoid too many requests
+        return course_links
 
     def fetch_course_page(self, url: str) -> Optional[Course]:
         """Fetch and parse a single course page."""
