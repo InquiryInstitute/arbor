@@ -262,15 +262,57 @@ export const allCivilizationNodes = [...trunkNodes, ...majorVines, ...crossVines
 
 // Relations: How vines connect
 export const civilizationRelations: CivilizationRelation[] = [
-  // All major vines grow from the trunk
-  ...majorVines.map(vine => ({
-    id: `rel-trunk-${vine.id}`,
-    from_id: 'trunk-language', // All vines grow from language primarily
-    to_id: vine.id,
-    relation_type: 'grows_from' as const,
-  })),
+  // Trunk to major vines - all civilizations grow from the shared roots
+  {
+    id: 'rel-trunk-mesopotamian',
+    from_id: 'trunk-language',
+    to_id: 'vine-mesopotamian',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-egyptian',
+    from_id: 'trunk-ritual',
+    to_id: 'vine-egyptian',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-mediterranean',
+    from_id: 'trunk-tools',
+    to_id: 'vine-mediterranean',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-hebraic',
+    from_id: 'trunk-kinship',
+    to_id: 'vine-hebraic',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-indic',
+    from_id: 'trunk-ritual',
+    to_id: 'vine-indic',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-sinitic',
+    from_id: 'trunk-tools',
+    to_id: 'vine-sinitic',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-mesoamerican',
+    from_id: 'trunk-ritual',
+    to_id: 'vine-mesoamerican',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-indigenous',
+    from_id: 'trunk-kinship',
+    to_id: 'vine-indigenous',
+    relation_type: 'grows_from',
+  },
   
-  // Specific interconnections
+  // Inter-civilizational connections - how vines intertwine
   {
     id: 'rel-mesopotamian-egyptian',
     from_id: 'vine-mesopotamian',
@@ -284,6 +326,13 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-mediterranean',
     relation_type: 'grafts',
     description: 'Ethical and legal traditions merge',
+  },
+  {
+    id: 'rel-mediterranean-egyptian',
+    from_id: 'vine-egyptian',
+    to_id: 'vine-mediterranean',
+    relation_type: 'pollinates',
+    description: 'Geometry, architecture, and symbolic systems',
   },
   {
     id: 'rel-islamic-medieval',
@@ -300,6 +349,13 @@ export const civilizationRelations: CivilizationRelation[] = [
     description: 'Scholastic method leads to scientific method',
   },
   {
+    id: 'rel-mediterranean-modern',
+    from_id: 'vine-mediterranean',
+    to_id: 'vine-modern',
+    relation_type: 'grafts',
+    description: 'Classical philosophy and law inform modernity',
+  },
+  {
     id: 'rel-indic-sinitic',
     from_id: 'vine-indic',
     to_id: 'vine-sinitic',
@@ -313,14 +369,36 @@ export const civilizationRelations: CivilizationRelation[] = [
     relation_type: 'strangles',
     description: 'Colonial suppression, but also cross-pollination',
   },
-  
-  // Cross-vines connect to major vines
   {
-    id: 'rel-trade-all',
+    id: 'rel-islamic-indic',
+    from_id: 'vine-indic',
+    to_id: 'vine-islamic',
+    relation_type: 'pollinates',
+    description: 'Mathematics, philosophy, and scientific methods',
+  },
+  
+  // Cross-vines weave through civilizations
+  // Trade connects many civilizations
+  {
+    id: 'rel-trade-mesopotamian',
     from_id: 'cross-trade',
     to_id: 'vine-mesopotamian',
     relation_type: 'carries',
   },
+  {
+    id: 'rel-trade-mediterranean',
+    from_id: 'cross-trade',
+    to_id: 'vine-mediterranean',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-trade-sinitic',
+    from_id: 'cross-trade',
+    to_id: 'vine-sinitic',
+    relation_type: 'carries',
+  },
+  
+  // Religion synthesizes with multiple traditions
   {
     id: 'rel-religion-hebraic',
     from_id: 'cross-religion',
@@ -334,17 +412,53 @@ export const civilizationRelations: CivilizationRelation[] = [
     relation_type: 'synthesizes',
   },
   {
+    id: 'rel-religion-medieval',
+    from_id: 'cross-religion',
+    to_id: 'vine-medieval',
+    relation_type: 'synthesizes',
+  },
+  {
+    id: 'rel-religion-indic',
+    from_id: 'cross-religion',
+    to_id: 'vine-indic',
+    relation_type: 'synthesizes',
+  },
+  
+  // Technology grafts onto various civilizations
+  {
     id: 'rel-technology-modern',
     from_id: 'cross-technology',
     to_id: 'vine-modern',
     relation_type: 'grafts',
   },
   {
+    id: 'rel-technology-sinitic',
+    from_id: 'cross-technology',
+    to_id: 'vine-sinitic',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-technology-mediterranean',
+    from_id: 'cross-technology',
+    to_id: 'vine-mediterranean',
+    relation_type: 'grafts',
+  },
+  
+  // Art pollinates civilizations
+  {
     id: 'rel-art-mediterranean',
     from_id: 'cross-art',
     to_id: 'vine-mediterranean',
     relation_type: 'pollinates',
   },
+  {
+    id: 'rel-art-egyptian',
+    from_id: 'cross-art',
+    to_id: 'vine-egyptian',
+    relation_type: 'pollinates',
+  },
+  
+  // Law grows from and grafts onto civilizations
   {
     id: 'rel-law-mesopotamian',
     from_id: 'cross-law',
@@ -356,5 +470,25 @@ export const civilizationRelations: CivilizationRelation[] = [
     from_id: 'cross-law',
     to_id: 'vine-mediterranean',
     relation_type: 'grafts',
+  },
+  {
+    id: 'rel-law-modern',
+    from_id: 'cross-law',
+    to_id: 'vine-modern',
+    relation_type: 'grafts',
+  },
+  
+  // War strangles and sometimes pollinates
+  {
+    id: 'rel-war-modern',
+    from_id: 'cross-war',
+    to_id: 'vine-modern',
+    relation_type: 'strangles',
+  },
+  {
+    id: 'rel-war-mediterranean',
+    from_id: 'cross-war',
+    to_id: 'vine-mediterranean',
+    relation_type: 'strangles',
   },
 ];

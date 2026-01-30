@@ -1,0 +1,116 @@
+---
+import CivilizationTree from '../components/CivilizationTree';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="The Tree of Vines — Civilizations as Intertwining Vines" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Civilatatum | Tree of Vines</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/arbor/">← Back to Home</a>
+      </nav>
+      <h1>🌿 Civilatatum</h1>
+      <p class="subtitle">A Tree Made Not of Branches, But of Living, Intertwining Vines</p>
+    </header>
+
+    <main>
+      <div class="intro">
+        <p>
+          Each vine is a civilization, growing upward through time, crossing, grafting, 
+          sometimes strangling, sometimes pollinating one another. Civilizations don't replace 
+          one another—they intertwine, graft, shed leaves, go dormant, and re-sprout under new names.
+        </p>
+        <p class="note">
+          <strong>Click</strong> on any vine to see its themes and gifts. 
+          <strong>Drag</strong> to pan, <strong>scroll</strong> to zoom.
+        </p>
+      </div>
+      <CivilizationTree client:load width={1600} height={1000} />
+    </main>
+
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+      }
+
+      header {
+        background: white;
+        border-bottom: 2px solid #2d5a27;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      nav {
+        margin-bottom: 0.5rem;
+      }
+
+      nav a {
+        color: #2d5a27;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #2d5a27;
+        margin: 0;
+      }
+
+      .subtitle {
+        color: #666;
+        margin: 0.25rem 0 0 0;
+        font-style: italic;
+        font-size: 1.1rem;
+      }
+
+      main {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .intro {
+        max-width: 900px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .intro p {
+        margin: 0.75rem 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .intro p:first-child {
+        font-size: 1.1rem;
+      }
+
+      .intro .note {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+        font-size: 0.9rem;
+        color: #666;
+      }
+    </style>
+  </body>
+</html>

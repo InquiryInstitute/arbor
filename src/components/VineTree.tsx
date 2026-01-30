@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import ELK from 'elkjs';
 import type { Credential, CredentialRelation, ELKGraph, ELKNode, ELKEdge, College, LevelBand } from '../types/credential';
 import { sampleCredentials, sampleRelations } from '../data/sample-credentials';
@@ -334,6 +334,41 @@ export default function VineTree({
 
   const allCredentialNodes = layout.children || [];
 
+  // Calculate college lane positions for labeling
+  const collegePositions = useMemo(() => {
+    const positions: Record<College, { x: number; y: number; count: number }> = {} as Record<College, { x: number; y: number; count: number }>;
+    
+    allCredentialNodes.forEach(node => {
+      const cred = credentials.find(c => c.id === node.id);
+      if (!cred || !node.x || !node.y) return;
+      
+      const college = cred.college_primary;
+      if (!positions[college]) {
+        positions[college] = { x: 0, y: 0, count: 0 };
+      }
+      
+      // Accumulate X positions to calculate median
+      positions[college].x += node.x + (node.width || 0) / 2;
+      // Track bottom-most Y position
+      const nodeBottom = (node.y || 0) + (node.height || 0);
+      if (nodeBottom > positions[college].y) {
+        positions[college].y = nodeBottom;
+      }
+      positions[college].count += 1;
+    });
+    
+    // Calculate median X for each college
+    Object.keys(positions).forEach(college => {
+      const pos = positions[college as College];
+      if (pos.count > 0) {
+        pos.x = pos.x / pos.count; // Average X position (approximation of median)
+        pos.y = pos.y + 20; // Add padding below bottom node
+      }
+    });
+    
+    return positions;
+  }, [allCredentialNodes, credentials]);
+
   return (
     <div style={{ position: 'relative', width, height }}>
       {/* Zoom controls */}
@@ -608,6 +643,50 @@ export default function VineTree({
           </g>
         );
       })}
+
+      {/* College labels at bottom - render outside transform group so they stay at bottom */}
+      <g>
+        {Object.entries(collegePositions).map(([college, pos]) => {
+          if (pos.count === 0) return null;
+          const baseColor = collegeColors[college as College] || '#888';
+          const bgColor = getTintedColor(baseColor, 'K-1'); // Use root level color for label background
+          const labelColor = getTextColor(bgColor);
+          
+          // Transform label position based on current view transform
+          const labelX = pos.x * transform.scale + transform.x;
+          const labelY = pos.y * transform.scale + transform.y;
+          
+          return (
+            <g key={`college-label-${college}`}>
+              {/* Background rectangle for label */}
+              <rect
+                x={labelX - 40}
+                y={labelY}
+                width={80}
+                height={28}
+                fill={bgColor}
+                stroke={getStrokeColor(baseColor, 'K-1')}
+                strokeWidth={2}
+                rx={4}
+                opacity={0.95}
+              />
+              {/* College name */}
+              <text
+                x={labelX}
+                y={labelY + 18}
+                fontSize="13"
+                fontWeight="bold"
+                fill={labelColor}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                style={{ pointerEvents: 'none' }}
+              >
+                {college}
+              </text>
+            </g>
+          );
+        })}
+      </g>
         </g>
       </svg>
     </div>
