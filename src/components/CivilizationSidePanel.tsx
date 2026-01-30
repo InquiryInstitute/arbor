@@ -400,11 +400,13 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
         {node.relatedReadings && node.relatedReadings.length > 0 && (
           <div style={{ marginBottom: '2rem' }}>
             <h3 style={{ 
-              fontSize: '1.1rem', 
-              margin: '0 0 0.75rem 0',
-              color: '#2d5a27',
-              borderBottom: '2px solid #e0e0e0',
-              paddingBottom: '0.5rem',
+              fontSize: '1.25rem', 
+              margin: '0 0 1rem 0',
+              color: '#1a4d2e',
+              borderBottom: `3px solid ${node.color || '#2d5a27'}`,
+              paddingBottom: '0.75rem',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: '600',
             }}>
               Related Readings
             </h3>
