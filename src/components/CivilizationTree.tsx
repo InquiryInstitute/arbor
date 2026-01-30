@@ -227,8 +227,6 @@ export default function CivilizationTree({
           y: y,
         };
       });
-      
-      console.log('Created nodes:', elkNodes.length, elkNodes.slice(0, 3));
 
       // Convert relations to edges
       const elkEdges: ELKEdge[] = civilizationRelations.map(rel => ({
