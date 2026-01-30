@@ -1237,7 +1237,7 @@ export const sampleRelations: CredentialRelation[] = [
   { id: 'cross-ela-soc-2', from_credential_id: id('G11-12', 'ELA', 'rhetoric-argument'), to_credential_id: id('G9-10', 'SOC', 'political-theory'), relation_type: 'RECOMMENDED' },
 
   // NAT supports CEF (biology for ecology)
-  { id: 'cross-nat-cef-1', from_credential_id: id('G2-3', 'NAT', 'cell-unit-life'), to_credential_id: id('G2-3', 'CEF', 'ecology-interconnection'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-nat-cef-1', from_credential_id: id('G2-3', 'NAT', 'life-cycles'), to_credential_id: id('G2-3', 'CEF', 'ecology-interconnection'), relation_type: 'RECOMMENDED' },
   { id: 'cross-nat-cef-2', from_credential_id: id('G4-6', 'NAT', 'ecosystems'), to_credential_id: id('G4-6', 'CEF', 'environmental-stewardship'), relation_type: 'RECOMMENDED' },
   { id: 'cross-nat-cef-3', from_credential_id: id('G9-10', 'NAT', 'evolution'), to_credential_id: id('G9-10', 'CEF', 'environmental-philosophy'), relation_type: 'RECOMMENDED' },
 
