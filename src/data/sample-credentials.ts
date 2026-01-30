@@ -424,25 +424,100 @@ export const sampleCredentials: Credential[] = [
   // ============================================
   // 5. Word & Meaning (ELA) - Full K-PhD progression
   // ============================================
+  // K-1: Comprehensive Reading Foundations
   {
-    id: id('K-1', 'ELA', 'power-stories'),
-    title: 'The Power of Stories',
+    id: id('K-1', 'ELA', 'reading-foundations'),
+    title: 'Reading Foundations',
     cadence: 'seasonal',
     college_primary: 'ELA',
     level_band: 'K-1',
     duration_weeks: 10,
   },
   {
-    id: id('G2-3', 'ELA', 'language-meaning'),
-    title: 'Language and Meaning',
+    id: id('K-1', 'ELA', 'writing-foundations'),
+    title: 'Writing Foundations',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  {
+    id: id('K-1', 'ELA', 'speaking-listening'),
+    title: 'Speaking and Listening',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  {
+    id: id('K-1', 'ELA', 'language-vocabulary'),
+    title: 'Language and Vocabulary',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  // G2-3: Reading Fluency & Comprehension
+  {
+    id: id('G2-3', 'ELA', 'reading-fluency'),
+    title: 'Reading Fluency',
     cadence: 'seasonal',
     college_primary: 'ELA',
     level_band: 'G2-3',
     duration_weeks: 10,
   },
   {
-    id: id('G4-6', 'ELA', 'reading-writing'),
-    title: 'Reading and Writing Deeply',
+    id: id('G2-3', 'ELA', 'reading-comprehension'),
+    title: 'Reading Comprehension',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G2-3', 'ELA', 'writing-process'),
+    title: 'The Writing Process',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G2-3', 'ELA', 'language-conventions'),
+    title: 'Language Conventions',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  // G4-6: Literary Analysis & Composition
+  {
+    id: id('G4-6', 'ELA', 'literary-analysis'),
+    title: 'Literary Analysis',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'ELA', 'composition-writing'),
+    title: 'Composition and Writing',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'ELA', 'research-skills'),
+    title: 'Research Skills',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'ELA', 'media-literacy'),
+    title: 'Media Literacy',
     cadence: 'seasonal',
     college_primary: 'ELA',
     level_band: 'G4-6',
@@ -1151,14 +1226,14 @@ export const sampleRelations: CredentialRelation[] = [
   { id: 'cross-math-ains-3', from_credential_id: id('UG', 'MATH', 'calculus'), to_credential_id: id('UG', 'AINS', 'artificial-intelligence'), relation_type: 'RECOMMENDED' },
 
   // ELA supports HUM (reading/writing needed for philosophy/history)
-  { id: 'cross-ela-hum-1', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G7-8', 'HUM', 'moral-reasoning'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-1', from_credential_id: id('G4-6', 'ELA', 'literary-analysis'), to_credential_id: id('G7-8', 'HUM', 'moral-reasoning'), relation_type: 'RECOMMENDED' },
   { id: 'cross-ela-hum-2', from_credential_id: id('G9-10', 'ELA', 'literary-analysis'), to_credential_id: id('G9-10', 'HUM', 'moral-philosophy'), relation_type: 'RECOMMENDED' },
   { id: 'cross-ela-hum-3', from_credential_id: id('G11-12', 'ELA', 'rhetoric-argument'), to_credential_id: id('G11-12', 'HUM', 'ethical-theories'), relation_type: 'RECOMMENDED' },
-  { id: 'cross-ela-hum-4', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G7-8', 'HUM', 'historical-thinking'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-4', from_credential_id: id('G4-6', 'ELA', 'literary-analysis'), to_credential_id: id('G7-8', 'HUM', 'historical-thinking'), relation_type: 'RECOMMENDED' },
   { id: 'cross-ela-hum-5', from_credential_id: id('G9-10', 'ELA', 'literary-analysis'), to_credential_id: id('G9-10', 'HUM', 'historiography'), relation_type: 'RECOMMENDED' },
 
   // ELA supports SOC (communication for civics)
-  { id: 'cross-ela-soc-1', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G4-6', 'SOC', 'civics-citizenship'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-soc-1', from_credential_id: id('G4-6', 'ELA', 'literary-analysis'), to_credential_id: id('G4-6', 'SOC', 'civics-citizenship'), relation_type: 'RECOMMENDED' },
   { id: 'cross-ela-soc-2', from_credential_id: id('G11-12', 'ELA', 'rhetoric-argument'), to_credential_id: id('G9-10', 'SOC', 'political-theory'), relation_type: 'RECOMMENDED' },
 
   // NAT supports CEF (biology for ecology)

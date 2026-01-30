@@ -28,10 +28,8 @@ const { graphData } = Astro.props;
 </div>
 
 <script>
-  import { MITOCWGraph } from '../types/mit-ocw';
-  
   // Load graph data
-  async function loadGraphData(): Promise<MITOCWGraph | null> {
+  async function loadGraphData() {
     try {
       // Try public directory first (for static hosting)
       let response = await fetch('/arbor/data/mit-ocw-graph.json');
@@ -51,7 +49,7 @@ const { graphData } = Astro.props;
   }
 
   // Simple graph visualization using SVG
-  function renderGraph(graph: MITOCWGraph) {
+  function renderGraph(graph) {
     const container = document.getElementById('graph-visualization');
     if (!container) return;
 
@@ -67,7 +65,7 @@ const { graphData } = Astro.props;
     svg.style.backgroundColor = '#f9f9f9';
 
     // Group nodes by department for layout
-    const nodesByDept = new Map<string, typeof graph.nodes>();
+    const nodesByDept = new Map();
     graph.nodes.forEach(node => {
       const dept = node.department || 'Other';
       if (!nodesByDept.has(dept)) {
@@ -77,7 +75,7 @@ const { graphData } = Astro.props;
     });
 
     // Simple force-directed layout simulation
-    const nodePositions = new Map<string, { x: number; y: number }>();
+    const nodePositions = new Map();
     const nodeRadius = 20;
     const padding = 50;
     const width = 1200;

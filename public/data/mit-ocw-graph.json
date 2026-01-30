@@ -1,0 +1,74 @@
+{
+  "nodes": [
+    {
+      "id": "18.01",
+      "label": "18.01: Single Variable Calculus",
+      "title": "Single Variable Calculus",
+      "url": "https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/",
+      "department": "Mathematics",
+      "level": "Undergraduate",
+      "description": "Introduction to single variable calculus"
+    },
+    {
+      "id": "18.02",
+      "label": "18.02: Multivariable Calculus",
+      "title": "Multivariable Calculus",
+      "url": "https://ocw.mit.edu/courses/18-02-multivariable-calculus-fall-2007/",
+      "department": "Mathematics",
+      "level": "Undergraduate",
+      "description": "Introduction to multivariable calculus"
+    },
+    {
+      "id": "6.042",
+      "label": "6.042: Mathematics for Computer Science",
+      "title": "Mathematics for Computer Science",
+      "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/",
+      "department": "Electrical Engineering and Computer Science",
+      "level": "Undergraduate",
+      "description": "Fundamental mathematics for computer science"
+    },
+    {
+      "id": "6.006",
+      "label": "6.006: Introduction to Algorithms",
+      "title": "Introduction to Algorithms",
+      "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/",
+      "department": "Electrical Engineering and Computer Science",
+      "level": "Undergraduate",
+      "description": "Introduction to algorithms and data structures"
+    },
+    {
+      "id": "6.046",
+      "label": "6.046: Design and Analysis of Algorithms",
+      "title": "Design and Analysis of Algorithms",
+      "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/",
+      "department": "Electrical Engineering and Computer Science",
+      "level": "Undergraduate",
+      "description": "Advanced algorithms and analysis"
+    }
+  ],
+  "edges": [
+    {
+      "source": "18.01",
+      "target": "18.02",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "6.042",
+      "target": "6.006",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "6.006",
+      "target": "6.046",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    }
+  ],
+  "metadata": {
+    "total_courses": 5,
+    "total_prerequisites": 3,
+    "total_corequisites": 0
+  }
+}
