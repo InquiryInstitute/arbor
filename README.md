@@ -1,10 +1,14 @@
-# Arbor Scientiae
+# Arbor
 
-**The Tree of Vines** — A living, navigable curriculum graph spanning K → Faculty.
+**The Tree of Vines** — A living, navigable knowledge system for Inquiry Institute.
 
 ## Overview
 
-Arbor Scientiae (Tree of Knowledge) is the curriculum system for Inquiry Institute. It combines:
+This repository contains two complementary knowledge visualization systems:
+
+### 🌳 Arbor Scientiae (Tree of Knowledge)
+
+The curriculum system for Inquiry Institute. It combines:
 
 - A canonical knowledge graph of microcredentials
 - A personalized learner overlay showing progress and readiness
@@ -12,12 +16,27 @@ Arbor Scientiae (Tree of Knowledge) is the curriculum system for Inquiry Institu
 - Faculty personae that hang from the tree like 🍎 fruit
 - A question-to-path illumination system
 
+### ⏳ Arbor Temporis (Tree of Time)
+
+A temporal knowledge structure where time flows upward. It represents:
+
+- Five primary vines: History, Music, Art, Literature, Science
+- Temporal bands from Mythic to Emergent
+- Cross-vine entanglements (braids) showing moments of intense interdisciplinary activity
+- Nodes that answer: What came before? What follows? Who was creating at this moment?
+- Personalized growth where each pupil's tree reflects their learning journey
+
 ## Documentation
 
+### Arbor Scientiae
 - [DESIGN.md](./DESIGN.md) — Complete, authoritative design document
 - [SYSTEM_GRAPH.md](./SYSTEM_GRAPH.md) — System architecture diagram
 - [MICROCREDENTIALS.md](./MICROCREDENTIALS.md) — Full list of 70 microcredentials
 - [TODO.md](./TODO.md) — Implementation roadmap
+- [scripts/README.md](./scripts/README.md) — MIT OCW graph builder documentation
+
+### Arbor Temporis
+- [ARBOR_TEMPORIS.md](./ARBOR_TEMPORIS.md) — Complete definition and design document
 
 ## Vision
 
@@ -33,6 +52,18 @@ This is an Astro site deployed to GitHub Pages.
 npm install
 npm run dev
 ```
+
+### MIT OCW Course Graph
+
+To generate the MIT OpenCourseWare course prerequisite graph:
+
+```bash
+cd scripts
+pip install -r requirements.txt
+python fetch_mit_ocw.py
+```
+
+This will create `public/data/mit-ocw-graph.json` which is used by the visualization at `/mit-ocw`.
 
 ### Build
 

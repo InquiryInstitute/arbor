@@ -90,6 +90,12 @@ export default function VineTree({
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  
+  // Handle node hover - just track which node is hovered
+  const handleNodeHover = (nodeId: string | null) => {
+    setHoveredNodeId(nodeId);
+  };
 
   useEffect(() => {
     async function computeLayout() {
@@ -412,9 +418,30 @@ export default function VineTree({
         const fillColor = getTintedColor(baseColor, cred.level_band);
         const strokeColor = getStrokeColor(baseColor, cred.level_band);
         const strokeWidth = isSeasonal ? 2.5 : 2;
+        const isHovered = hoveredNodeId === node.id;
+        
+        // Zoom factor for hovered nodes
+        const hoverScale = isHovered ? 1.5 : 1;
+        const centerX = node.x + (node.width || 0) / 2;
+        const centerY = node.y + (node.height || 0) / 2;
+        
+        // Calculate scaled dimensions and position
+        const scaledWidth = (node.width || 0) * hoverScale;
+        const scaledHeight = (node.height || 0) * hoverScale;
+        const scaledX = centerX - scaledWidth / 2;
+        const scaledY = centerY - scaledHeight / 2;
 
         return (
-          <g key={node.id}>
+          <g 
+            key={node.id}
+            onMouseEnter={() => handleNodeHover(node.id)}
+            onMouseLeave={() => handleNodeHover(null)}
+            transform={`translate(${centerX}, ${centerY}) scale(${hoverScale}) translate(${-centerX}, ${-centerY})`}
+            style={{ 
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease-out',
+            }}
+          >
             <rect
               x={node.x}
               y={node.y}
@@ -422,37 +449,52 @@ export default function VineTree({
               height={node.height}
               fill={fillColor}
               stroke={strokeColor}
-              strokeWidth={strokeWidth}
+              strokeWidth={strokeWidth * (isHovered ? 1.2 : 1)}
               rx={4}
-              style={{ cursor: 'pointer' }}
+              style={{ 
+                filter: isHovered ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))' : 'none',
+                transition: 'filter 0.2s ease-out',
+              }}
             />
             <text
               x={node.x + node.width / 2}
               y={node.y + node.height / 2 - 8}
-              fontSize={isSeasonal ? 11 : 9}
+              fontSize={isHovered ? (isSeasonal ? 16 : 13) : (isSeasonal ? 11 : 9)}
               fontWeight={isSeasonal ? 'bold' : 'normal'}
               fill="#333"
               textAnchor="middle"
               dominantBaseline="middle"
+              style={{ 
+                transition: 'font-size 0.2s ease-out',
+                pointerEvents: 'none',
+              }}
             >
               {node.labels?.[0]?.text || cred.title}
             </text>
             <text
               x={node.x + node.width / 2}
               y={node.y + node.height - 8}
-              fontSize="7"
+              fontSize={isHovered ? 10 : 7}
               fill="#666"
               textAnchor="middle"
               fontWeight="500"
+              style={{ 
+                transition: 'font-size 0.2s ease-out',
+                pointerEvents: 'none',
+              }}
             >
               {cred.level_band}
             </text>
             <text
               x={node.x + node.width / 2}
               y={node.y + node.height - 2}
-              fontSize="7"
+              fontSize={isHovered ? 10 : 7}
               fill="#888"
               textAnchor="middle"
+              style={{ 
+                transition: 'font-size 0.2s ease-out',
+                pointerEvents: 'none',
+              }}
             >
               {cred.college_primary}
             </text>
