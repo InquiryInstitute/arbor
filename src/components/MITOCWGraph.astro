@@ -31,11 +31,11 @@ const { graphData } = Astro.props;
   // Load graph data
   async function loadGraphData() {
     try {
-      // Try public directory first (for static hosting)
-      let response = await fetch('/arbor/data/mit-ocw-graph.json');
+      // Try different paths
+      let response = await fetch('/data/mit-ocw-graph.json');
       if (!response.ok) {
-        // Fallback to root-relative path
-        response = await fetch('/data/mit-ocw-graph.json');
+        // Try with base path
+        response = await fetch('/arbor/data/mit-ocw-graph.json');
       }
       if (!response.ok) {
         console.warn('Graph data not found. Run the Python script to generate it.');

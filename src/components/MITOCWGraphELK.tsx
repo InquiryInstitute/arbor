@@ -29,9 +29,10 @@ export function MITOCWGraphELK() {
     async function loadData() {
       try {
         // Try different paths (with and without base path)
-        let response = await fetch('/arbor/data/mit-ocw-graph.json');
+        let response = await fetch('/data/mit-ocw-graph.json');
         if (!response.ok) {
-          response = await fetch('/data/mit-ocw-graph.json');
+          // Try with base path
+          response = await fetch('/arbor/data/mit-ocw-graph.json');
         }
         if (!response.ok) {
           // Try relative path
