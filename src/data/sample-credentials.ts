@@ -766,6 +766,82 @@ export const sampleCredentials: Credential[] = [
     level_band: 'PhD',
     duration_weeks: 16,
   },
+
+  // ============================================
+  // Faculty Level (Canopy) - All Colleges
+  // ============================================
+  {
+    id: id('Faculty', 'MATH', 'mathematical-philosophy'),
+    title: 'Mathematical Philosophy',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'NAT', 'philosophy-of-science'),
+    title: 'Philosophy of Science',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'HUM', 'philosophical-synthesis'),
+    title: 'Philosophical Synthesis',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'AINS', 'philosophy-of-ai'),
+    title: 'Philosophy of Artificial Intelligence',
+    cadence: 'seasonal',
+    college_primary: 'AINS',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'ELA', 'philosophy-of-language'),
+    title: 'Philosophy of Language',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'META', 'philosophy-of-education'),
+    title: 'Philosophy of Education',
+    cadence: 'seasonal',
+    college_primary: 'META',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'SOC', 'critical-social-theory'),
+    title: 'Critical Social Theory',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'ARTS', 'aesthetic-philosophy'),
+    title: 'Aesthetic Philosophy',
+    cadence: 'seasonal',
+    college_primary: 'ARTS',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
+  {
+    id: id('Faculty', 'CEF', 'environmental-philosophy-advanced'),
+    title: 'Advanced Environmental Philosophy',
+    cadence: 'seasonal',
+    college_primary: 'CEF',
+    level_band: 'Faculty',
+    duration_weeks: 16,
+  },
 ];
 
 // Generate PREREQ relations (linear chains within each college)
@@ -787,64 +863,66 @@ const generatePrereqChain = (
 };
 
 export const sampleRelations: CredentialRelation[] = [
-  // MATH chain
+  // MATH chain (K-1 → Faculty)
   ...generatePrereqChain('MATH', 
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['counting-patterns', 'art-arithmetic', 'fractions-decimals', 'pre-algebra', 'algebraic-thinking', 'functions-analysis', 'calculus', 'infinity-set-theory', 'topology']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['counting-patterns', 'art-arithmetic', 'fractions-decimals', 'pre-algebra', 'algebraic-thinking', 'functions-analysis', 'calculus', 'infinity-set-theory', 'topology', 'mathematical-philosophy']
   ),
 
   // NAT chain
   ...generatePrereqChain('NAT',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['what-alive', 'cell-unit-life', 'ecosystems', 'matter-energy', 'evolution', 'molecular-foundations', 'genetics', 'molecular-bio', 'systems-bio']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['what-alive', 'cell-unit-life', 'ecosystems', 'matter-energy', 'evolution', 'molecular-foundations', 'genetics', 'molecular-bio', 'systems-bio', 'philosophy-of-science']
   ),
 
   // HUM (Value & Virtue) chain
   ...generatePrereqChain('HUM',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['what-fair', 'intro-ethics', 'virtue-character', 'moral-reasoning', 'moral-philosophy', 'ethical-theories', 'existential-ethics', 'beyond-good-evil', 'metaethics']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['what-fair', 'intro-ethics', 'virtue-character', 'moral-reasoning', 'moral-philosophy', 'ethical-theories', 'existential-ethics', 'beyond-good-evil', 'metaethics', 'philosophical-synthesis']
   ),
 
   // AINS chain
   ...generatePrereqChain('AINS',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['how-think', 'intro-computation', 'algorithms-logic', 'programming-fundamentals', 'art-programming', 'data-structures', 'artificial-intelligence', 'machine-learning', 'consciousness']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['how-think', 'intro-computation', 'algorithms-logic', 'programming-fundamentals', 'art-programming', 'data-structures', 'artificial-intelligence', 'machine-learning', 'consciousness', 'philosophy-of-ai']
   ),
 
   // ELA chain
   ...generatePrereqChain('ELA',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['power-stories', 'language-meaning', 'reading-writing', 'literary-forms', 'literary-analysis', 'rhetoric-argument', 'hermeneutics', 'semiotics', 'deconstruction']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['power-stories', 'language-meaning', 'reading-writing', 'literary-forms', 'literary-analysis', 'rhetoric-argument', 'hermeneutics', 'semiotics', 'deconstruction', 'philosophy-of-language']
   ),
 
   // META chain
   ...generatePrereqChain('META',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['learning-discovery', 'art-teaching', 'learning-strategies', 'critical-thinking', 'cognitive-development', 'epistemology', 'constructivist-learning', 'adult-learning', 'lifelong-learning']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['learning-discovery', 'art-teaching', 'learning-strategies', 'critical-thinking', 'cognitive-development', 'epistemology', 'constructivist-learning', 'adult-learning', 'lifelong-learning', 'philosophy-of-education']
   ),
 
-  // HUM (Time & Memory) chain
+  // HUM (Time & Memory) chain - Note: HUM has two branches, this one uses same Faculty node
   ...generatePrereqChain('HUM',
     ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
     ['what-history', 'historical-sources', 'world-civilizations', 'historical-thinking', 'historiography', 'historical-methods', 'memory-studies', 'philosophy-history', 'temporal-being']
   ),
+  // Connect Time & Memory branch to Faculty
+  { id: 'prereq-hum-tm-faculty', from_credential_id: id('PhD', 'HUM', 'temporal-being'), to_credential_id: id('Faculty', 'HUM', 'philosophical-synthesis'), relation_type: 'PREREQ' },
 
   // SOC chain
   ...generatePrereqChain('SOC',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['living-community', 'government-society', 'civics-citizenship', 'social-systems', 'political-theory', 'political-economy', 'economic-systems', 'capital-political-economy', 'advanced-social-theory']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['living-community', 'government-society', 'civics-citizenship', 'social-systems', 'political-theory', 'political-economy', 'economic-systems', 'capital-political-economy', 'advanced-social-theory', 'critical-social-theory']
   ),
 
   // ARTS chain
   ...generatePrereqChain('ARTS',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['making-creating', 'nature-art', 'artistic-expression', 'art-criticism', 'aesthetics-beauty', 'art-movements', 'art-history', 'art-criticism-theory', 'philosophy-art']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['making-creating', 'nature-art', 'artistic-expression', 'art-criticism', 'aesthetics-beauty', 'art-movements', 'art-history', 'art-criticism-theory', 'philosophy-art', 'aesthetic-philosophy']
   ),
 
   // CEF chain
   ...generatePrereqChain('CEF',
-    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
-    ['wonder-natural-world', 'ecology-interconnection', 'environmental-stewardship', 'sustainability', 'environmental-philosophy', 'ecological-ethics', 'deep-ecology', 'theology-nature', 'transcendence-sacred']
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
+    ['wonder-natural-world', 'ecology-interconnection', 'environmental-stewardship', 'sustainability', 'environmental-philosophy', 'ecological-ethics', 'deep-ecology', 'theology-nature', 'transcendence-sacred', 'environmental-philosophy-advanced']
   ),
 
   // ============================================

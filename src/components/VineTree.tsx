@@ -415,8 +415,8 @@ export default function VineTree({
             />
             <text
               x={node.x + node.width / 2}
-              y={node.y + node.height / 2}
-              fontSize={isSeasonal ? 12 : 10}
+              y={node.y + node.height / 2 - 8}
+              fontSize={isSeasonal ? 11 : 9}
               fontWeight={isSeasonal ? 'bold' : 'normal'}
               fill="#333"
               textAnchor="middle"
@@ -426,12 +426,22 @@ export default function VineTree({
             </text>
             <text
               x={node.x + node.width / 2}
-              y={node.y + node.height - 5}
-              fontSize="8"
+              y={node.y + node.height - 8}
+              fontSize="7"
               fill="#666"
               textAnchor="middle"
+              fontWeight="500"
             >
-              {isSeasonal ? '🌱' : '🌙'} {cred.college_primary}
+              {cred.level_band}
+            </text>
+            <text
+              x={node.x + node.width / 2}
+              y={node.y + node.height - 2}
+              fontSize="7"
+              fill="#888"
+              textAnchor="middle"
+            >
+              {cred.college_primary}
             </text>
           </g>
         );
