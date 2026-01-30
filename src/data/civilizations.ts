@@ -716,6 +716,36 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-sinitic',
     relation_type: 'carries',
   },
+  {
+    id: 'rel-trade-egyptian',
+    from_id: 'cross-trade',
+    to_id: 'vine-egyptian',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-trade-indic',
+    from_id: 'cross-trade',
+    to_id: 'vine-indic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-trade-islamic',
+    from_id: 'cross-trade',
+    to_id: 'vine-islamic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-trade-medieval',
+    from_id: 'cross-trade',
+    to_id: 'vine-medieval',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-trade-modern',
+    from_id: 'cross-trade',
+    to_id: 'vine-modern',
+    relation_type: 'carries',
+  },
   
   // Religion synthesizes with multiple traditions
   {
@@ -742,6 +772,30 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-indic',
     relation_type: 'synthesizes',
   },
+  {
+    id: 'rel-religion-egyptian',
+    from_id: 'cross-religion',
+    to_id: 'vine-egyptian',
+    relation_type: 'synthesizes',
+  },
+  {
+    id: 'rel-religion-mesoamerican',
+    from_id: 'cross-religion',
+    to_id: 'vine-mesoamerican',
+    relation_type: 'synthesizes',
+  },
+  {
+    id: 'rel-religion-indigenous',
+    from_id: 'cross-religion',
+    to_id: 'vine-indigenous',
+    relation_type: 'synthesizes',
+  },
+  {
+    id: 'rel-religion-sinitic',
+    from_id: 'cross-religion',
+    to_id: 'vine-sinitic',
+    relation_type: 'synthesizes',
+  },
   
   // Technology grafts onto various civilizations
   {
@@ -762,6 +816,36 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-mediterranean',
     relation_type: 'grafts',
   },
+  {
+    id: 'rel-technology-mesopotamian',
+    from_id: 'cross-technology',
+    to_id: 'vine-mesopotamian',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-technology-egyptian',
+    from_id: 'cross-technology',
+    to_id: 'vine-egyptian',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-technology-indic',
+    from_id: 'cross-technology',
+    to_id: 'vine-indic',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-technology-mesoamerican',
+    from_id: 'cross-technology',
+    to_id: 'vine-mesoamerican',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-technology-indigenous',
+    from_id: 'cross-technology',
+    to_id: 'vine-indigenous',
+    relation_type: 'grafts',
+  },
   
   // Art pollinates civilizations
   {
@@ -774,6 +858,30 @@ export const civilizationRelations: CivilizationRelation[] = [
     id: 'rel-art-egyptian',
     from_id: 'cross-art',
     to_id: 'vine-egyptian',
+    relation_type: 'pollinates',
+  },
+  {
+    id: 'rel-art-mesoamerican',
+    from_id: 'cross-art',
+    to_id: 'vine-mesoamerican',
+    relation_type: 'pollinates',
+  },
+  {
+    id: 'rel-art-indic',
+    from_id: 'cross-art',
+    to_id: 'vine-indic',
+    relation_type: 'pollinates',
+  },
+  {
+    id: 'rel-art-sinitic',
+    from_id: 'cross-art',
+    to_id: 'vine-sinitic',
+    relation_type: 'pollinates',
+  },
+  {
+    id: 'rel-art-indigenous',
+    from_id: 'cross-art',
+    to_id: 'vine-indigenous',
     relation_type: 'pollinates',
   },
   
@@ -796,6 +904,18 @@ export const civilizationRelations: CivilizationRelation[] = [
     to_id: 'vine-modern',
     relation_type: 'grafts',
   },
+  {
+    id: 'rel-law-hebraic',
+    from_id: 'cross-law',
+    to_id: 'vine-hebraic',
+    relation_type: 'grafts',
+  },
+  {
+    id: 'rel-law-medieval',
+    from_id: 'cross-law',
+    to_id: 'vine-medieval',
+    relation_type: 'grafts',
+  },
   
   // War strangles and sometimes pollinates
   {
@@ -809,5 +929,158 @@ export const civilizationRelations: CivilizationRelation[] = [
     from_id: 'cross-war',
     to_id: 'vine-mediterranean',
     relation_type: 'strangles',
+  },
+  {
+    id: 'rel-war-mesoamerican',
+    from_id: 'cross-war',
+    to_id: 'vine-mesoamerican',
+    relation_type: 'strangles',
+  },
+  {
+    id: 'rel-war-indigenous',
+    from_id: 'cross-war',
+    to_id: 'vine-indigenous',
+    relation_type: 'strangles',
+  },
+  
+  // Language Families connects to all civilizations
+  {
+    id: 'rel-language-families-all',
+    from_id: 'cross-language-families',
+    to_id: 'vine-mesopotamian',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-egyptian',
+    from_id: 'cross-language-families',
+    to_id: 'vine-egyptian',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-mediterranean',
+    from_id: 'cross-language-families',
+    to_id: 'vine-mediterranean',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-hebraic',
+    from_id: 'cross-language-families',
+    to_id: 'vine-hebraic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-islamic',
+    from_id: 'cross-language-families',
+    to_id: 'vine-islamic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-indic',
+    from_id: 'cross-language-families',
+    to_id: 'vine-indic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-sinitic',
+    from_id: 'cross-language-families',
+    to_id: 'vine-sinitic',
+    relation_type: 'carries',
+  },
+  {
+    id: 'rel-language-families-indigenous',
+    from_id: 'cross-language-families',
+    to_id: 'vine-indigenous',
+    relation_type: 'carries',
+  },
+  
+  // Additional inter-civilizational connections
+  {
+    id: 'rel-mesopotamian-mediterranean',
+    from_id: 'vine-mesopotamian',
+    to_id: 'vine-mediterranean',
+    relation_type: 'pollinates',
+    description: 'Writing, law, and administrative systems',
+  },
+  {
+    id: 'rel-egyptian-hebraic',
+    from_id: 'vine-egyptian',
+    to_id: 'vine-hebraic',
+    relation_type: 'pollinates',
+    description: 'Monotheistic and symbolic traditions',
+  },
+  {
+    id: 'rel-hebraic-islamic',
+    from_id: 'vine-hebraic',
+    to_id: 'vine-islamic',
+    relation_type: 'grafts',
+    description: 'Shared Abrahamic roots',
+  },
+  {
+    id: 'rel-hebraic-medieval',
+    from_id: 'vine-hebraic',
+    to_id: 'vine-medieval',
+    relation_type: 'grafts',
+    description: 'Biblical and ethical foundations',
+  },
+  {
+    id: 'rel-islamic-sinitic',
+    from_id: 'vine-islamic',
+    to_id: 'vine-sinitic',
+    relation_type: 'pollinates',
+    description: 'Scientific and mathematical exchange',
+  },
+  {
+    id: 'rel-sinitic-modern',
+    from_id: 'vine-sinitic',
+    to_id: 'vine-modern',
+    relation_type: 'pollinates',
+    description: 'Paper, printing, and bureaucratic systems',
+  },
+  {
+    id: 'rel-indic-islamic',
+    from_id: 'vine-indic',
+    to_id: 'vine-islamic',
+    relation_type: 'pollinates',
+    description: 'Mathematics and philosophy',
+  },
+  {
+    id: 'rel-egyptian-mediterranean',
+    from_id: 'vine-egyptian',
+    to_id: 'vine-mediterranean',
+    relation_type: 'pollinates',
+    description: 'Geometry, architecture, and symbolic systems',
+  },
+  {
+    id: 'rel-mesoamerican-modern',
+    from_id: 'vine-mesoamerican',
+    to_id: 'vine-modern',
+    relation_type: 'strangles',
+    description: 'Colonial encounter and cultural exchange',
+  },
+  
+  // More trunk connections
+  {
+    id: 'rel-trunk-fire-technology',
+    from_id: 'trunk-fire',
+    to_id: 'cross-technology',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-language-all',
+    from_id: 'trunk-language',
+    to_id: 'cross-language-families',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-ritual-religion',
+    from_id: 'trunk-ritual',
+    to_id: 'cross-religion',
+    relation_type: 'grows_from',
+  },
+  {
+    id: 'rel-trunk-tools-technology',
+    from_id: 'trunk-tools',
+    to_id: 'cross-technology',
+    relation_type: 'grows_from',
   },
 ];
