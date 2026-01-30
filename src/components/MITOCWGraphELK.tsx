@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import ELK from 'elkjs/lib/elk.bundled.js';
+import ELK from 'elkjs';
 import type { MITOCWGraph } from '../types/mit-ocw';
 
 interface ELKNode {

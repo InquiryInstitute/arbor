@@ -23,11 +23,11 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
 
   return (
     <div style={{
-      position: 'fixed',
+      position: 'absolute',
       right: 0,
       top: 0,
       width: '400px',
-      height: '100vh',
+      height: '100%',
       background: 'white',
       boxShadow: '-4px 0 12px rgba(0,0,0,0.15)',
       overflowY: 'auto',

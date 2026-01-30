@@ -462,7 +462,146 @@ export default function VineTree({
           ref={containerRef}
           transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}
         >
-      {/* Render edges first (so they appear behind nodes) */}
+      {/* Render vine art background first */}
+      {(() => {
+        // Calculate vine spine positions for each college
+        const collegeSpines: Record<College, { x: number; nodes: ELKNode[] }> = {} as Record<College, { x: number; nodes: ELKNode[] }>;
+        
+        allCredentialNodes.forEach(node => {
+          const cred = credentials.find(c => c.id === node.id);
+          if (!cred || !node.x) return;
+          
+          const college = cred.college_primary;
+          if (!collegeSpines[college]) {
+            collegeSpines[college] = { x: 0, nodes: [] };
+          }
+          collegeSpines[college].nodes.push(node);
+          collegeSpines[college].x += node.x + (node.width || 0) / 2;
+        });
+        
+        // Calculate median X for each college spine
+        Object.keys(collegeSpines).forEach(college => {
+          const spine = collegeSpines[college as College];
+          if (spine.nodes.length > 0) {
+            spine.x = spine.x / spine.nodes.length;
+          }
+        });
+        
+        // Find overall bounds
+        const allX = allCredentialNodes.map(n => n.x || 0);
+        const allY = allCredentialNodes.map(n => n.y || 0);
+        const allBottom = allCredentialNodes.map(n => (n.y || 0) + (n.height || 0));
+        const minX = Math.min(...allX);
+        const maxX = Math.max(...allX.map((x, i) => x + (allCredentialNodes[i].width || 0)));
+        const minY = Math.min(...allY);
+        const maxY = Math.max(...allBottom);
+        
+        // Calculate trunk position (median of all college spines)
+        const spineXs = Object.values(collegeSpines).map(s => s.x);
+        const trunkX = spineXs.length > 0 ? spineXs.reduce((a, b) => a + b, 0) / spineXs.length : (minX + maxX) / 2;
+        
+        return (
+          <>
+            {/* Central trunk - wide, blurred, organic */}
+            <defs>
+              <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#2d5a27" stopOpacity="0.15" />
+                <stop offset="50%" stopColor="#2d5a27" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#1a3d1a" stopOpacity="0.2" />
+              </linearGradient>
+              <filter id="trunkBlur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+              </filter>
+            </defs>
+            
+            {/* Trunk background */}
+            <rect
+              x={trunkX - 60}
+              y={minY - 20}
+              width={120}
+              height={maxY - minY + 40}
+              fill="url(#trunkGradient)"
+              opacity={0.4}
+              filter="url(#trunkBlur)"
+              rx={60}
+            />
+            
+            {/* Individual vine spines for each college */}
+            {Object.entries(collegeSpines).map(([college, spine]) => {
+              if (spine.nodes.length === 0) return null;
+              
+              const baseColor = collegeColors[college as College] || '#888';
+              const [r, g, b] = hexToRgb(baseColor);
+              
+              // Create gradient for vine spine
+              const vineGradientId = `vineGradient-${college}`;
+              
+              // Sort nodes by Y position
+              const sortedNodes = [...spine.nodes].sort((a, b) => (a.y || 0) - (b.y || 0));
+              const topY = Math.min(...sortedNodes.map(n => n.y || 0));
+              const bottomY = Math.max(...sortedNodes.map(n => (n.y || 0) + (n.height || 0)));
+              
+              // Create path for organic vine spine
+              const spineWidth = 40;
+              const pathPoints: string[] = [];
+              
+              // Add some organic variation
+              sortedNodes.forEach((node, i) => {
+                const nodeY = (node.y || 0) + (node.height || 0) / 2;
+                const variation = Math.sin(i * 0.5) * 3; // Slight organic curve
+                const x = spine.x + variation;
+                if (i === 0) {
+                  pathPoints.push(`M ${x} ${nodeY}`);
+                } else {
+                  pathPoints.push(`L ${x} ${nodeY}`);
+                }
+              });
+              
+              const pathData = pathPoints.join(' ');
+              
+              return (
+                <g key={`vine-spine-${college}`}>
+                  <defs>
+                    <linearGradient id={vineGradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor={baseColor} stopOpacity="0.2" />
+                      <stop offset="50%" stopColor={baseColor} stopOpacity="0.15" />
+                      <stop offset="100%" stopColor={baseColor} stopOpacity="0.1" />
+                    </linearGradient>
+                    <filter id={`vineBlur-${college}`}>
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+                    </filter>
+                  </defs>
+                  
+                  {/* Vine spine background */}
+                  <path
+                    d={pathData}
+                    stroke={`rgba(${r}, ${g}, ${b}, 0.3)`}
+                    strokeWidth={spineWidth}
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter={`url(#vineBlur-${college})`}
+                    opacity={0.6}
+                  />
+                  
+                  {/* Vine spine highlight */}
+                  <path
+                    d={pathData}
+                    stroke={`rgba(${r}, ${g}, ${b}, 0.2)`}
+                    strokeWidth={spineWidth * 0.6}
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity={0.8}
+                  />
+                </g>
+              );
+            })}
+          </>
+        );
+      })()}
+      
+      {/* Render edges next (so they appear behind nodes) */}
       {layout.edges?.map(edge => {
         const sourceNode = allCredentialNodes.find(n => n.id === edge.sources[0]);
         const targetNode = allCredentialNodes.find(n => n.id === edge.targets[0]);

@@ -39,6 +39,90 @@ const relationColors: Record<CivilizationRelation['relation_type'], string> = {
   synthesizes: '#9c27b0',     // Purple - combination
 };
 
+// Generate fluid, curved vine paths for shadow art
+function generateVinePaths(
+  centerX: number,
+  centerY: number,
+  width: number,
+  height: number,
+  seed: number,
+  nodeType: 'trunk' | 'vine' | 'cross-vine'
+): string[] {
+  const paths: string[] = [];
+  
+  // Different vine patterns based on node type
+  let numVines: number;
+  let vineLength: number;
+  let vineSpread: number;
+  
+  if (nodeType === 'trunk') {
+    numVines = 3 + Math.floor(seed % 2); // 3-4 vines for trunk
+    vineLength = height * 2.5;
+    vineSpread = width * 1.2;
+  } else if (nodeType === 'cross-vine') {
+    numVines = 2 + Math.floor(seed % 2); // 2-3 vines for cross-vines
+    vineLength = height * 1.8;
+    vineSpread = width * 0.8;
+  } else {
+    numVines = 2 + Math.floor(seed % 3); // 2-4 vines for major civilizations
+    vineLength = height * 3;
+    vineSpread = width * 1.5;
+  }
+  
+  // Helper to generate pseudo-random but consistent values
+  const rand = (offset: number) => {
+    const combined = seed + offset;
+    return (Math.sin(combined * 12.9898) * 43758.5453) % 1;
+  };
+  
+  for (let i = 0; i < numVines; i++) {
+    const angle = (i / numVines) * Math.PI * 2 + (rand(i) * 0.5 - 0.25);
+    const startX = centerX + Math.cos(angle) * (width * 0.4);
+    const startY = centerY + Math.sin(angle) * (height * 0.4);
+    
+    // Create organic, flowing curves with multiple control points
+    const variation1 = (rand(i * 10) - 0.5) * 0.6;
+    const variation2 = (rand(i * 20) - 0.5) * 0.4;
+    const variation3 = (rand(i * 30) - 0.5) * 0.3;
+    
+    // First curve segment - flows upward and outward
+    const cp1X = startX + Math.cos(angle + Math.PI / 3 + variation1) * vineSpread * 0.6;
+    const cp1Y = startY - vineLength * 0.4 + (rand(i * 5) - 0.5) * height * 0.3;
+    const cp2X = startX + Math.cos(angle + Math.PI / 6 + variation2) * vineSpread * 0.8;
+    const cp2Y = startY - vineLength * 0.7 + (rand(i * 15) - 0.5) * height * 0.2;
+    
+    // Second curve segment - continues upward with different curvature
+    const cp3X = cp2X + Math.cos(angle - Math.PI / 4 + variation3) * vineSpread * 0.5;
+    const cp3Y = cp2Y - vineLength * 0.5 + (rand(i * 25) - 0.5) * height * 0.15;
+    const endX = cp3X + Math.cos(angle + Math.PI / 2 + variation1) * vineSpread * 0.3;
+    const endY = cp3Y - vineLength * 0.4 + (rand(i * 35) - 0.5) * height * 0.1;
+    
+    // Create a smooth, flowing S-curve using cubic bezier
+    const finalX = endX + (rand(i * 40) - 0.5) * width * 0.2;
+    const finalY = endY - vineLength * 0.2;
+    const mainPath = `M ${startX.toFixed(1)} ${startY.toFixed(1)} C ${cp1X.toFixed(1)} ${cp1Y.toFixed(1)}, ${cp2X.toFixed(1)} ${cp2Y.toFixed(1)}, ${cp3X.toFixed(1)} ${cp3Y.toFixed(1)} S ${endX.toFixed(1)} ${endY.toFixed(1)}, ${finalX.toFixed(1)} ${finalY.toFixed(1)}`;
+    
+    paths.push(mainPath);
+    
+    // Add branching vines for more organic feel (50% chance)
+    if (rand(i * 7) > 0.5) {
+      const branchStartX = cp1X + (rand(i * 11) - 0.5) * width * 0.3;
+      const branchStartY = cp1Y + (rand(i * 13) - 0.5) * height * 0.2;
+      const branchAngle = angle + (rand(i * 17) - 0.5) * Math.PI / 3;
+      
+      const branchCpX = branchStartX + Math.cos(branchAngle) * vineSpread * 0.4;
+      const branchCpY = branchStartY - vineLength * 0.3 + (rand(i * 19) - 0.5) * height * 0.15;
+      const branchEndX = branchCpX + Math.cos(branchAngle + Math.PI / 4) * vineSpread * 0.3;
+      const branchEndY = branchCpY - vineLength * 0.4 + (rand(i * 23) - 0.5) * height * 0.1;
+      
+      const branchPath = `M ${branchStartX.toFixed(1)} ${branchStartY.toFixed(1)} Q ${branchCpX.toFixed(1)} ${branchCpY.toFixed(1)}, ${branchEndX.toFixed(1)} ${branchEndY.toFixed(1)}`;
+      paths.push(branchPath);
+    }
+  }
+  
+  return paths;
+}
+
 interface CivilizationTreeProps {
   width?: number;
   height?: number;
@@ -339,7 +423,55 @@ export default function CivilizationTree({
           ref={containerRef}
           transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}
         >
-          {/* Render edges first */}
+          {/* Render shadow vines first (behind everything) */}
+          {allNodes.map(node => {
+            const civNode = allCivilizationNodes.find(c => c.id === node.id);
+            if (!node.x || !node.y || !node.width || !node.height || !civNode) {
+              return null;
+            }
+
+            const centerX = node.x + node.width / 2;
+            const centerY = node.y + node.height / 2;
+            const nodeColor = civNode.color || '#888';
+            
+            // Generate a seed from node ID for consistent but varied patterns
+            const seed = node.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const vinePaths = generateVinePaths(
+              centerX, 
+              centerY, 
+              node.width, 
+              node.height, 
+              seed,
+              civNode.type
+            );
+            
+            return (
+              <g key={`shadow-vines-${node.id}`} style={{ pointerEvents: 'none' }}>
+                {vinePaths.map((path, idx) => {
+                  // Vary stroke width for more organic look
+                  const baseWidth = civNode.thickness ? civNode.thickness * 0.35 : 2;
+                  const strokeWidth = baseWidth * (0.8 + (idx % 3) * 0.15);
+                  // Vary opacity slightly for depth
+                  const opacity = 0.12 + (idx % 2) * 0.06;
+                  
+                  return (
+                    <path
+                      key={`vine-${node.id}-${idx}`}
+                      d={path}
+                      fill="none"
+                      stroke={nodeColor}
+                      strokeWidth={strokeWidth}
+                      strokeOpacity={opacity}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  );
+                })}
+              </g>
+            );
+          })}
+
+          {/* Render edges */}
           {layout.edges?.map(edge => {
             const sourceNode = allNodes.find(n => n.id === edge.sources[0]);
             const targetNode = allNodes.find(n => n.id === edge.targets[0]);
@@ -451,7 +583,14 @@ export default function CivilizationTree({
             );
           })}
         </g>
-      </svg>
+        </svg>
+      </div>
+
+      {/* Side Panel */}
+      <CivilizationSidePanel
+        node={selectedNode}
+        onClose={() => setSelectedNodeId(null)}
+      />
     </div>
   );
 }
