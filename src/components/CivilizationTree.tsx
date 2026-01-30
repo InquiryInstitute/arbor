@@ -149,7 +149,8 @@ export default function CivilizationTree({
   useEffect(() => {
     async function computeLayout() {
       // Calculate time and longitude ranges
-      const nodesWithTime = allCivilizationNodes.filter(n => n.timeStart !== undefined);
+      // Exclude trunk nodes from time range calculation to avoid skewing the scale
+      const nodesWithTime = allCivilizationNodes.filter(n => n.timeStart !== undefined && n.type !== 'trunk');
       const nodesWithLongitude = allCivilizationNodes.filter(n => n.longitude !== undefined);
       
       if (nodesWithTime.length === 0 || nodesWithLongitude.length === 0) {
@@ -158,6 +159,7 @@ export default function CivilizationTree({
         return;
       }
       
+      // Calculate time range only from civilizations (not trunk nodes)
       const minTime = Math.min(...nodesWithTime.map(n => n.timeStart!));
       const maxTime = Math.max(...nodesWithTime.map(n => n.timeEnd ?? n.timeStart!));
       const minLongitude = Math.min(...nodesWithLongitude.map(n => n.longitude!));
@@ -206,13 +208,18 @@ export default function CivilizationTree({
         }
         
         if (node.timeStart !== undefined) {
-          // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
-          // Linear mapping: earlier times (smaller values) at bottom, later times at top
-          const normalizedTime = timeRange > 0 
-            ? (node.timeStart - minTime) / timeRange 
-            : 0;
-          // Invert: 1 - normalizedTime so earlier times are at bottom
-          y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
+          if (node.type === 'trunk') {
+            // Trunk nodes go at the very bottom, before the main time scale
+            y = mapStartY + mapHeight - nodeHeight / 2 - 20;
+          } else {
+            // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
+            // Linear mapping: earlier times (smaller values) at bottom, later times at top
+            const normalizedTime = timeRange > 0 
+              ? (node.timeStart - minTime) / timeRange 
+              : 0;
+            // Invert: 1 - normalizedTime so earlier times are at bottom
+            y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
+          }
         } else {
           // Place at bottom if no time data
           y = mapStartY + mapHeight - nodeHeight / 2;
