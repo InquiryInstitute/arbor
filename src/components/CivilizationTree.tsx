@@ -179,14 +179,13 @@ export default function CivilizationTree({
       const mapStartY = height * 0.05;
       
       // Create nodes with positions based on longitude (X) and time (Y)
-      const elkNodes: ELKNode[] = allCivilizationNodes.map(node => {
+      const elkNodes: ELKNode[] = allCivilizationNodes
+        .filter(node => node.type !== 'trunk') // Filter out trunk nodes (empty now, but just in case)
+        .map(node => {
         let nodeWidth = 180;
         let nodeHeight = 100;
         
-        if (node.type === 'trunk') {
-          nodeWidth = 200;
-          nodeHeight = 80;
-        } else if (node.type === 'cross-vine') {
+        if (node.type === 'cross-vine') {
           nodeWidth = 150;
           nodeHeight = 70;
         }
@@ -207,18 +206,13 @@ export default function CivilizationTree({
         }
         
         if (node.timeStart !== undefined) {
-          if (node.type === 'trunk') {
-            // Trunk nodes go at the very bottom, before the main time scale
-            y = mapStartY + mapHeight - nodeHeight / 2 - 20;
-          } else {
-            // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
-            // Linear mapping: earlier times (smaller values) at bottom, later times at top
-            const normalizedTime = timeRange > 0 
-              ? (node.timeStart - minTime) / timeRange 
-              : 0;
-            // Invert: 1 - normalizedTime so earlier times are at bottom
-            y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
-          }
+          // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
+          // Linear mapping: earlier times (smaller values) at bottom, later times at top
+          const normalizedTime = timeRange > 0 
+            ? (node.timeStart - minTime) / timeRange 
+            : 0;
+          // Invert: 1 - normalizedTime so earlier times are at bottom
+          y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
         } else {
           // Place at bottom if no time data
           y = mapStartY + mapHeight - nodeHeight / 2;
@@ -233,6 +227,8 @@ export default function CivilizationTree({
           y: y,
         };
       });
+      
+      console.log('Created nodes:', elkNodes.length, elkNodes.slice(0, 3));
 
       // Convert relations to edges
       const elkEdges: ELKEdge[] = civilizationRelations.map(rel => ({
@@ -349,8 +345,14 @@ export default function CivilizationTree({
 
   // Zoom to fit on layout change
   useEffect(() => {
-    if (layout && !loading) {
-      setTimeout(zoomToFit, 100);
+    if (layout && !loading && layout.children && layout.children.length > 0) {
+      // Small delay to ensure layout is rendered
+      setTimeout(() => {
+        zoomToFit();
+      }, 100);
+    } else if (layout && !loading) {
+      // If no nodes, reset transform
+      setTransform({ x: 0, y: 0, scale: 1 });
     }
   }, [layout, loading, zoomToFit]);
 
