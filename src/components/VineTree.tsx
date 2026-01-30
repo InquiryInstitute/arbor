@@ -688,21 +688,33 @@ export default function VineTree({
         // Botanical rules: thicker trunk for main chronology (PART_OF), thinner tendrils for others
         const baseStrokeWidth = isPartOf ? 5 : isPrereq ? 2 : isRecommended ? 1.5 : 1.5;
         
-        // Add slight noise/variation for organic feel
-        const noise = (Math.random() - 0.5) * 0.3;
-        const strokeWidth = baseStrokeWidth * (1 + noise);
+        // Deterministic noise based on edge ID for consistent rendering
+        const hash = edge.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const noise1 = (hash % 100) / 100 - 0.5; // -0.5 to 0.5
+        const noise2 = ((hash * 7) % 100) / 100 - 0.5;
+        const noise3 = ((hash * 13) % 100) / 100 - 0.5;
+        const noise4 = ((hash * 17) % 100) / 100 - 0.5;
+        
+        // Variable stroke width with slight organic variation
+        const strokeWidth = baseStrokeWidth * (1 + noise1 * 0.2);
         
         // Calculate control points for Bézier curve
         const dx = targetX - sourceX;
         const dy = targetY - sourceY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Control points with organic curve (slight S-curve)
-        const curvature = Math.min(distance * 0.3, 80); // Max curve amount
-        const controlX1 = sourceX + dx * 0.3 + (Math.random() - 0.5) * 10; // Add noise
-        const controlY1 = sourceY + dy * 0.3 + curvature * (Math.random() - 0.5) * 0.5;
-        const controlX2 = sourceX + dx * 0.7 + (Math.random() - 0.5) * 10;
-        const controlY2 = sourceY + dy * 0.7 - curvature * (Math.random() - 0.5) * 0.5;
+        // Control points with organic S-curve
+        const curvature = Math.min(distance * 0.25, 60); // Max curve amount
+        const perpX = -dy / distance; // Perpendicular direction
+        const perpY = dx / distance;
+        
+        // Organic curve with deterministic variation
+        const curveAmount1 = curvature * (0.5 + noise2 * 0.3);
+        const curveAmount2 = curvature * (0.5 + noise3 * 0.3);
+        const controlX1 = sourceX + dx * 0.35 + perpX * curveAmount1;
+        const controlY1 = sourceY + dy * 0.35 + perpY * curveAmount1;
+        const controlX2 = sourceX + dx * 0.65 - perpX * curveAmount2;
+        const controlY2 = sourceY + dy * 0.65 - perpY * curveAmount2;
         
         // Bézier path
         const pathData = `M ${sourceX} ${sourceY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${targetX} ${targetY}`;
