@@ -11,6 +11,27 @@ export interface CivilizationNode {
   // For visual representation
   color?: string;
   thickness?: number; // Visual thickness of the vine
+  // Detailed information
+  links?: Array<{
+    title: string;
+    url: string;
+    description?: string;
+  }>;
+  questions?: string[];
+  rubric?: {
+    categories: Array<{
+      name: string;
+      criteria: string[];
+      weight?: number;
+    }>;
+  };
+  relatedReadings?: Array<{
+    title: string;
+    author?: string;
+    url?: string;
+  }>;
+  timePeriod?: string;
+  keyFigures?: string[];
 }
 
 export interface CivilizationRelation {
@@ -77,6 +98,66 @@ export const majorVines: CivilizationNode[] = [
     description: 'Winds early and thick, then thins—but its fibers run through almost everything that follows.',
     color: '#8b6914',
     thickness: 8,
+    timePeriod: 'c. 3500 BCE - 539 BCE',
+    keyFigures: ['Hammurabi', 'Gilgamesh', 'Sargon of Akkad'],
+    links: [
+      {
+        title: 'Code of Hammurabi',
+        url: 'https://en.wikipedia.org/wiki/Code_of_Hammurabi',
+        description: 'One of the oldest deciphered writings of significant length',
+      },
+      {
+        title: 'Epic of Gilgamesh',
+        url: 'https://en.wikipedia.org/wiki/Epic_of_Gilgamesh',
+        description: 'Ancient Mesopotamian epic poem',
+      },
+    ],
+    questions: [
+      'How did writing transform human memory and administration?',
+      'What role did law play in creating social order?',
+      'How did bureaucratic systems enable large-scale civilization?',
+    ],
+    rubric: {
+      categories: [
+        {
+          name: 'Understanding of Writing Systems',
+          criteria: [
+            'Explains the development of cuneiform',
+            'Describes the impact of written records on administration',
+            'Analyzes the relationship between writing and power',
+          ],
+          weight: 30,
+        },
+        {
+          name: 'Legal and Bureaucratic Systems',
+          criteria: [
+            'Understands the Code of Hammurabi and its principles',
+            'Explains how bureaucracy enabled empire',
+            'Analyzes the role of contracts and accounting',
+          ],
+          weight: 35,
+        },
+        {
+          name: 'Temporal and Cosmological Understanding',
+          criteria: [
+            'Describes calendar systems and time measurement',
+            'Explains cosmological beliefs',
+            'Analyzes the relationship between time and power',
+          ],
+          weight: 35,
+        },
+      ],
+    },
+    relatedReadings: [
+      {
+        title: 'The Epic of Gilgamesh',
+        author: 'Anonymous',
+      },
+      {
+        title: 'Mesopotamia: The Invention of the City',
+        author: 'Gwendolyn Leick',
+      },
+    ],
   },
   {
     id: 'vine-egyptian',
@@ -99,6 +180,85 @@ export const majorVines: CivilizationNode[] = [
     description: 'Spreads laterally, grabbing others and training them onto trellises called "institutions."',
     color: '#1e88e5',
     thickness: 9,
+    timePeriod: 'c. 800 BCE - 476 CE',
+    keyFigures: ['Socrates', 'Plato', 'Aristotle', 'Cicero', 'Augustus'],
+    links: [
+      {
+        title: 'Plato\'s Republic',
+        url: 'https://en.wikipedia.org/wiki/Republic_(Plato)',
+        description: 'Foundational work of political philosophy',
+      },
+      {
+        title: 'Aristotle\'s Politics',
+        url: 'https://en.wikipedia.org/wiki/Politics_(Aristotle)',
+        description: 'Analysis of political systems and governance',
+      },
+      {
+        title: 'Roman Law',
+        url: 'https://en.wikipedia.org/wiki/Roman_law',
+        description: 'Legal system that influenced Western law',
+      },
+    ],
+    questions: [
+      'What is the relationship between reason and democracy?',
+      'How do institutions shape human behavior?',
+      'What role does aesthetics play in political power?',
+      'How did empire transform local cultures?',
+    ],
+    rubric: {
+      categories: [
+        {
+          name: 'Philosophical Foundations',
+          criteria: [
+            'Understands Socratic method and dialectic',
+            'Explains Platonic forms and idealism',
+            'Analyzes Aristotelian logic and empiricism',
+          ],
+          weight: 25,
+        },
+        {
+          name: 'Political Systems',
+          criteria: [
+            'Compares Athenian democracy with Roman republic',
+            'Explains the concept of citizenship',
+            'Analyzes the transition from republic to empire',
+          ],
+          weight: 30,
+        },
+        {
+          name: 'Engineering and Infrastructure',
+          criteria: [
+            'Describes Roman engineering achievements',
+            'Explains how infrastructure enabled empire',
+            'Analyzes the relationship between technology and power',
+          ],
+          weight: 25,
+        },
+        {
+          name: 'Aesthetic and Cultural Influence',
+          criteria: [
+            'Understands classical art and architecture',
+            'Explains the concept of beauty in Greek thought',
+            'Analyzes cultural transmission through empire',
+          ],
+          weight: 20,
+        },
+      ],
+    },
+    relatedReadings: [
+      {
+        title: 'The Republic',
+        author: 'Plato',
+      },
+      {
+        title: 'Politics',
+        author: 'Aristotle',
+      },
+      {
+        title: 'The Aeneid',
+        author: 'Virgil',
+      },
+    ],
   },
   {
     id: 'vine-hebraic',
@@ -176,6 +336,85 @@ export const majorVines: CivilizationNode[] = [
     description: 'Grows fast, sometimes choking others—now cracking under its own weight.',
     color: '#e53935',
     thickness: 10,
+    timePeriod: 'c. 1500 CE - present',
+    keyFigures: ['Galileo', 'Newton', 'Locke', 'Kant', 'Darwin', 'Einstein'],
+    links: [
+      {
+        title: 'Scientific Revolution',
+        url: 'https://en.wikipedia.org/wiki/Scientific_Revolution',
+        description: 'The emergence of modern science',
+      },
+      {
+        title: 'Industrial Revolution',
+        url: 'https://en.wikipedia.org/wiki/Industrial_Revolution',
+        description: 'Transformation of manufacturing and society',
+      },
+      {
+        title: 'Enlightenment',
+        url: 'https://en.wikipedia.org/wiki/Age_of_Enlightenment',
+        description: 'Intellectual movement emphasizing reason and rights',
+      },
+    ],
+    questions: [
+      'How did the scientific method transform knowledge?',
+      'What are the costs and benefits of industrialization?',
+      'How do abstract systems (money, law, rights) shape reality?',
+      'What is the relationship between progress and destruction?',
+    ],
+    rubric: {
+      categories: [
+        {
+          name: 'Scientific Method and Epistemology',
+          criteria: [
+            'Understands the development of empirical science',
+            'Explains the relationship between observation and theory',
+            'Analyzes the impact of scientific knowledge on society',
+          ],
+          weight: 30,
+        },
+        {
+          name: 'Industrial and Technological Transformation',
+          criteria: [
+            'Describes the Industrial Revolution and its effects',
+            'Explains the relationship between technology and power',
+            'Analyzes environmental and social costs of extraction',
+          ],
+          weight: 30,
+        },
+        {
+          name: 'Rights Discourse and Political Theory',
+          criteria: [
+            'Understands the development of human rights concepts',
+            'Explains social contract theory',
+            'Analyzes the relationship between rights and responsibilities',
+          ],
+          weight: 25,
+        },
+        {
+          name: 'Abstraction and Systems Thinking',
+          criteria: [
+            'Describes how abstract systems (money, law, data) function',
+            'Explains the relationship between abstraction and power',
+            'Analyzes the limits and dangers of abstraction',
+          ],
+          weight: 15,
+        },
+      ],
+    },
+    relatedReadings: [
+      {
+        title: 'The Structure of Scientific Revolutions',
+        author: 'Thomas Kuhn',
+      },
+      {
+        title: 'The Wealth of Nations',
+        author: 'Adam Smith',
+      },
+      {
+        title: 'On Liberty',
+        author: 'John Stuart Mill',
+      },
+    ],
   },
   {
     id: 'vine-indigenous',
