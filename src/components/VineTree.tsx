@@ -275,37 +275,36 @@ export default function VineTree({
         const targetX = targetNode.x + (targetNode.width || 0) / 2;
         const targetY = targetNode.y + (targetNode.height || 0) / 2;
 
-        const isPartOf = edge.labels?.[0]?.text === 'PART_OF';
-        const isRecommended = edge.labels?.[0]?.text === 'RECOMMENDED';
-        const strokeWidth = isPartOf ? 3 : 1;
-        const strokeColor = isPartOf ? '#2d5a27' : '#888';
-        const strokeDasharray = isRecommended ? '5,5' : undefined;
+        // Determine edge type from relation - style only, no labels
+        const relation = relations.find(r => r.id === edge.id);
+        const isPartOf = relation?.relation_type === 'PART_OF';
+        const isRecommended = relation?.relation_type === 'RECOMMENDED';
+        const isCoreq = relation?.relation_type === 'COREQ';
+        const isPrereq = relation?.relation_type === 'PREREQ';
+        
+        // Visual encoding by edge type:
+        // PART_OF: thick green with arrow
+        // PREREQ: thin gray, subtle
+        // RECOMMENDED: dotted
+        // COREQ: dashed
+        const strokeWidth = isPartOf ? 3 : isPrereq ? 1.5 : 1;
+        const strokeColor = isPartOf ? '#2d5a27' : isPrereq ? '#888' : isRecommended ? '#999' : '#aaa';
+        const strokeDasharray = isRecommended ? '5,5' : isCoreq ? '3,3' : undefined;
+        const opacity = isPrereq ? 0.5 : 1; // Prereqs are more subtle
 
         return (
-          <g key={edge.id}>
-            <line
-              x1={sourceX}
-              y1={sourceY}
-              x2={targetX}
-              y2={targetY}
-              stroke={strokeColor}
-              strokeWidth={strokeWidth}
-              strokeDasharray={strokeDasharray}
-              markerEnd={isPartOf ? 'url(#arrowhead)' : undefined}
-            />
-            {/* Only show labels for non-PART_OF edges */}
-            {edge.labels?.[0] && !isPartOf && (
-              <text
-                x={(sourceX + targetX) / 2}
-                y={(sourceY + targetY) / 2 - 5}
-                fontSize="10"
-                fill="#666"
-                textAnchor="middle"
-              >
-                {edge.labels[0].text}
-              </text>
-            )}
-          </g>
+          <line
+            key={edge.id}
+            x1={sourceX}
+            y1={sourceY}
+            x2={targetX}
+            y2={targetY}
+            stroke={strokeColor}
+            strokeWidth={strokeWidth}
+            strokeDasharray={strokeDasharray}
+            strokeOpacity={opacity}
+            markerEnd={isPartOf ? 'url(#arrowhead)' : undefined}
+          />
         );
       })}
 
