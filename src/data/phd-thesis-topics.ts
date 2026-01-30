@@ -2,7 +2,7 @@
 // This file contains a curated list of PhD thesis topics across various disciplines
 
 import type { PhDThesisTopic, ThesisTopicCollection } from '../types/phd-thesis';
-import { generateThesisTopicId } from '../types/phd-thesis';
+import { generateThesisTopicId, mapDisciplineToCollege } from '../types/phd-thesis';
 
 // Initial curated thesis topics
 const topics: PhDThesisTopic[] = [
@@ -11,6 +11,7 @@ const topics: PhDThesisTopic[] = [
     title: 'Neural Oscillations and the Architecture of Inquiry',
     discipline: 'Biology',
     subdiscipline: 'Neuroscience',
+    college_primary: 'NAT',
     abstract: 'An exploration of how understanding neural rhythms and brain architecture informs our approach to inquiry-based learning and the structure of knowledge systems.',
     keywords: ['neural oscillations', 'brain architecture', 'inquiry-based learning', 'knowledge systems', 'cognitive science'],
     methodology: ['Experimental', 'Theoretical'],
@@ -26,6 +27,8 @@ const topics: PhDThesisTopic[] = [
     title: 'Beyond Good and Evil: The Dialectics of Historical Avatar Creation',
     discipline: 'Philosophy',
     subdiscipline: 'Ethics',
+    college_primary: 'HUM',
+    colleges: ['HUM', 'AINS'],
     abstract: 'A philosophical examination of the moral and ethical tensions in recreating historical figures as AI agents, questioning the boundaries between preservation and transformation of intellectual legacies.',
     keywords: ['AI ethics', 'historical avatars', 'digital humanities', 'philosophy of technology', 'identity'],
     methodology: ['Philosophical', 'Qualitative'],
@@ -39,6 +42,7 @@ const topics: PhDThesisTopic[] = [
     title: 'Physics Rules Out the Simulation Hypothesis: Experimental Evidence and Theoretical Constraints',
     discipline: 'Physics',
     subdiscipline: 'Theoretical Physics',
+    college_primary: 'NAT',
     abstract: 'A contemplative physicist\'s examination of recent research that has ruled out the universe being a simulation, exploring the theoretical and empirical constraints that demonstrate why computational simulation cannot account for observed physical reality.',
     keywords: ['simulation hypothesis', 'quantum gravity', 'loop quantum gravity', 'computational limits', 'theoretical physics'],
     methodology: ['Theoretical', 'Computational'],
@@ -59,6 +63,8 @@ const topics: PhDThesisTopic[] = [
     title: 'The Mathematical Foundations of DAO Governance: From Geometry to Consensus',
     discipline: 'Mathematics',
     subdiscipline: 'Applied Mathematics',
+    college_primary: 'MATH',
+    colleges: ['MATH', 'AINS'],
     abstract: 'A dialectical analysis of how mathematical principles—from ancient geometry to modern cryptography—underpin decentralized autonomous organization and democratic governance structures.',
     keywords: ['DAO', 'governance', 'cryptography', 'consensus algorithms', 'mathematical foundations'],
     methodology: ['Theoretical', 'Computational'],
@@ -72,6 +78,8 @@ const topics: PhDThesisTopic[] = [
     title: 'The Republic of Inquiry: Platonic Ideals in Digital Academia',
     discipline: 'Philosophy',
     subdiscipline: 'Political Philosophy',
+    college_primary: 'HUM',
+    colleges: ['HUM', 'META'],
     abstract: 'A philosophical dialogue on how Platonic ideals of justice, knowledge, and the good inform the structure and mission of the Inquiry Institute as a digital academy.',
     keywords: ['Plato', 'digital academy', 'justice', 'knowledge', 'ideals'],
     methodology: ['Philosophical', 'Historical'],
@@ -85,6 +93,8 @@ const topics: PhDThesisTopic[] = [
     title: 'Contemplative Mathematics: Number, Pattern, and the Structure of Inquiry',
     discipline: 'Mathematics',
     subdiscipline: 'Pure Mathematics',
+    college_primary: 'MATH',
+    colleges: ['MATH', 'HUM'],
     abstract: 'A contemplative mathematician\'s reflection on how mathematical beauty and pattern recognition shape our understanding of inquiry, knowledge organization, and digital corpora.',
     keywords: ['mathematical beauty', 'pattern recognition', 'number theory', 'inquiry', 'knowledge organization'],
     methodology: ['Theoretical', 'Philosophical'],
@@ -98,6 +108,8 @@ const topics: PhDThesisTopic[] = [
     title: 'The Analytical Engine of Inquiry: Computing Historical Consciousness',
     discipline: 'Computer Science',
     subdiscipline: 'Artificial Intelligence',
+    college_primary: 'AINS',
+    colleges: ['AINS', 'HUM'],
     abstract: 'A contemplative computer scientist\'s exploration of how algorithmic thinking, data structures, and computational methods enable the coding and embodiment of historical avatars.',
     keywords: ['AI', 'historical avatars', 'algorithmic thinking', 'data structures', 'computational methods'],
     methodology: ['Computational', 'Theoretical'],
@@ -111,6 +123,7 @@ const topics: PhDThesisTopic[] = [
     title: 'Radioactive Inquiry: The Discovery Process and Transformative Knowledge',
     discipline: 'Chemistry',
     subdiscipline: 'Physical Chemistry',
+    college_primary: 'NAT',
     abstract: 'An experimental chemist\'s perspective on the process of discovery, the transformation of knowledge through inquiry, and how persistence and method illuminate new understandings.',
     keywords: ['radioactivity', 'discovery process', 'scientific method', 'transformation', 'inquiry'],
     methodology: ['Experimental', 'Historical'],
@@ -124,6 +137,8 @@ const topics: PhDThesisTopic[] = [
     title: 'Civil Disobedience and Academic Freedom: The Practical Philosophy of the Institute',
     discipline: 'Literature',
     subdiscipline: 'American Literature',
+    college_primary: 'ELA',
+    colleges: ['ELA', 'HUM', 'SOC'],
     abstract: 'A pragmatic literary perspective on how principles of independence, self-reliance, and intellectual freedom guide the Institute\'s mission and DAO governance model.',
     keywords: ['civil disobedience', 'academic freedom', 'independence', 'self-reliance', 'governance'],
     methodology: ['Qualitative', 'Historical', 'Philosophical'],
@@ -137,6 +152,8 @@ const topics: PhDThesisTopic[] = [
     title: 'The Spiritual Dimension of Inquiry: Anthroposophy and the Digital Academy',
     discipline: 'Philosophy',
     subdiscipline: 'Contemplative Philosophy',
+    college_primary: 'HUM',
+    colleges: ['HUM', 'META'],
     abstract: 'A contemplative exploration of how Rudolf Steiner\'s anthroposophical principles inform the Institute\'s approach to inquiry, knowledge, and the digital embodiment of historical consciousness.',
     keywords: ['anthroposophy', 'spirituality', 'digital academy', 'inquiry', 'Steiner'],
     methodology: ['Philosophical', 'Qualitative'],

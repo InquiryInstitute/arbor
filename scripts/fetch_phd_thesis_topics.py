@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
-Script to download and curate PhD thesis topics from various sources.
+Script to download and curate PhD thesis topics from OpenAlex and OATD.
 
 Sources:
-- GitHub repositories tagged with "phd" or "thesis"
-- ProQuest Dissertations (if API access available)
-- University thesis databases
-- Manual curation from academic papers
+- OpenAlex API: For thesis metadata, topics, and institutions
+- OATD (Open Access Theses and Dissertations): For full text availability
 
 Usage:
-    python fetch_phd_thesis_topics.py [--source SOURCE] [--output OUTPUT] [--limit LIMIT]
+    python fetch_phd_thesis_topics.py [--limit LIMIT] [--output OUTPUT] [--college COLLEGE]
 """
 
 import json
@@ -19,203 +17,320 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 import time
+import re
+from urllib.parse import quote
 
-# GitHub API base URL
-GITHUB_API_BASE = "https://api.github.com"
+# API endpoints
+OPENALEX_API_BASE = "https://api.openalex.org"
+OATD_SEARCH_BASE = "https://oatd.org/oatd/search"
 
 # Rate limiting
-RATE_LIMIT_DELAY = 1  # seconds between requests
+RATE_LIMIT_DELAY = 0.5  # seconds between requests (OpenAlex allows 10 req/sec)
+
+# College mappings
+COLLEGE_MAPPINGS = {
+    'MATH': ['mathematics', 'math', 'statistics', 'algebra', 'geometry', 'number theory'],
+    'AINS': ['computer science', 'artificial intelligence', 'machine learning', 'ai', 'neural network', 'cs'],
+    'NAT': ['physics', 'chemistry', 'biology', 'natural science', 'quantum', 'molecular'],
+    'HUM': ['philosophy', 'literature', 'history', 'theology', 'classics', 'humanities'],
+    'ELA': ['language', 'linguistics', 'english', 'writing', 'literature'],
+    'ARTS': ['art', 'music', 'aesthetic', 'visual', 'creative'],
+    'SOC': ['psychology', 'sociology', 'economics', 'political science', 'social science'],
+    'HEAL': ['health', 'medicine', 'public health', 'medical'],
+    'CEF': ['ecology', 'environment', 'sustainability', 'climate'],
+    'META': ['education', 'pedagogy', 'learning', 'teaching'],
+}
 
 
-def fetch_github_thesis_repos(query: str = "phd thesis", limit: int = 100) -> List[Dict[str, Any]]:
+def map_to_college(discipline: str, topics: List[str] = None, keywords: List[str] = None) -> str:
     """
-    Fetch GitHub repositories related to PhD theses.
+    Map a discipline and topics to an Arbor college.
     
     Args:
-        query: Search query for GitHub
-        limit: Maximum number of repositories to fetch
+        discipline: Academic discipline
+        topics: List of OpenAlex topics
+        keywords: List of keywords
         
     Returns:
-        List of repository metadata
+        College code (e.g., 'MATH', 'AINS')
     """
-    repos = []
-    page = 1
-    per_page = min(100, limit)
+    text_to_check = (discipline + ' ' + ' '.join(topics or []) + ' ' + ' '.join(keywords or [])).lower()
     
-    print(f"Fetching GitHub repositories with query: '{query}'...")
+    # Score each college
+    scores = {}
+    for college, keywords_list in COLLEGE_MAPPINGS.items():
+        score = sum(1 for kw in keywords_list if kw in text_to_check)
+        if score > 0:
+            scores[college] = score
     
-    while len(repos) < limit:
-        url = f"{GITHUB_API_BASE}/search/repositories"
-        params = {
-            "q": query,
-            "sort": "stars",
-            "order": "desc",
-            "per_page": per_page,
-            "page": page,
-        }
+    if scores:
+        return max(scores.items(), key=lambda x: x[1])[0]
+    
+    # Default to META for interdisciplinary/unknown
+    return 'META'
+
+
+def fetch_openalex_theses(limit: int = 50, filter_type: str = "dissertation") -> List[Dict[str, Any]]:
+    """
+    Fetch PhD theses from OpenAlex API.
+    
+    Args:
+        limit: Maximum number of theses to fetch
+        filter_type: Type filter (dissertation, thesis, etc.)
         
-        try:
+    Returns:
+        List of thesis metadata from OpenAlex
+    """
+    theses = []
+    page = 1
+    per_page = min(200, limit)
+    
+    print(f"Fetching theses from OpenAlex (type={filter_type})...")
+    
+    # OpenAlex filter for dissertations/theses
+    # Using type:dissertation or type:thesis
+    filter_param = f"type:{filter_type}"
+    
+    url = f"{OPENALEX_API_BASE}/works"
+    params = {
+        "filter": filter_param,
+        "per_page": per_page,
+        "page": page,
+        "sort": "cited_by_count:desc",  # Sort by citations
+    }
+    
+    try:
+        while len(theses) < limit:
+            print(f"  Fetching page {page}...")
             response = requests.get(url, params=params)
             response.raise_for_status()
             
             data = response.json()
-            items = data.get("items", [])
+            results = data.get("results", [])
             
-            if not items:
+            if not results:
                 break
             
-            for item in items:
-                if len(repos) >= limit:
+            for work in results:
+                if len(theses) >= limit:
                     break
-                    
-                repo_data = {
-                    "id": item.get("id"),
-                    "title": item.get("name"),
-                    "description": item.get("description", ""),
-                    "url": item.get("html_url"),
-                    "stars": item.get("stargazers_count", 0),
-                    "language": item.get("language"),
-                    "topics": item.get("topics", []),
-                    "created_at": item.get("created_at"),
-                    "updated_at": item.get("updated_at"),
-                    "author": item.get("owner", {}).get("login"),
-                    "source": "github",
+                
+                # Extract thesis information
+                thesis_data = {
+                    "openalex_id": work.get("id", "").replace("https://openalex.org/", ""),
+                    "title": work.get("title", ""),
+                    "abstract": work.get("abstract", ""),
+                    "year": work.get("publication_year"),
+                    "authors": [],
+                    "institutions": [],
+                    "topics": [],
+                    "keywords": [],
+                    "doi": work.get("doi"),
+                    "openalex_url": work.get("id"),
+                    "cited_by_count": work.get("cited_by_count", 0),
                 }
                 
-                # Try to extract more information from README
-                readme_url = item.get("url") + "/readme"
-                try:
-                    readme_response = requests.get(readme_url)
-                    if readme_response.status_code == 200:
-                        readme_data = readme_response.json()
-                        repo_data["readme_content"] = readme_data.get("content", "")
-                except:
-                    pass
+                # Extract authors
+                for author in work.get("authorships", []):
+                    author_name = author.get("author", {}).get("display_name", "")
+                    if author_name:
+                        thesis_data["authors"].append(author_name)
                 
-                repos.append(repo_data)
-                print(f"  Found: {repo_data['title']} by {repo_data['author']}")
+                # Extract institutions
+                for authorship in work.get("authorships", []):
+                    for inst in authorship.get("institutions", []):
+                        inst_name = inst.get("display_name", "")
+                        if inst_name:
+                            thesis_data["institutions"].append(inst_name)
+                
+                # Extract OpenAlex topics
+                for topic in work.get("topics", []):
+                    thesis_data["topics"].append({
+                        "id": topic.get("id", "").replace("https://openalex.org/", ""),
+                        "display_name": topic.get("display_name", ""),
+                        "score": topic.get("score", 0),
+                    })
+                
+                # Extract concepts (additional keywords)
+                for concept in work.get("concepts", []):
+                    if concept.get("score", 0) > 0.5:  # Only high-scoring concepts
+                        thesis_data["keywords"].append(concept.get("display_name", ""))
+                
+                # Determine discipline from topics
+                topic_names = [t["display_name"] for t in thesis_data["topics"]]
+                if topic_names:
+                    # Use first topic as primary discipline
+                    primary_topic = topic_names[0]
+                    thesis_data["discipline"] = primary_topic
+                else:
+                    thesis_data["discipline"] = "Interdisciplinary"
+                
+                # Map to college
+                thesis_data["college"] = map_to_college(
+                    thesis_data["discipline"],
+                    topic_names,
+                    thesis_data["keywords"]
+                )
+                
+                theses.append(thesis_data)
+                print(f"  Found: {thesis_data['title'][:60]}... ({thesis_data['college']})")
             
             page += 1
+            params["page"] = page
             time.sleep(RATE_LIMIT_DELAY)
             
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching from GitHub: {e}")
-            break
+            # Check if we have more pages
+            if len(results) < per_page:
+                break
+                
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching from OpenAlex: {e}")
     
-    print(f"Fetched {len(repos)} repositories from GitHub")
-    return repos
+    print(f"Fetched {len(theses)} theses from OpenAlex")
+    return theses
 
 
-def extract_thesis_info_from_repo(repo: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def check_oatd_fulltext(title: str, author: str = None) -> Optional[Dict[str, Any]]:
     """
-    Extract thesis topic information from a GitHub repository.
+    Check OATD for full text availability.
+    
+    Note: OATD doesn't have a public API, so we search via their web interface.
+    This is a simplified check - in production, you might want to scrape or use their data dumps.
     
     Args:
-        repo: Repository metadata from GitHub
+        title: Thesis title
+        author: Author name (optional)
         
     Returns:
-        Extracted thesis topic information or None
+        Dictionary with full text info or None
     """
-    title = repo.get("title", "")
-    description = repo.get("description", "")
+    # OATD search URL
+    # Note: This is a simplified approach - OATD doesn't have a public API
+    # You may need to scrape or use their data exports
     
-    # Try to infer discipline from topics or description
-    discipline_keywords = {
-        "Computer Science": ["computer", "cs", "software", "algorithm", "programming", "ai", "machine learning"],
-        "Mathematics": ["math", "mathematical", "statistics", "algebra", "geometry"],
-        "Physics": ["physics", "quantum", "particle", "theoretical physics"],
-        "Chemistry": ["chemistry", "chemical", "molecular"],
-        "Biology": ["biology", "biological", "genetics", "evolution"],
-        "Philosophy": ["philosophy", "philosophical", "ethics", "metaphysics"],
-        "Literature": ["literature", "literary", "narrative", "text"],
-        "History": ["history", "historical", "historian"],
-        "Economics": ["economics", "economic", "economy"],
-        "Psychology": ["psychology", "psychological", "cognitive"],
+    search_query = title
+    if author:
+        search_query += f" {author}"
+    
+    # URL encode the search query
+    encoded_query = quote(search_query)
+    search_url = f"{OATD_SEARCH_BASE}?q={encoded_query}"
+    
+    # For now, return a placeholder structure
+    # In production, you would:
+    # 1. Make a request to OATD search
+    # 2. Parse the results
+    # 3. Check if full text is available
+    # 4. Extract the full text URL
+    
+    return {
+        "oatd_search_url": search_url,
+        "has_full_text": None,  # Would be determined by scraping
+        "full_text_url": None,  # Would be extracted from OATD
+    }
+
+
+def convert_to_thesis_topic(openalex_data: Dict[str, Any], oatd_data: Dict[str, Any] = None) -> Dict[str, Any]:
+    """
+    Convert OpenAlex work data to PhDThesisTopic format.
+    
+    Args:
+        openalex_data: Data from OpenAlex API
+        oatd_data: Data from OATD (optional)
+        
+    Returns:
+        Thesis topic in our format
+    """
+    # Generate ID
+    title_slug = re.sub(r'[^a-z0-9]+', '-', openalex_data["title"].lower())[:50]
+    author_slug = ""
+    if openalex_data["authors"]:
+        author_slug = re.sub(r'[^a-z0-9]+', '-', openalex_data["authors"][0].lower())[:20]
+    
+    thesis_id = f"openalex-{openalex_data['openalex_id']}"
+    
+    # Build links
+    links = []
+    if openalex_data.get("doi"):
+        links.append({
+            "title": "DOI",
+            "url": f"https://doi.org/{openalex_data['doi']}",
+            "type": "paper",
+        })
+    if openalex_data.get("openalex_url"):
+        links.append({
+            "title": "OpenAlex",
+            "url": openalex_data["openalex_url"],
+            "type": "website",
+        })
+    
+    # Add OATD link if available
+    if oatd_data:
+        if oatd_data.get("full_text_url"):
+            links.append({
+                "title": "Full Text (OATD)",
+                "url": oatd_data["full_text_url"],
+                "type": "full_text",
+            })
+        elif oatd_data.get("oatd_search_url"):
+            links.append({
+                "title": "OATD Search",
+                "url": oatd_data["oatd_search_url"],
+                "type": "website",
+            })
+    
+    # Determine status
+    status = "completed"  # OpenAlex theses are typically completed
+    
+    # Map discipline
+    discipline_map = {
+        "Mathematics": "Mathematics",
+        "Computer science": "Computer Science",
+        "Physics": "Physics",
+        "Chemistry": "Chemistry",
+        "Biology": "Biology",
+        "Philosophy": "Philosophy",
+        "Literature": "Literature",
+        "History": "History",
+        "Economics": "Economics",
+        "Psychology": "Psychology",
+        "Sociology": "Sociology",
+        "Political science": "Political Science",
+        "Education": "Education",
+        "Engineering": "Engineering",
+        "Art": "Art",
+        "Music": "Music",
     }
     
-    discipline = "Interdisciplinary"
-    text_to_check = (title + " " + description).lower()
+    discipline = discipline_map.get(openalex_data.get("discipline", ""), "Interdisciplinary")
     
-    for disc, keywords in discipline_keywords.items():
-        if any(keyword in text_to_check for keyword in keywords):
-            discipline = disc
-            break
-    
-    # Extract keywords from topics and description
-    keywords = repo.get("topics", [])
-    if description:
-        # Simple keyword extraction (could be improved with NLP)
-        keywords.extend([word for word in description.split() if len(word) > 4])
-    
-    thesis_info = {
-        "id": f"github-{repo.get('id')}",
-        "title": title.replace("-", " ").replace("_", " ").title(),
+    thesis_topic = {
+        "id": thesis_id,
+        "title": openalex_data["title"],
         "discipline": discipline,
-        "abstract": description,
-        "keywords": list(set(keywords[:10])),  # Limit to 10 keywords
-        "author": repo.get("author"),
-        "status": "completed" if "completed" in description.lower() else "in_progress",
-        "source": "github",
-        "source_url": repo.get("url"),
-        "tags": repo.get("topics", []),
-        "year": None,
-        "links": [
-            {
-                "title": "GitHub Repository",
-                "url": repo.get("url"),
-                "type": "code",
-            }
-        ],
+        "college_primary": openalex_data.get("college", "META"),
+        "abstract": openalex_data.get("abstract"),
+        "keywords": openalex_data.get("keywords", [])[:10],
+        "author": ", ".join(openalex_data.get("authors", [])[:3]),  # First 3 authors
+        "institution": ", ".join(openalex_data.get("institutions", [])[:2]),  # First 2 institutions
+        "year": openalex_data.get("year"),
+        "status": status,
+        "source": "openalex",
+        "source_url": openalex_data.get("openalex_url"),
+        "openalex_id": openalex_data.get("openalex_id"),
+        "openalex_topics": openalex_data.get("topics", [])[:5],  # Top 5 topics
+        "tags": [t["display_name"] for t in openalex_data.get("topics", [])[:5]],
+        "links": links,
+        "curated_date": datetime.now().isoformat(),
     }
     
-    # Try to extract year from created_at
-    created_at = repo.get("created_at")
-    if created_at:
-        try:
-            thesis_info["year"] = int(created_at[:4])
-        except:
-            pass
+    # Add OATD data if available
+    if oatd_data:
+        thesis_topic["oatd_id"] = None  # Would be extracted from OATD
+        thesis_topic["has_full_text"] = oatd_data.get("has_full_text")
+        thesis_topic["full_text_url"] = oatd_data.get("full_text_url")
     
-    return thesis_info
-
-
-def fetch_from_ship_of_thesis() -> List[Dict[str, Any]]:
-    """
-    Fetch thesis topics from Ship of Thesis GitHub database.
-    
-    Returns:
-        List of thesis topic information
-    """
-    print("Fetching from Ship of Thesis database...")
-    
-    # Ship of Thesis uses a specific structure
-    # This would need to be adapted based on their actual API/structure
-    url = "https://api.github.com/repos/shipofthesis/shipofthesis/contents/Database"
-    
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        files = response.json()
-        
-        topics = []
-        for file_info in files:
-            if file_info.get("type") == "file" and file_info.get("name").endswith(".json"):
-                file_url = file_info.get("download_url")
-                if file_url:
-                    file_response = requests.get(file_url)
-                    if file_response.status_code == 200:
-                        try:
-                            data = json.loads(file_response.text)
-                            topics.append(data)
-                        except json.JSONDecodeError:
-                            pass
-        
-        print(f"Fetched {len(topics)} topics from Ship of Thesis")
-        return topics
-        
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching from Ship of Thesis: {e}")
-        return []
+    return thesis_topic
 
 
 def save_topics_to_typescript(topics: List[Dict[str, Any]], output_path: Path):
@@ -228,82 +343,92 @@ def save_topics_to_typescript(topics: List[Dict[str, Any]], output_path: Path):
     """
     print(f"\nSaving {len(topics)} topics to {output_path}...")
     
-    # Read existing file if it exists
-    existing_topics = []
-    if output_path.exists():
-        content = output_path.read_text()
-        # Extract existing topics (simplified - would need proper parsing for production)
-        # For now, we'll append to the file
-    
-    # Generate TypeScript code
-    ts_content = "// Auto-generated thesis topics - DO NOT EDIT MANUALLY\n"
-    ts_content += f"// Generated on {datetime.now().isoformat()}\n\n"
-    ts_content += "import type { PhDThesisTopic } from '../types/phd-thesis';\n"
-    ts_content += "import { generateThesisTopicId } from '../types/phd-thesis';\n\n"
+    ts_content = "// Auto-generated thesis topics from OpenAlex and OATD\n"
+    ts_content += f"// Generated on {datetime.now().isoformat()}\n"
+    ts_content += "// DO NOT EDIT MANUALLY - Regenerate using fetch_phd_thesis_topics.py\n\n"
+    ts_content += "import type { PhDThesisTopic } from '../types/phd-thesis';\n\n"
     ts_content += "export const autoGeneratedThesisTopics: PhDThesisTopic[] = [\n"
     
     for topic in topics:
         ts_content += "  {\n"
         ts_content += f'    id: "{topic.get("id", "unknown")}",\n'
-        ts_content += f'    title: "{topic.get("title", "").replace('"', '\\"')}",\n'
+        ts_content += f'    title: {json.dumps(topic.get("title", ""))},\n'
         ts_content += f'    discipline: "{topic.get("discipline", "Interdisciplinary")}",\n'
         
-        if topic.get("subdiscipline"):
-            ts_content += f'    subdiscipline: "{topic.get("subdiscipline")}",\n'
+        if topic.get("college_primary"):
+            ts_content += f'    college_primary: "{topic.get("college_primary")}",\n'
         
         if topic.get("abstract"):
-            ts_content += f'    abstract: "{topic.get("abstract", "").replace('"', '\\"')}",\n'
+            # Escape quotes and newlines for TypeScript string
+            abstract = topic.get("abstract", "").replace('"', '\\"').replace('\n', '\\n')
+            ts_content += f'    abstract: "{abstract[:500]}",\n'  # Limit length
         
         if topic.get("keywords"):
             ts_content += "    keywords: [\n"
             for keyword in topic.get("keywords", [])[:10]:
-                ts_content += f'      "{keyword}",\n'
+                ts_content += f'      {json.dumps(keyword)},\n'
             ts_content += "    ],\n"
         
         if topic.get("author"):
-            ts_content += f'    author: "{topic.get("author")}",\n'
+            ts_content += f'    author: {json.dumps(topic.get("author"))},\n'
         
-        ts_content += f'    status: "{topic.get("status", "proposed")}",\n'
-        ts_content += f'    source: "{topic.get("source", "other")}",\n'
+        if topic.get("institution"):
+            ts_content += f'    institution: {json.dumps(topic.get("institution"))},\n'
+        
+        if topic.get("year"):
+            ts_content += f'    year: {topic.get("year")},\n'
+        
+        ts_content += f'    status: "{topic.get("status", "completed")}",\n'
+        ts_content += f'    source: "{topic.get("source", "openalex")}",\n'
         
         if topic.get("source_url"):
-            ts_content += f'    source_url: "{topic.get("source_url")}",\n'
+            ts_content += f'    source_url: {json.dumps(topic.get("source_url"))},\n'
+        
+        if topic.get("openalex_id"):
+            ts_content += f'    openalex_id: "{topic.get("openalex_id")}",\n'
+        
+        if topic.get("openalex_topics"):
+            ts_content += "    openalex_topics: [\n"
+            for topic_item in topic.get("openalex_topics", [])[:5]:
+                ts_content += "      {\n"
+                ts_content += f'        id: "{topic_item.get("id", "")}",\n'
+                ts_content += f'        display_name: {json.dumps(topic_item.get("display_name", ""))},\n'
+                if topic_item.get("score"):
+                    ts_content += f'        score: {topic_item.get("score")},\n'
+                ts_content += "      },\n"
+            ts_content += "    ],\n"
+        
+        if topic.get("has_full_text") is not None:
+            ts_content += f'    has_full_text: {str(topic.get("has_full_text")).lower()},\n'
+        
+        if topic.get("full_text_url"):
+            ts_content += f'    full_text_url: {json.dumps(topic.get("full_text_url"))},\n'
         
         if topic.get("tags"):
             ts_content += "    tags: [\n"
             for tag in topic.get("tags", [])[:10]:
-                ts_content += f'      "{tag}",\n'
+                ts_content += f'      {json.dumps(tag)},\n'
             ts_content += "    ],\n"
-        
-        if topic.get("year"):
-            ts_content += f'    year: {topic.get("year")},\n'
         
         if topic.get("links"):
             ts_content += "    links: [\n"
             for link in topic.get("links", []):
                 ts_content += "      {\n"
-                ts_content += f'        title: "{link.get("title", "")}",\n'
-                ts_content += f'        url: "{link.get("url", "")}",\n'
+                ts_content += f'        title: {json.dumps(link.get("title", ""))},\n'
+                ts_content += f'        url: {json.dumps(link.get("url", ""))},\n'
                 if link.get("type"):
                     ts_content += f'        type: "{link.get("type")}",\n'
                 ts_content += "      },\n"
             ts_content += "    ],\n"
         
-        ts_content += f'    curated_date: "{datetime.now().isoformat()}",\n'
+        ts_content += f'    curated_date: "{topic.get("curated_date", datetime.now().isoformat())}",\n'
         ts_content += "  },\n"
     
     ts_content += "];\n"
     
-    # Append to file or create new
-    if output_path.exists():
-        # Append to existing file
-        existing_content = output_path.read_text()
-        if "autoGeneratedThesisTopics" not in existing_content:
-            output_path.write_text(existing_content + "\n\n" + ts_content)
-        else:
-            print("Warning: autoGeneratedThesisTopics already exists in file")
-    else:
-        output_path.write_text(ts_content)
+    # Write to file
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(ts_content, encoding="utf-8")
     
     print(f"Saved {len(topics)} topics to {output_path}")
 
@@ -318,15 +443,17 @@ def save_topics_to_json(topics: List[Dict[str, Any]], output_path: Path):
     """
     output_data = {
         "metadata": {
-            "title": "PhD Thesis Topics (Auto-generated)",
-            "description": "Auto-generated thesis topics from various sources",
+            "title": "PhD Thesis Topics (Auto-generated from OpenAlex and OATD)",
+            "description": "Auto-generated thesis topics from OpenAlex API with OATD full text indicators",
             "version": "1.0.0",
             "last_updated": datetime.now().isoformat(),
             "total_topics": len(topics),
+            "sources": ["openalex", "oatd"],
         },
         "topics": topics,
     }
     
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
     
@@ -334,18 +461,18 @@ def save_topics_to_json(topics: List[Dict[str, Any]], output_path: Path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download and curate PhD thesis topics")
+    parser = argparse.ArgumentParser(description="Download and curate PhD thesis topics from OpenAlex and OATD")
     parser.add_argument(
-        "--source",
-        choices=["github", "shipofthesis", "all"],
-        default="all",
-        help="Source to fetch from",
+        "--limit",
+        type=int,
+        default=50,
+        help="Maximum number of topics to fetch (default: 50)",
     )
     parser.add_argument(
         "--output",
         type=str,
         default="src/data/auto-generated-thesis-topics.ts",
-        help="Output file path",
+        help="Output TypeScript file path",
     )
     parser.add_argument(
         "--json-output",
@@ -354,53 +481,68 @@ def main():
         help="JSON output file path (for raw data)",
     )
     parser.add_argument(
-        "--limit",
-        type=int,
-        default=50,
-        help="Maximum number of topics to fetch",
+        "--college",
+        type=str,
+        choices=['HUM', 'MATH', 'NAT', 'AINS', 'SOC', 'ELA', 'ARTS', 'HEAL', 'CEF', 'META'],
+        help="Filter by specific college",
+    )
+    parser.add_argument(
+        "--check-oatd",
+        action="store_true",
+        help="Check OATD for full text availability (slower, requires web scraping)",
     )
     
     args = parser.parse_args()
     
+    print("=" * 60)
+    print("PhD Thesis Topics Curator")
+    print("Using OpenAlex API and OATD")
+    print("=" * 60)
+    
+    # Fetch from OpenAlex
+    openalex_theses = fetch_openalex_theses(limit=args.limit)
+    
+    if not openalex_theses:
+        print("No theses found. Exiting.")
+        return
+    
+    # Convert to our format
     all_topics = []
+    for openalex_data in openalex_theses:
+        # Filter by college if specified
+        if args.college and openalex_data.get("college") != args.college:
+            continue
+        
+        # Check OATD if requested
+        oatd_data = None
+        if args.check_oatd:
+            author = openalex_data.get("authors", [""])[0] if openalex_data.get("authors") else None
+            oatd_data = check_oatd_fulltext(openalex_data["title"], author)
+            time.sleep(RATE_LIMIT_DELAY)  # Be respectful
+        
+        # Convert to thesis topic format
+        thesis_topic = convert_to_thesis_topic(openalex_data, oatd_data)
+        all_topics.append(thesis_topic)
     
-    # Fetch from GitHub
-    if args.source in ["github", "all"]:
-        repos = fetch_github_thesis_repos(limit=args.limit)
-        for repo in repos:
-            thesis_info = extract_thesis_info_from_repo(repo)
-            if thesis_info:
-                all_topics.append(thesis_info)
+    print(f"\nTotal topics after filtering: {len(all_topics)}")
     
-    # Fetch from Ship of Thesis
-    if args.source in ["shipofthesis", "all"]:
-        ship_topics = fetch_from_ship_of_thesis()
-        all_topics.extend(ship_topics)
-    
-    # Remove duplicates based on title similarity
-    unique_topics = []
-    seen_titles = set()
-    
+    # Group by college for summary
+    college_counts = {}
     for topic in all_topics:
-        title_lower = topic.get("title", "").lower()
-        if title_lower not in seen_titles:
-            seen_titles.add(title_lower)
-            unique_topics.append(topic)
+        college = topic.get("college_primary", "META")
+        college_counts[college] = college_counts.get(college, 0) + 1
     
-    print(f"\nTotal unique topics: {len(unique_topics)}")
+    print("\nTopics by college:")
+    for college, count in sorted(college_counts.items()):
+        print(f"  {college}: {count}")
     
     # Save to files
-    if unique_topics:
+    if all_topics:
         output_path = Path(args.output)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+        save_topics_to_typescript(all_topics, output_path)
         
-        # Save as TypeScript
-        save_topics_to_typescript(unique_topics, output_path)
-        
-        # Save as JSON for reference
         json_output_path = Path(args.json_output)
-        json_output_path.parent.mkdir(parents=True, exist_ok=True)
-        save_topics_to_json(unique_topics, json_output_path)
+        save_topics_to_json(all_topics, json_output_path)
     
     print("\nDone!")
 

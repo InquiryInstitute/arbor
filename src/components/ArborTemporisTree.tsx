@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import type { ArborNode, NodeConnection, Braid } from '../types/arbor-temporis';
 import { VINE_COLORS, TEMPORAL_BAND_SYMBOLS } from '../types/arbor-temporis';
 import { sampleArborTemporis } from '../data/sample-arbor-temporis';
@@ -36,24 +36,125 @@ export default function ArborTemporisTree({
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
-  // Calculate time range
+  // Calculate full time range (all nodes)
   const timeHeights = nodes.map(n => n.time_height);
-  const minTime = Math.min(...timeHeights);
-  const maxTime = Math.max(...timeHeights);
+  const fullMinTime = Math.min(...timeHeights);
+  const fullMaxTime = Math.max(...timeHeights);
+  
+  // Time zoom state
+  const [timeZoomMin, setTimeZoomMin] = useState<number | null>(null);
+  const [timeZoomMax, setTimeZoomMax] = useState<number | null>(null);
+  
+  // Effective time range (zoomed or full)
+  const minTime = timeZoomMin ?? fullMinTime;
+  const maxTime = timeZoomMax ?? fullMaxTime;
   const timeRange = maxTime - minTime;
+  
+  // Filter nodes and connections based on time zoom
+  const visibleNodes = useMemo(() => {
+    return nodes.filter(node => 
+      node.time_height >= minTime && node.time_height <= maxTime
+    );
+  }, [nodes, minTime, maxTime]);
+  
+  const visibleConnections = useMemo(() => {
+    const visibleNodeIds = new Set(visibleNodes.map(n => n.id));
+    return connections.filter(conn => 
+      visibleNodeIds.has(conn.from_node_id) && visibleNodeIds.has(conn.to_node_id)
+    );
+  }, [connections, visibleNodes]);
+  
+  const visibleBraids = useMemo(() => {
+    const visibleNodeIds = new Set(visibleNodes.map(n => n.id));
+    return braids.filter(braid => 
+      braid.node_ids.some(id => visibleNodeIds.has(id))
+    );
+  }, [braids, visibleNodes]);
 
   // Layout parameters
   const vineLaneWidth = width / vineOrder.length;
   const timePadding = 100; // Padding at top and bottom
   const availableHeight = height - 2 * timePadding;
+  const nodeHeight = 60;
+  const minNodeSpacing = 70; // Minimum vertical spacing between nodes
 
-  // Convert time_height to Y position (linear mapping)
-  const timeToY = useCallback((timeHeight: number): number => {
+  // Convert time_height to base Y position (linear mapping)
+  const timeToBaseY = useCallback((timeHeight: number): number => {
     // Normalize: 0 (minTime) to 1 (maxTime)
     const normalized = (timeHeight - minTime) / timeRange;
     // Map to Y: bottom (minTime) to top (maxTime)
     return height - timePadding - (normalized * availableHeight);
   }, [minTime, timeRange, height, timePadding, availableHeight]);
+
+  // Calculate adjusted Y positions to prevent overlap
+  const nodePositions = useMemo(() => {
+    const positions = new Map<string, number>();
+    
+    // Group nodes by vine (using visible nodes)
+    const nodesByVine = new Map<string, ArborNode[]>();
+    visibleNodes.forEach(node => {
+      if (!nodesByVine.has(node.vine)) {
+        nodesByVine.set(node.vine, []);
+      }
+      nodesByVine.get(node.vine)!.push(node);
+    });
+    
+    // For each vine, sort nodes by time and space them out
+    nodesByVine.forEach((vineNodes, vine) => {
+      // Sort by time_height
+      const sorted = [...vineNodes].sort((a, b) => a.time_height - b.time_height);
+      
+      // Calculate base Y positions
+      const baseYs = sorted.map(node => ({
+        node,
+        baseY: timeToBaseY(node.time_height),
+      }));
+      
+      // Adjust positions to prevent overlap
+      const adjusted: Array<{ node: ArborNode; y: number }> = [];
+      
+      baseYs.forEach(({ node, baseY }, index) => {
+        if (index === 0) {
+          // First node: use base position
+          adjusted.push({ node, y: baseY });
+        } else {
+          // Check if this node would overlap with previous
+          const prevY = adjusted[index - 1].y;
+          const minY = prevY + minNodeSpacing;
+          
+          // Use the maximum of base position and minimum spacing
+          // But try to stay close to base position if possible
+          const idealY = baseY;
+          const y = Math.max(idealY, minY);
+          adjusted.push({ node, y });
+        }
+      });
+      
+      // Store positions
+      adjusted.forEach(({ node, y }) => {
+        positions.set(node.id, y);
+      });
+    });
+    
+    // Calculate the actual height needed and scale if necessary
+    const allYs = Array.from(positions.values());
+    if (allYs.length > 0) {
+      const minY = Math.min(...allYs);
+      const maxY = Math.max(...allYs);
+      const actualHeight = maxY - minY;
+      const neededHeight = actualHeight + 2 * timePadding;
+      
+      // If we need more space, we could scale, but for now just ensure padding
+      // The zoom-to-fit will handle the rest
+    }
+    
+    return positions;
+  }, [visibleNodes, timeToBaseY, minNodeSpacing, timePadding]);
+
+  // Convert time_height to Y position (with spacing adjustments)
+  const timeToY = useCallback((nodeId: string, timeHeight: number): number => {
+    return nodePositions.get(nodeId) ?? timeToBaseY(timeHeight);
+  }, [nodePositions, timeToBaseY]);
 
   // Convert vine to X position (horizontal lane)
   const vineToX = useCallback((vine: string): number => {
@@ -64,15 +165,15 @@ export default function ArborTemporisTree({
 
   // Calculate bounding box
   const getBoundingBox = useCallback(() => {
-    if (nodes.length === 0) {
+    if (visibleNodes.length === 0) {
       return { minX: 0, minY: 0, maxX: width, maxY: height, width, height };
     }
 
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     
-    nodes.forEach(node => {
+    visibleNodes.forEach(node => {
       const x = vineToX(node.vine);
-      const y = timeToY(node.time_height);
+      const y = timeToY(node.id, node.time_height);
       const nodeWidth = 120;
       const nodeHeight = 60;
       
@@ -91,7 +192,22 @@ export default function ArborTemporisTree({
       width: maxX - minX + 2 * padding,
       height: maxY - minY + 2 * padding,
     };
-  }, [nodes, vineToX, timeToY]);
+  }, [visibleNodes, vineToX, timeToY]);
+  
+  // Time zoom presets
+  const timePresets = useMemo(() => [
+    { label: 'All Time', min: null, max: null },
+    { label: 'Ancient (to 500 CE)', min: fullMinTime, max: 500 },
+    { label: 'Medieval (500-1400)', min: 500, max: 1400 },
+    { label: 'Renaissance (1400-1800)', min: 1400, max: 1800 },
+    { label: 'Modern (1800-2000)', min: 1800, max: 2000 },
+    { label: 'Contemporary (2000+)', min: 2000, max: fullMaxTime },
+  ], [fullMinTime, fullMaxTime]);
+  
+  const handleTimePreset = (preset: { min: number | null; max: number | null }) => {
+    setTimeZoomMin(preset.min);
+    setTimeZoomMax(preset.max);
+  };
 
   // Zoom to fit
   const zoomToFit = useCallback(() => {
@@ -170,8 +286,7 @@ export default function ArborTemporisTree({
   }, [zoomToFit]);
 
   // Get nodes in selected braid
-  const selectedBraid = braids.find(b => b.node_ids.includes(selectedNode || ''));
-  const braidNodes = selectedBraid ? new Set(selectedBraid.node_ids) : null;
+  const selectedBraid = visibleBraids.find(b => b.node_ids.includes(selectedNode || ''));
 
   return (
     <div style={{ position: 'relative', width, height }}>
@@ -219,11 +334,67 @@ export default function ArborTemporisTree({
         </button>
       </div>
 
-      {/* Legend */}
+      {/* Time Zoom Controls */}
       <div style={{
         position: 'absolute',
         top: 10,
         left: 10,
+        zIndex: 10,
+        background: 'white',
+        padding: '10px',
+        borderRadius: '4px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        fontSize: '11px',
+        maxWidth: '250px',
+      }}>
+        <div style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '12px' }}>Time Zoom</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {timePresets.map((preset, idx) => (
+            <button
+              key={idx}
+              onClick={() => handleTimePreset(preset)}
+              style={{
+                padding: '4px 8px',
+                fontSize: '10px',
+                cursor: 'pointer',
+                border: '1px solid #ccc',
+                borderRadius: '3px',
+                background: (timeZoomMin === preset.min && timeZoomMax === preset.max) ? '#e3f2fd' : 'white',
+              }}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+        {(timeZoomMin !== null || timeZoomMax !== null) && (
+          <button
+            onClick={() => handleTimePreset({ min: null, max: null })}
+            style={{
+              marginTop: '8px',
+              padding: '4px 8px',
+              fontSize: '10px',
+              cursor: 'pointer',
+              border: '1px solid #999',
+              borderRadius: '3px',
+              background: '#f5f5f5',
+              width: '100%',
+            }}
+          >
+            Reset to All Time
+          </button>
+        )}
+        {timeZoomMin !== null || timeZoomMax !== null ? (
+          <div style={{ marginTop: '8px', fontSize: '9px', color: '#666' }}>
+            Showing: {timeZoomMin !== null ? Math.round(timeZoomMin) : 'start'} - {timeZoomMax !== null ? Math.round(timeZoomMax) : 'end'} CE
+          </div>
+        ) : null}
+      </div>
+
+      {/* Legend */}
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
         zIndex: 10,
         background: 'white',
         padding: '10px',
@@ -297,13 +468,13 @@ export default function ArborTemporisTree({
           })}
 
           {/* Draw temporal band markers */}
-          {Array.from(nodes.reduce((bands, node) => {
+          {Array.from(visibleNodes.reduce((bands, node) => {
             if (!bands.has(node.temporal_band)) {
-              bands.set(node.temporal_band, node.time_height);
+              bands.set(node.temporal_band, node);
             }
             return bands;
-          }, new Map()).entries()).map(([band, timeHeight]) => {
-            const y = timeToY(timeHeight);
+          }, new Map()).entries()).map(([band, node]) => {
+            const y = timeToY(node.id, node.time_height);
             return (
               <g key={`band-${band}`}>
                 <line
@@ -329,19 +500,19 @@ export default function ArborTemporisTree({
           })}
 
           {/* Render connections */}
-          {connections.map(conn => {
-            const fromNode = nodes.find(n => n.id === conn.from_node_id);
-            const toNode = nodes.find(n => n.id === conn.to_node_id);
+          {visibleConnections.map(conn => {
+            const fromNode = visibleNodes.find(n => n.id === conn.from_node_id);
+            const toNode = visibleNodes.find(n => n.id === conn.to_node_id);
             
             if (!fromNode || !toNode) return null;
 
             const x1 = vineToX(fromNode.vine);
-            const y1 = timeToY(fromNode.time_height);
+            const y1 = timeToY(fromNode.id, fromNode.time_height);
             const x2 = vineToX(toNode.vine);
-            const y2 = timeToY(toNode.time_height);
+            const y2 = timeToY(toNode.id, toNode.time_height);
 
             const isSelected = selectedNode === fromNode.id || selectedNode === toNode.id;
-            const isBraid = braidNodes?.has(fromNode.id) && braidNodes?.has(toNode.id);
+            const isBraid = selectedBraid && selectedBraid.node_ids.includes(fromNode.id) && selectedBraid.node_ids.includes(toNode.id);
 
             let strokeColor = '#888';
             let strokeWidth = 1;
@@ -389,14 +560,14 @@ export default function ArborTemporisTree({
           })}
 
           {/* Render nodes */}
-          {nodes.map(node => {
+          {visibleNodes.map(node => {
             const x = vineToX(node.vine);
-            const y = timeToY(node.time_height);
+            const y = timeToY(node.id, node.time_height);
             const nodeWidth = 120;
             const nodeHeight = 60;
 
             const isSelected = selectedNode === node.id;
-            const isInBraid = braidNodes?.has(node.id);
+            const isInBraid = visibleBraids.some(b => b.node_ids.includes(node.id));
 
             const baseColor = VINE_COLORS[node.vine];
             const fillColor = isInBraid ? '#fff3cd' : '#ffffff';
@@ -453,13 +624,13 @@ export default function ArborTemporisTree({
           })}
 
           {/* Highlight braids */}
-          {braids.map(braid => {
-            const braidNodes = nodes.filter(n => braid.node_ids.includes(n.id));
+          {visibleBraids.map(braid => {
+            const braidNodes = visibleNodes.filter(n => braid.node_ids.includes(n.id));
             if (braidNodes.length === 0) return null;
 
             // Find bounding box of braid
             const xs = braidNodes.map(n => vineToX(n.vine));
-            const ys = braidNodes.map(n => timeToY(n.time_height));
+            const ys = braidNodes.map(n => timeToY(n.id, n.time_height));
             const minX = Math.min(...xs) - 80;
             const maxX = Math.max(...xs) + 80;
             const minY = Math.min(...ys) - 40;
@@ -500,7 +671,7 @@ export default function ArborTemporisTree({
           zIndex: 10,
         }}>
           {(() => {
-            const node = nodes.find(n => n.id === selectedNode);
+            const node = visibleNodes.find(n => n.id === selectedNode);
             if (!node) return null;
             
             return (
