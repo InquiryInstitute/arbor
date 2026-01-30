@@ -167,13 +167,11 @@ export default function CivilizationTree({
       setTimeRange({ min: minTime, max: maxTime });
       setLongitudeRange({ min: minLongitude, max: maxLongitude });
       
-      // Add padding to ranges
+      // Calculate actual ranges (no padding for linear scale)
       const timeRange = maxTime - minTime;
       const longitudeRange = maxLongitude - minLongitude;
-      const timePadding = timeRange * 0.1;
-      const longitudePadding = longitudeRange * 0.15;
       
-      // Map dimensions (leave space for nodes)
+      // Map dimensions (leave space for nodes and axes)
       const mapWidth = width * 0.9;
       const mapHeight = height * 0.9;
       const mapStartX = width * 0.05;
@@ -197,8 +195,10 @@ export default function CivilizationTree({
         let y = mapStartY;
         
         if (node.longitude !== undefined) {
-          // Map longitude to X (left to right)
-          const normalizedLongitude = (node.longitude - minLongitude + longitudePadding) / (longitudeRange + 2 * longitudePadding);
+          // Map longitude to X (left to right) - linear mapping
+          const normalizedLongitude = longitudeRange > 0 
+            ? (node.longitude - minLongitude) / longitudeRange 
+            : 0.5;
           x = mapStartX + normalizedLongitude * mapWidth - nodeWidth / 2;
         } else {
           // Center if no longitude
@@ -206,10 +206,12 @@ export default function CivilizationTree({
         }
         
         if (node.timeStart !== undefined) {
-          // Map time to Y (bottom to top - earlier times at bottom)
-          // Invert so earlier times are at bottom
-          const normalizedTime = (node.timeStart - minTime + timePadding) / (timeRange + 2 * timePadding);
-          // Invert: 1 - normalizedTime so earlier times (smaller values) are at bottom
+          // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
+          // Linear mapping: earlier times (smaller values) at bottom, later times at top
+          const normalizedTime = timeRange > 0 
+            ? (node.timeStart - minTime) / timeRange 
+            : 0;
+          // Invert: 1 - normalizedTime so earlier times are at bottom
           y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
         } else {
           // Place at bottom if no time data
