@@ -592,22 +592,40 @@ export default function CivilizationTree({
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
-          {/* Arrow markers for different relation types */}
+          {/* Tree trunk gradient */}
+          <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#8b6f47" />
+            <stop offset="50%" stopColor="#6b5437" />
+            <stop offset="100%" stopColor="#4a3423" />
+          </linearGradient>
+          
+          {/* Arrow markers for different relation types - make them look like buds/leaves */}
           {Object.entries(relationColors).map(([type, color]) => (
             <marker
               key={type}
               id={`arrowhead-${type}`}
-              markerWidth="12"
-              markerHeight="12"
-              refX="10"
-              refY="4"
+              markerWidth="10"
+              markerHeight="10"
+              refX="8"
+              refY="5"
               orient="auto"
               markerUnits="strokeWidth"
             >
-              <path d="M 0 0 L 12 4 L 0 8 Z" fill={color} opacity="0.8" />
+              <path d="M 0 2 Q 4 5, 8 5 Q 4 5, 0 8" fill={color} opacity="0.7" stroke={color} strokeWidth="0.5" />
             </marker>
           ))}
         </defs>
+        
+        {/* Draw tree trunk at the bottom */}
+        <rect
+          x={width / 2 - 100}
+          y={height * 0.95}
+          width={200}
+          height={height * 0.05}
+          fill="url(#trunkGradient)"
+          rx="100 100 0 0"
+          opacity="0.8"
+        />
 
         {/* Time axis (left side) - Fixed range: 3500 BCE to 2026 CE, ticks at 500-year intervals */}
         {timeRange && (
