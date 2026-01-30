@@ -252,15 +252,19 @@ class MITOCWScraper:
         print("\nBuilding graph structure...")
         graph = self.build_graph()
         
-        # Save to JSON
-        output_path = Path(__file__).parent.parent / 'data' / 'mit-ocw-graph.json'
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+        # Save to JSON (save to both data/ and public/data/ for flexibility)
+        output_paths = [
+            Path(__file__).parent.parent / 'public' / 'data' / 'mit-ocw-graph.json',
+            Path(__file__).parent.parent / 'data' / 'mit-ocw-graph.json',
+        ]
         
-        with open(output_path, 'w') as f:
-            json.dump(graph, f, indent=2)
+        for output_path in output_paths:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(output_path, 'w') as f:
+                json.dump(graph, f, indent=2)
+            print(f"Graph saved to: {output_path}")
         
-        print(f"\nGraph saved to: {output_path}")
-        print(f"  Nodes: {len(graph['nodes'])}")
+        print(f"\n  Nodes: {len(graph['nodes'])}")
         print(f"  Edges: {len(graph['edges'])}")
         
         return graph

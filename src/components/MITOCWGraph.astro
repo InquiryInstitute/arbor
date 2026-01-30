@@ -1,0 +1,274 @@
+---
+// MIT OCW Course Prerequisite Graph Visualization Component
+import type { MITOCWGraph } from '../types/mit-ocw';
+
+interface Props {
+  graphData?: MITOCWGraph;
+}
+
+const { graphData } = Astro.props;
+---
+
+<div id="mit-ocw-graph-container" class="graph-container">
+  <div id="graph-info" class="graph-info">
+    {graphData ? (
+      <>
+        <h3>MIT OpenCourseWare Course Graph</h3>
+        <p>
+          <strong>{graphData.metadata.total_courses}</strong> courses,
+          <strong> {graphData.metadata.total_prerequisites}</strong> prerequisite relationships,
+          <strong> {graphData.metadata.total_corequisites}</strong> corequisite relationships
+        </p>
+      </>
+    ) : (
+      <p>Loading graph data...</p>
+    )}
+  </div>
+  <div id="graph-visualization" class="graph-visualization"></div>
+</div>
+
+<script>
+  import { MITOCWGraph } from '../types/mit-ocw';
+  
+  // Load graph data
+  async function loadGraphData(): Promise<MITOCWGraph | null> {
+    try {
+      // Try public directory first (for static hosting)
+      let response = await fetch('/arbor/data/mit-ocw-graph.json');
+      if (!response.ok) {
+        // Fallback to root-relative path
+        response = await fetch('/data/mit-ocw-graph.json');
+      }
+      if (!response.ok) {
+        console.warn('Graph data not found. Run the Python script to generate it.');
+        return null;
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error loading graph data:', error);
+      return null;
+    }
+  }
+
+  // Simple graph visualization using SVG
+  function renderGraph(graph: MITOCWGraph) {
+    const container = document.getElementById('graph-visualization');
+    if (!container) return;
+
+    // Clear previous content
+    container.innerHTML = '';
+
+    // Create SVG
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '600');
+    svg.setAttribute('viewBox', '0 0 1200 600');
+    svg.style.border = '1px solid #ccc';
+    svg.style.backgroundColor = '#f9f9f9';
+
+    // Group nodes by department for layout
+    const nodesByDept = new Map<string, typeof graph.nodes>();
+    graph.nodes.forEach(node => {
+      const dept = node.department || 'Other';
+      if (!nodesByDept.has(dept)) {
+        nodesByDept.set(dept, []);
+      }
+      nodesByDept.get(dept)!.push(node);
+    });
+
+    // Simple force-directed layout simulation
+    const nodePositions = new Map<string, { x: number; y: number }>();
+    const nodeRadius = 20;
+    const padding = 50;
+    const width = 1200;
+    const height = 600;
+
+    // Position nodes in a grid-like layout
+    let x = padding;
+    let y = padding;
+    const nodesPerRow = Math.ceil(Math.sqrt(graph.nodes.length));
+    const spacingX = (width - 2 * padding) / nodesPerRow;
+    const spacingY = 60;
+
+    graph.nodes.forEach((node, index) => {
+      const row = Math.floor(index / nodesPerRow);
+      const col = index % nodesPerRow;
+      nodePositions.set(node.id, {
+        x: padding + col * spacingX,
+        y: padding + row * spacingY,
+      });
+    });
+
+    // Draw edges
+    const edgesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    edgesGroup.setAttribute('class', 'edges');
+    
+    graph.edges.forEach(edge => {
+      const source = nodePositions.get(edge.source);
+      const target = nodePositions.get(edge.target);
+      
+      if (source && target) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', source.x.toString());
+        line.setAttribute('y1', source.y.toString());
+        line.setAttribute('x2', target.x.toString());
+        line.setAttribute('y2', target.y.toString());
+        line.setAttribute('stroke', edge.type === 'prerequisite' ? '#2563eb' : '#10b981');
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('opacity', '0.6');
+        line.setAttribute('marker-end', `url(#arrowhead-${edge.type})`);
+        edgesGroup.appendChild(line);
+      }
+    });
+    svg.appendChild(edgesGroup);
+
+    // Create arrow markers
+    ['prerequisite', 'corequisite'].forEach(type => {
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      marker.setAttribute('id', `arrowhead-${type}`);
+      marker.setAttribute('markerWidth', '10');
+      marker.setAttribute('markerHeight', '10');
+      marker.setAttribute('refX', '9');
+      marker.setAttribute('refY', '3');
+      marker.setAttribute('orient', 'auto');
+      
+      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      polygon.setAttribute('points', '0 0, 10 3, 0 6');
+      polygon.setAttribute('fill', type === 'prerequisite' ? '#2563eb' : '#10b981');
+      marker.appendChild(polygon);
+      defs.appendChild(marker);
+      svg.appendChild(defs);
+    });
+
+    // Draw nodes
+    const nodesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    nodesGroup.setAttribute('class', 'nodes');
+    
+    graph.nodes.forEach(node => {
+      const pos = nodePositions.get(node.id);
+      if (!pos) return;
+
+      // Node circle
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', pos.x.toString());
+      circle.setAttribute('cy', pos.y.toString());
+      circle.setAttribute('r', nodeRadius.toString());
+      circle.setAttribute('fill', '#3b82f6');
+      circle.setAttribute('stroke', '#1e40af');
+      circle.setAttribute('stroke-width', '2');
+      circle.style.cursor = 'pointer';
+      
+      // Tooltip
+      circle.addEventListener('mouseenter', (e) => {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'graph-tooltip';
+        tooltip.textContent = `${node.label}\n${node.url}`;
+        tooltip.style.position = 'absolute';
+        tooltip.style.left = `${e.pageX + 10}px`;
+        tooltip.style.top = `${e.pageY + 10}px`;
+        tooltip.style.background = 'rgba(0, 0, 0, 0.8)';
+        tooltip.style.color = 'white';
+        tooltip.style.padding = '8px';
+        tooltip.style.borderRadius = '4px';
+        tooltip.style.pointerEvents = 'none';
+        tooltip.style.zIndex = '1000';
+        document.body.appendChild(tooltip);
+        circle.setAttribute('data-tooltip', 'true');
+      });
+      
+      circle.addEventListener('mouseleave', () => {
+        const tooltip = document.querySelector('.graph-tooltip');
+        if (tooltip) tooltip.remove();
+      });
+      
+      circle.addEventListener('click', () => {
+        window.open(node.url, '_blank');
+      });
+      
+      nodesGroup.appendChild(circle);
+
+      // Node label
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', pos.x.toString());
+      text.setAttribute('y', (pos.y + nodeRadius + 15).toString());
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('font-size', '10');
+      text.setAttribute('fill', '#333');
+      text.textContent = node.id;
+      nodesGroup.appendChild(text);
+    });
+    
+    svg.appendChild(nodesGroup);
+    container.appendChild(svg);
+  }
+
+  // Initialize
+  (async () => {
+    const graphData = await loadGraphData();
+    if (graphData) {
+      renderGraph(graphData);
+    } else {
+      const container = document.getElementById('graph-visualization');
+      if (container) {
+        container.innerHTML = `
+          <div style="padding: 2rem; text-align: center; color: #666;">
+            <p>Graph data not found.</p>
+            <p>Run the Python script to generate it:</p>
+            <code style="background: #f0f0f0; padding: 0.5rem; border-radius: 4px; display: inline-block; margin-top: 1rem;">
+              python scripts/fetch_mit_ocw.py
+            </code>
+          </div>
+        `;
+      }
+    }
+  })();
+</script>
+
+<style>
+  .graph-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .graph-info {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f0f9ff;
+    border-radius: 8px;
+    border: 1px solid #bae6fd;
+  }
+
+  .graph-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #0369a1;
+  }
+
+  .graph-info p {
+    margin: 0;
+    color: #0c4a6e;
+  }
+
+  .graph-visualization {
+    width: 100%;
+    min-height: 600px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+  }
+
+  .graph-visualization svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .graph-tooltip {
+    font-size: 12px;
+    white-space: pre-line;
+    max-width: 300px;
+  }
+</style>

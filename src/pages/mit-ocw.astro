@@ -1,0 +1,132 @@
+---
+import MITOCWGraph from '../components/MITOCWGraph.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="MIT OpenCourseWare Course Prerequisite Graph" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>MIT OCW Course Graph | Arbor Scientiae</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>MIT OpenCourseWare Course Graph</h1>
+        <p class="tagline">Visualizing course prerequisites and relationships</p>
+        <nav>
+          <a href="/">← Back to Arbor Scientiae</a>
+        </nav>
+      </header>
+
+      <section>
+        <h2>About</h2>
+        <p>
+          This graph visualizes courses from MIT OpenCourseWare and their prerequisite relationships.
+          Each node represents a course, and edges show prerequisite (blue) and corequisite (green) relationships.
+        </p>
+        <p>
+          <strong>How to use:</strong>
+        </p>
+        <ul>
+          <li>Click on a course node to open its MIT OCW page</li>
+          <li>Hover over nodes to see course details</li>
+          <li>Blue arrows indicate prerequisites (course A requires course B)</li>
+          <li>Green arrows indicate corequisites (courses that should be taken together)</li>
+        </ul>
+      </section>
+
+      <MITOCWGraph />
+
+      <section>
+        <h2>Data Source</h2>
+        <p>
+          Course data is fetched from MIT OpenCourseWare. To update the graph, run:
+        </p>
+        <pre><code>cd scripts
+pip install -r requirements.txt
+python fetch_mit_ocw.py</code></pre>
+        <p>
+          The script will generate <code>data/mit-ocw-graph.json</code> which is used by this visualization.
+        </p>
+      </section>
+    </main>
+
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #1e40af;
+        margin: 0;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+        color: #666;
+        margin: 0.5rem 0 0 0;
+        font-style: italic;
+      }
+
+      nav {
+        margin-top: 1rem;
+      }
+
+      nav a {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      section {
+        margin: 2rem 0;
+      }
+
+      h2 {
+        color: #1e40af;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 0.5rem;
+      }
+
+      ul {
+        padding-left: 1.5rem;
+      }
+
+      li {
+        margin: 0.5rem 0;
+      }
+
+      pre {
+        background: #f0f0f0;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+
+      code {
+        font-family: 'Monaco', 'Courier New', monospace;
+        font-size: 0.9rem;
+      }
+    </style>
+  </body>
+</html>

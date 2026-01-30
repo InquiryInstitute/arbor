@@ -10,25 +10,84 @@ export const sampleCredentials: Credential[] = [
   // ============================================
   // 1. Form & Number (MATH) - Full K-PhD progression
   // ============================================
+  // K-1: Number & Operations Foundations
   {
-    id: id('K-1', 'MATH', 'counting-patterns'),
-    title: 'Counting and Patterns',
+    id: id('K-1', 'MATH', 'number-operations'),
+    title: 'Number and Operations',
     cadence: 'seasonal',
     college_primary: 'MATH',
     level_band: 'K-1',
     duration_weeks: 10,
   },
   {
-    id: id('G2-3', 'MATH', 'art-arithmetic'),
-    title: 'The Art of Arithmetic',
+    id: id('K-1', 'MATH', 'geometry-spatial'),
+    title: 'Geometry and Spatial Sense',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  {
+    id: id('K-1', 'MATH', 'measurement-data'),
+    title: 'Measurement and Data',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  // G2-3: Arithmetic & Problem Solving
+  {
+    id: id('G2-3', 'MATH', 'arithmetic-operations'),
+    title: 'Arithmetic Operations',
     cadence: 'seasonal',
     college_primary: 'MATH',
     level_band: 'G2-3',
     duration_weeks: 10,
   },
   {
+    id: id('G2-3', 'MATH', 'place-value'),
+    title: 'Place Value and Number Sense',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G2-3', 'MATH', 'problem-solving'),
+    title: 'Problem Solving Strategies',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  // G4-6: Fractions, Decimals, & Ratios
+  {
     id: id('G4-6', 'MATH', 'fractions-decimals'),
-    title: 'Fractions, Decimals, and Ratios',
+    title: 'Fractions and Decimals',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'MATH', 'ratios-proportions'),
+    title: 'Ratios and Proportions',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'MATH', 'geometry-measurement'),
+    title: 'Geometry and Measurement',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'MATH', 'data-statistics'),
+    title: 'Data and Statistics',
     cadence: 'seasonal',
     college_primary: 'MATH',
     level_band: 'G4-6',
@@ -86,25 +145,76 @@ export const sampleCredentials: Credential[] = [
   // ============================================
   // 2. Matter & Life (NAT) - Full K-PhD progression
   // ============================================
+  // K-1: Life Science Foundations
   {
-    id: id('K-1', 'NAT', 'what-alive'),
-    title: 'What Makes Something Alive?',
+    id: id('K-1', 'NAT', 'living-things'),
+    title: 'Living Things',
     cadence: 'seasonal',
     college_primary: 'NAT',
     level_band: 'K-1',
     duration_weeks: 10,
   },
   {
-    id: id('G2-3', 'NAT', 'cell-unit-life'),
-    title: 'The Cell: Unit of Life',
+    id: id('K-1', 'NAT', 'earth-sky'),
+    title: 'Earth and Sky',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  {
+    id: id('K-1', 'NAT', 'matter-properties'),
+    title: 'Matter and Properties',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  // G2-3: Life Science & Physical Science
+  {
+    id: id('G2-3', 'NAT', 'life-cycles'),
+    title: 'Life Cycles and Habitats',
     cadence: 'seasonal',
     college_primary: 'NAT',
     level_band: 'G2-3',
     duration_weeks: 10,
   },
   {
+    id: id('G2-3', 'NAT', 'forces-motion'),
+    title: 'Forces and Motion',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G2-3', 'NAT', 'earth-materials'),
+    title: 'Earth Materials and Processes',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  // G4-6: Life Science, Physical Science, Earth Science
+  {
     id: id('G4-6', 'NAT', 'ecosystems'),
     title: 'Ecosystems and Interdependence',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'NAT', 'energy-matter'),
+    title: 'Energy and Matter',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'NAT', 'earth-systems'),
+    title: 'Earth Systems and Processes',
     cadence: 'seasonal',
     college_primary: 'NAT',
     level_band: 'G4-6',
@@ -542,25 +652,84 @@ export const sampleCredentials: Credential[] = [
   // ============================================
   // 8. Society & Economy (SOC) - Full K-PhD progression
   // ============================================
+  // K-1: Community & Geography
   {
-    id: id('K-1', 'SOC', 'living-community'),
-    title: 'Living Together in Community',
+    id: id('K-1', 'SOC', 'community-belonging'),
+    title: 'Community and Belonging',
     cadence: 'seasonal',
     college_primary: 'SOC',
     level_band: 'K-1',
     duration_weeks: 10,
   },
   {
-    id: id('G2-3', 'SOC', 'government-society'),
-    title: 'Government and Society',
+    id: id('K-1', 'SOC', 'geography-places'),
+    title: 'Geography and Places',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  {
+    id: id('K-1', 'SOC', 'rules-fairness'),
+    title: 'Rules and Fairness',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'K-1',
+    duration_weeks: 10,
+  },
+  // G2-3: History & Civics
+  {
+    id: id('G2-3', 'SOC', 'history-people'),
+    title: 'History and People',
     cadence: 'seasonal',
     college_primary: 'SOC',
     level_band: 'G2-3',
     duration_weeks: 10,
   },
   {
+    id: id('G2-3', 'SOC', 'government-leadership'),
+    title: 'Government and Leadership',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G2-3', 'SOC', 'geography-maps'),
+    title: 'Geography and Maps',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G2-3',
+    duration_weeks: 10,
+  },
+  // G4-6: Civics, History, Geography, Economics
+  {
     id: id('G4-6', 'SOC', 'civics-citizenship'),
     title: 'Civics and Citizenship',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'SOC', 'us-history'),
+    title: 'United States History',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'SOC', 'world-geography'),
+    title: 'World Geography',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G4-6', 'SOC', 'economics-basics'),
+    title: 'Economics Basics',
     cadence: 'seasonal',
     college_primary: 'SOC',
     level_band: 'G4-6',
@@ -863,17 +1032,37 @@ const generatePrereqChain = (
 };
 
 export const sampleRelations: CredentialRelation[] = [
-  // MATH chain (K-1 → Faculty)
+  // MATH chain (K-1 → Faculty) - using primary credentials per level
+  // K-1: number-operations → G2-3: arithmetic-operations → G4-6: fractions-decimals → ...
   ...generatePrereqChain('MATH', 
     ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
-    ['counting-patterns', 'art-arithmetic', 'fractions-decimals', 'pre-algebra', 'algebraic-thinking', 'functions-analysis', 'calculus', 'infinity-set-theory', 'topology', 'mathematical-philosophy']
+    ['number-operations', 'arithmetic-operations', 'fractions-decimals', 'pre-algebra', 'algebraic-thinking', 'functions-analysis', 'calculus', 'infinity-set-theory', 'topology', 'mathematical-philosophy']
   ),
+  // Connect other K-1 MATH credentials to G2-3
+  { id: 'prereq-math-k1-geom', from_credential_id: id('K-1', 'MATH', 'geometry-spatial'), to_credential_id: id('G2-3', 'MATH', 'arithmetic-operations'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-math-k1-meas', from_credential_id: id('K-1', 'MATH', 'measurement-data'), to_credential_id: id('G2-3', 'MATH', 'arithmetic-operations'), relation_type: 'RECOMMENDED' },
+  // Connect G2-3 MATH credentials to G4-6
+  { id: 'prereq-math-g23-place', from_credential_id: id('G2-3', 'MATH', 'place-value'), to_credential_id: id('G4-6', 'MATH', 'fractions-decimals'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-math-g23-prob', from_credential_id: id('G2-3', 'MATH', 'problem-solving'), to_credential_id: id('G4-6', 'MATH', 'fractions-decimals'), relation_type: 'RECOMMENDED' },
+  // Connect G4-6 MATH credentials to G7-8
+  { id: 'prereq-math-g46-ratios', from_credential_id: id('G4-6', 'MATH', 'ratios-proportions'), to_credential_id: id('G7-8', 'MATH', 'pre-algebra'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-math-g46-geom', from_credential_id: id('G4-6', 'MATH', 'geometry-measurement'), to_credential_id: id('G7-8', 'MATH', 'pre-algebra'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-math-g46-data', from_credential_id: id('G4-6', 'MATH', 'data-statistics'), to_credential_id: id('G7-8', 'MATH', 'pre-algebra'), relation_type: 'RECOMMENDED' },
 
-  // NAT chain
+  // NAT chain - using primary credentials per level
   ...generatePrereqChain('NAT',
     ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
-    ['what-alive', 'cell-unit-life', 'ecosystems', 'matter-energy', 'evolution', 'molecular-foundations', 'genetics', 'molecular-bio', 'systems-bio', 'philosophy-of-science']
+    ['living-things', 'life-cycles', 'ecosystems', 'matter-energy', 'evolution', 'molecular-foundations', 'genetics', 'molecular-bio', 'systems-bio', 'philosophy-of-science']
   ),
+  // Connect other K-1 NAT credentials
+  { id: 'prereq-nat-k1-earth', from_credential_id: id('K-1', 'NAT', 'earth-sky'), to_credential_id: id('G2-3', 'NAT', 'life-cycles'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-nat-k1-matter', from_credential_id: id('K-1', 'NAT', 'matter-properties'), to_credential_id: id('G2-3', 'NAT', 'life-cycles'), relation_type: 'RECOMMENDED' },
+  // Connect G2-3 NAT credentials
+  { id: 'prereq-nat-g23-forces', from_credential_id: id('G2-3', 'NAT', 'forces-motion'), to_credential_id: id('G4-6', 'NAT', 'ecosystems'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-nat-g23-earth', from_credential_id: id('G2-3', 'NAT', 'earth-materials'), to_credential_id: id('G4-6', 'NAT', 'ecosystems'), relation_type: 'RECOMMENDED' },
+  // Connect G4-6 NAT credentials
+  { id: 'prereq-nat-g46-energy', from_credential_id: id('G4-6', 'NAT', 'energy-matter'), to_credential_id: id('G7-8', 'NAT', 'matter-energy'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-nat-g46-earth', from_credential_id: id('G4-6', 'NAT', 'earth-systems'), to_credential_id: id('G7-8', 'NAT', 'matter-energy'), relation_type: 'RECOMMENDED' },
 
   // HUM (Value & Virtue) chain
   ...generatePrereqChain('HUM',
@@ -887,11 +1076,23 @@ export const sampleRelations: CredentialRelation[] = [
     ['how-think', 'intro-computation', 'algorithms-logic', 'programming-fundamentals', 'art-programming', 'data-structures', 'artificial-intelligence', 'machine-learning', 'consciousness', 'philosophy-of-ai']
   ),
 
-  // ELA chain
+  // ELA chain - using primary credentials per level
   ...generatePrereqChain('ELA',
     ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
-    ['power-stories', 'language-meaning', 'reading-writing', 'literary-forms', 'literary-analysis', 'rhetoric-argument', 'hermeneutics', 'semiotics', 'deconstruction', 'philosophy-of-language']
+    ['reading-foundations', 'reading-fluency', 'literary-analysis', 'literary-forms', 'literary-analysis', 'rhetoric-argument', 'hermeneutics', 'semiotics', 'deconstruction', 'philosophy-of-language']
   ),
+  // Connect other K-1 ELA credentials
+  { id: 'prereq-ela-k1-writing', from_credential_id: id('K-1', 'ELA', 'writing-foundations'), to_credential_id: id('G2-3', 'ELA', 'reading-fluency'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-k1-speaking', from_credential_id: id('K-1', 'ELA', 'speaking-listening'), to_credential_id: id('G2-3', 'ELA', 'reading-fluency'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-k1-language', from_credential_id: id('K-1', 'ELA', 'language-vocabulary'), to_credential_id: id('G2-3', 'ELA', 'reading-fluency'), relation_type: 'RECOMMENDED' },
+  // Connect G2-3 ELA credentials
+  { id: 'prereq-ela-g23-comprehension', from_credential_id: id('G2-3', 'ELA', 'reading-comprehension'), to_credential_id: id('G4-6', 'ELA', 'literary-analysis'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-g23-writing', from_credential_id: id('G2-3', 'ELA', 'writing-process'), to_credential_id: id('G4-6', 'ELA', 'literary-analysis'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-g23-conventions', from_credential_id: id('G2-3', 'ELA', 'language-conventions'), to_credential_id: id('G4-6', 'ELA', 'literary-analysis'), relation_type: 'RECOMMENDED' },
+  // Connect G4-6 ELA credentials
+  { id: 'prereq-ela-g46-composition', from_credential_id: id('G4-6', 'ELA', 'composition-writing'), to_credential_id: id('G7-8', 'ELA', 'literary-forms'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-g46-research', from_credential_id: id('G4-6', 'ELA', 'research-skills'), to_credential_id: id('G7-8', 'ELA', 'literary-forms'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-ela-g46-media', from_credential_id: id('G4-6', 'ELA', 'media-literacy'), to_credential_id: id('G7-8', 'ELA', 'literary-forms'), relation_type: 'RECOMMENDED' },
 
   // META chain
   ...generatePrereqChain('META',
@@ -907,11 +1108,21 @@ export const sampleRelations: CredentialRelation[] = [
   // Connect Time & Memory branch to Faculty
   { id: 'prereq-hum-tm-faculty', from_credential_id: id('PhD', 'HUM', 'temporal-being'), to_credential_id: id('Faculty', 'HUM', 'philosophical-synthesis'), relation_type: 'PREREQ' },
 
-  // SOC chain
+  // SOC chain - using primary credentials per level
   ...generatePrereqChain('SOC',
     ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'],
-    ['living-community', 'government-society', 'civics-citizenship', 'social-systems', 'political-theory', 'political-economy', 'economic-systems', 'capital-political-economy', 'advanced-social-theory', 'critical-social-theory']
+    ['community-belonging', 'history-people', 'civics-citizenship', 'social-systems', 'political-theory', 'political-economy', 'economic-systems', 'capital-political-economy', 'advanced-social-theory', 'critical-social-theory']
   ),
+  // Connect other K-1 SOC credentials
+  { id: 'prereq-soc-k1-geography', from_credential_id: id('K-1', 'SOC', 'geography-places'), to_credential_id: id('G2-3', 'SOC', 'history-people'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-soc-k1-rules', from_credential_id: id('K-1', 'SOC', 'rules-fairness'), to_credential_id: id('G2-3', 'SOC', 'history-people'), relation_type: 'RECOMMENDED' },
+  // Connect G2-3 SOC credentials
+  { id: 'prereq-soc-g23-government', from_credential_id: id('G2-3', 'SOC', 'government-leadership'), to_credential_id: id('G4-6', 'SOC', 'civics-citizenship'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-soc-g23-geography', from_credential_id: id('G2-3', 'SOC', 'geography-maps'), to_credential_id: id('G4-6', 'SOC', 'civics-citizenship'), relation_type: 'RECOMMENDED' },
+  // Connect G4-6 SOC credentials
+  { id: 'prereq-soc-g46-history', from_credential_id: id('G4-6', 'SOC', 'us-history'), to_credential_id: id('G7-8', 'SOC', 'social-systems'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-soc-g46-geography', from_credential_id: id('G4-6', 'SOC', 'world-geography'), to_credential_id: id('G7-8', 'SOC', 'social-systems'), relation_type: 'RECOMMENDED' },
+  { id: 'prereq-soc-g46-economics', from_credential_id: id('G4-6', 'SOC', 'economics-basics'), to_credential_id: id('G7-8', 'SOC', 'social-systems'), relation_type: 'RECOMMENDED' },
 
   // ARTS chain
   ...generatePrereqChain('ARTS',
