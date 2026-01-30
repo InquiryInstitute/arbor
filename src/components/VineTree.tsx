@@ -1,7 +1,72 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import ELK from 'elkjs';
-import type { Credential, CredentialRelation, ELKGraph, ELKNode, ELKEdge } from '../types/credential';
+import type { Credential, CredentialRelation, ELKGraph, ELKNode, ELKEdge, College, LevelBand } from '../types/credential';
 import { sampleCredentials, sampleRelations } from '../data/sample-credentials';
+
+// College color palette
+const collegeColors: Record<College, string> = {
+  'HUM': '#8B4513',    // Brown (humanities)
+  'MATH': '#1E88E5',   // Blue (mathematics)
+  'NAT': '#43A047',    // Green (natural sciences)
+  'AINS': '#7B1FA2',   // Purple (AI/CS)
+  'SOC': '#E53935',    // Red (social sciences)
+  'ELA': '#F57C00',    // Orange (language arts)
+  'ARTS': '#E91E63',   // Pink (arts)
+  'HEAL': '#00ACC1',   // Cyan (health)
+  'CEF': '#558B2F',    // Dark green (ecology/environment)
+  'META': '#5D4037',   // Dark brown (meta/learning)
+};
+
+// Level band order for tinting (darker at roots, lighter at canopy)
+const levelOrder: LevelBand[] = ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'];
+
+// Convert hex to RGB
+const hexToRgb = (hex: string): [number, number, number] => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+    : [0, 0, 0];
+};
+
+// Convert RGB to hex
+const rgbToHex = (r: number, g: number, b: number): string => {
+  return '#' + [r, g, b].map(x => {
+    const hex = Math.round(x).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  }).join('');
+};
+
+// Generate tinted color based on level (darker at roots, lighter at canopy)
+const getTintedColor = (baseColor: string, levelBand: LevelBand): string => {
+  const levelIndex = levelOrder.indexOf(levelBand);
+  const maxLevels = levelOrder.length;
+  
+  // Calculate tint factor: 0 (darkest/roots) to 1 (lightest/canopy)
+  const tintFactor = levelIndex / (maxLevels - 1);
+  
+  // Interpolate between base color and white
+  // Lower levels (roots) = darker, higher levels (canopy) = lighter
+  const [r, g, b] = hexToRgb(baseColor);
+  const whiteR = 255;
+  const whiteG = 255;
+  const whiteB = 255;
+  
+  const newR = r + (whiteR - r) * tintFactor * 0.4; // Max 40% lighter
+  const newG = g + (whiteG - g) * tintFactor * 0.4;
+  const newB = b + (whiteB - b) * tintFactor * 0.4;
+  
+  return rgbToHex(newR, newG, newB);
+};
+
+// Get stroke color (darker version for contrast)
+const getStrokeColor = (baseColor: string, levelBand: LevelBand): string => {
+  const levelIndex = levelOrder.indexOf(levelBand);
+  const maxLevels = levelOrder.length;
+  const darkenFactor = 1 - (levelIndex / (maxLevels - 1)) * 0.3; // Darken by up to 30%
+  
+  const [r, g, b] = hexToRgb(baseColor);
+  return rgbToHex(r * darkenFactor, g * darkenFactor, b * darkenFactor);
+};
 
 interface VineTreeProps {
   credentials?: Credential[];
@@ -330,9 +395,10 @@ export default function VineTree({
         }
 
         const isSeasonal = cred.cadence === 'seasonal';
-        const fillColor = isSeasonal ? '#e8f5e9' : '#fff9c4';
-        const strokeColor = isSeasonal ? '#2d5a27' : '#f57f17';
-        const strokeWidth = isSeasonal ? 2 : 1.5;
+        const baseColor = collegeColors[cred.college_primary] || '#888';
+        const fillColor = getTintedColor(baseColor, cred.level_band);
+        const strokeColor = getStrokeColor(baseColor, cred.level_band);
+        const strokeWidth = isSeasonal ? 2.5 : 2;
 
         return (
           <g key={node.id}>
