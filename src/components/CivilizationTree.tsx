@@ -148,20 +148,19 @@ export default function CivilizationTree({
 
   useEffect(() => {
     async function computeLayout() {
-      // Calculate time and longitude ranges
-      // Exclude trunk nodes from time range calculation to avoid skewing the scale
-      const nodesWithTime = allCivilizationNodes.filter(n => n.timeStart !== undefined && n.type !== 'trunk');
+      // Fixed time range: 3500 BCE to 2026 CE
+      const minTime = -3500;
+      const maxTime = 2026;
+      
+      // Calculate longitude range from nodes
       const nodesWithLongitude = allCivilizationNodes.filter(n => n.longitude !== undefined);
       
-      if (nodesWithTime.length === 0 || nodesWithLongitude.length === 0) {
-        console.error('Missing time or longitude data');
+      if (nodesWithLongitude.length === 0) {
+        console.error('Missing longitude data');
         setLoading(false);
         return;
       }
       
-      // Calculate time range only from civilizations (not trunk nodes)
-      const minTime = Math.min(...nodesWithTime.map(n => n.timeStart!));
-      const maxTime = Math.max(...nodesWithTime.map(n => n.timeEnd ?? n.timeStart!));
       const minLongitude = Math.min(...nodesWithLongitude.map(n => n.longitude!));
       const maxLongitude = Math.max(...nodesWithLongitude.map(n => n.longitude!));
       
