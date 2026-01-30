@@ -168,64 +168,91 @@ export default function CivilizationTree({
       setTimeRange({ min: minTime, max: maxTime });
       setLongitudeRange({ min: minLongitude, max: maxLongitude });
       
-      // Calculate actual ranges (no padding for linear scale)
-      const timeRange = maxTime - minTime;
-      const longitudeRange = maxLongitude - minLongitude;
+      // Tree layout: Group nodes by time periods and arrange in tree structure
+      const nodes = allCivilizationNodes.filter(node => node.type !== 'trunk');
       
-      // Map dimensions (leave space for nodes and axes)
-      const mapWidth = width * 0.9;
-      const mapHeight = height * 0.9;
-      const mapStartX = width * 0.05;
-      const mapStartY = height * 0.05;
+      // Group nodes by time periods (layers of the tree)
+      const timeLayers: { [key: number]: typeof nodes } = {};
+      const layerInterval = 500; // 500 year intervals
       
-      // Create nodes with positions based on longitude (X) and time (Y)
-      const elkNodes: ELKNode[] = allCivilizationNodes
-        .filter(node => node.type !== 'trunk') // Filter out trunk nodes (empty now, but just in case)
-        .map(node => {
-        let nodeWidth = 180;
-        let nodeHeight = 100;
-        
-        if (node.type === 'cross-vine') {
-          nodeWidth = 150;
-          nodeHeight = 70;
-        }
-        
-        // Calculate position based on longitude and time
-        let x = mapStartX;
-        let y = mapStartY;
-        
-        if (node.longitude !== undefined) {
-          // Map longitude to X (left to right) - linear mapping
-          const normalizedLongitude = longitudeRange > 0 
-            ? (node.longitude - minLongitude) / longitudeRange 
-            : 0.5;
-          x = mapStartX + normalizedLongitude * mapWidth - nodeWidth / 2;
-        } else {
-          // Center if no longitude
-          x = mapStartX + mapWidth / 2 - nodeWidth / 2;
-        }
-        
+      nodes.forEach(node => {
         if (node.timeStart !== undefined) {
-          // Map time to Y (bottom to top - earlier times at bottom) - LINEAR
-          // Linear mapping: earlier times (smaller values) at bottom, later times at top
-          const normalizedTime = timeRange > 0 
-            ? (node.timeStart - minTime) / timeRange 
-            : 0;
-          // Invert: 1 - normalizedTime so earlier times are at bottom
-          y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
-        } else {
-          // Place at bottom if no time data
-          y = mapStartY + mapHeight - nodeHeight / 2;
+          // Round to nearest 500 year interval
+          const layer = Math.floor((node.timeStart - minTime) / layerInterval) * layerInterval;
+          if (!timeLayers[layer]) {
+            timeLayers[layer] = [];
+          }
+          timeLayers[layer].push(node);
         }
+      });
+      
+      // Sort layers by time (earliest first)
+      const sortedLayers = Object.keys(timeLayers)
+        .map(Number)
+        .sort((a, b) => a - b);
+      
+      // Tree dimensions
+      const trunkWidth = 200; // Width of trunk at bottom
+      const trunkY = height * 0.95; // Bottom of tree
+      const treeHeight = height * 0.85; // Height of tree
+      const treeStartY = height * 0.1; // Top of tree
+      const centerX = width / 2;
+      
+      // Calculate positions using tree layout
+      const elkNodes: ELKNode[] = [];
+      const nodePositions: { [key: string]: { x: number; y: number; layer: number } } = {};
+      
+      sortedLayers.forEach((layerTime, layerIndex) => {
+        const layerNodes = timeLayers[layerTime];
+        const layerY = trunkY - (layerIndex / (sortedLayers.length - 1)) * treeHeight;
         
-        return {
-          id: node.id,
-          labels: [{ text: node.name }],
-          width: nodeWidth,
-          height: nodeHeight,
-          x: x,
-          y: y,
-        };
+        // Calculate spread width for this layer (wider at top, narrower at bottom)
+        const layerProgress = layerIndex / Math.max(1, sortedLayers.length - 1);
+        // Tree shape: narrow at bottom, wide at top (like a real tree)
+        const layerWidth = trunkWidth + (width * 0.7 - trunkWidth) * Math.pow(layerProgress, 0.6);
+        
+        // Sort nodes in layer by longitude for natural spread
+        const sortedLayerNodes = [...layerNodes].sort((a, b) => {
+          const lonA = a.longitude ?? 0;
+          const lonB = b.longitude ?? 0;
+          return lonA - lonB;
+        });
+        
+        // Position nodes in this layer
+        sortedLayerNodes.forEach((node, nodeIndex) => {
+          let nodeWidth = 180;
+          let nodeHeight = 100;
+          
+          if (node.type === 'cross-vine') {
+            nodeWidth = 150;
+            nodeHeight = 70;
+          }
+          
+          // Spread nodes horizontally across layer width
+          // Use longitude as a guide but spread evenly
+          const normalizedIndex = sortedLayerNodes.length > 1 
+            ? nodeIndex / (sortedLayerNodes.length - 1)
+            : 0.5;
+          
+          // Add some variation based on longitude
+          const longitudeOffset = node.longitude !== undefined
+            ? ((node.longitude - minLongitude) / (maxLongitude - minLongitude) - 0.5) * 0.3
+            : 0;
+          
+          const x = centerX + (normalizedIndex - 0.5 + longitudeOffset) * layerWidth - nodeWidth / 2;
+          const y = layerY - nodeHeight / 2;
+          
+          nodePositions[node.id] = { x, y, layer: layerIndex };
+          
+          elkNodes.push({
+            id: node.id,
+            labels: [{ text: node.name }],
+            width: nodeWidth,
+            height: nodeHeight,
+            x: x,
+            y: y,
+          });
+        });
       });
 
       // Convert relations to edges
@@ -245,22 +272,22 @@ export default function CivilizationTree({
 
       setLayout(graph);
       
-      // Set initial transform to show the full map area
-      // The map area is from mapStartX/mapStartY to mapStartX+mapWidth/mapStartY+mapHeight
-      // We want to fit this in the SVG viewport
-      const mapEndX = mapStartX + mapWidth;
-      const mapEndY = mapStartY + mapHeight;
-      const mapCenterX = (mapStartX + mapEndX) / 2;
-      const mapCenterY = (mapStartY + mapEndY) / 2;
+      // Set initial transform to show the tree
+      // Tree is centered horizontally, positioned from bottom
+      const treeCenterX = width / 2;
+      const treeTopY = treeStartY;
+      const treeBottomY = trunkY;
       
-      // Calculate scale to fit the map area in the viewport
-      const scaleX = (width * 0.9) / mapWidth;
-      const scaleY = (height * 0.9) / mapHeight;
-      const initialScale = Math.min(scaleX, scaleY, 1);
+      // Calculate scale to fit tree in viewport
+      const treeWidth = width * 0.8;
+      const treeHeight = treeBottomY - treeTopY;
+      const scaleX = (width * 0.9) / treeWidth;
+      const scaleY = (height * 0.9) / treeHeight;
+      const initialScale = Math.min(scaleX, scaleY, 1) * 0.95;
       
-      // Center the map in the viewport
-      const initialX = width / 2 - mapCenterX * initialScale;
-      const initialY = height / 2 - mapCenterY * initialScale;
+      // Center the tree in the viewport
+      const initialX = width / 2 - treeCenterX * initialScale;
+      const initialY = height / 2 - ((treeTopY + treeBottomY) / 2) * initialScale;
       
       setTransform({
         x: initialX,
@@ -519,12 +546,24 @@ export default function CivilizationTree({
           style={{ 
             border: 'none',
             borderRadius: '12px',
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f0f2f5 100%)',
+            background: 'linear-gradient(180deg, #f0f7f0 0%, #e8f0e8 30%, #d4e4d4 70%, #c4d4c4 100%)',
             cursor: 'default',
             display: 'block',
             boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05)',
           }}
         >
+        <defs>
+          {/* Tree trunk gradient */}
+          <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#8b6f47" />
+            <stop offset="50%" stopColor="#6b5437" />
+            <stop offset="100%" stopColor="#4a3423" />
+          </linearGradient>
+          
+          {/* Organic branch path pattern */}
+          <pattern id="branchPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1" fill="#5a7a5a" opacity="0.2" />
+          </pattern>
         <defs>
           {/* Gradient definitions for beautiful nodes */}
           <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -754,30 +793,54 @@ export default function CivilizationTree({
             const targetX = targetNode.x + (targetNode.width || 0) / 2;
             const targetY = targetNode.y + (targetNode.height || 0) / 2;
 
-            // Create curved path for smoother edges
+            // Create organic, tree-like branch path
+            // Branches should curve naturally, like real tree branches
             const dx = targetX - sourceX;
             const dy = targetY - sourceY;
-            const curvature = Math.min(Math.abs(dx), Math.abs(dy)) * 0.3;
-            const cp1x = sourceX + (dx > 0 ? curvature : -curvature);
-            const cp1y = sourceY;
-            const cp2x = targetX - (dx > 0 ? curvature : -curvature);
-            const cp2y = targetY;
-
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Create a more organic curve - branches grow upward and outward
+            // Use a quadratic curve that mimics natural branch growth
+            const midX = (sourceX + targetX) / 2;
+            const midY = (sourceY + targetY) / 2;
+            
+            // Add natural variation - branches curve slightly
+            const curveAmount = distance * 0.15;
+            const curveX = midX + (dy > 0 ? -curveAmount : curveAmount) * 0.5;
+            const curveY = midY - Math.abs(dx) * 0.2; // Slight upward curve
+            
+            // Make the path thicker at the base, thinner at the tip (like real branches)
+            const pathId = `branch-${edge.id}`;
+            
             return (
-              <path
-                key={edge.id}
-                d={`M ${sourceX} ${sourceY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${targetX} ${targetY}`}
-                fill="none"
-                stroke={strokeColor}
-                strokeWidth={strokeWidth}
-                strokeDasharray={strokeDasharray}
-                strokeOpacity={opacity}
-                strokeLinecap="round"
-                markerEnd={`url(#arrowhead-${relationType})`}
-                style={{
-                  transition: 'opacity 0.2s ease',
-                }}
-              />
+              <g key={edge.id}>
+                {/* Branch shadow for depth */}
+                <path
+                  d={`M ${sourceX} ${sourceY} Q ${curveX} ${curveY}, ${targetX} ${targetY}`}
+                  fill="none"
+                  stroke="rgba(0,0,0,0.1)"
+                  strokeWidth={strokeWidth + 2}
+                  strokeLinecap="round"
+                  opacity={0.3}
+                />
+                {/* Main branch */}
+                <path
+                  id={pathId}
+                  d={`M ${sourceX} ${sourceY} Q ${curveX} ${curveY}, ${targetX} ${targetY}`}
+                  fill="none"
+                  stroke={strokeColor}
+                  strokeWidth={strokeWidth}
+                  strokeDasharray={strokeDasharray}
+                  strokeOpacity={opacity}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  markerEnd={`url(#arrowhead-${relationType})`}
+                  style={{
+                    transition: 'opacity 0.2s ease',
+                    filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))',
+                  }}
+                />
+              </g>
             );
           })}
 
