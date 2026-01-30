@@ -31,6 +31,9 @@ export interface CivilizationNode {
     url?: string;
   }>;
   timePeriod?: string;
+  timeStart?: number; // Year (BCE as negative, CE as positive)
+  timeEnd?: number; // Year (BCE as negative, CE as positive)
+  longitude?: number; // Geographic longitude (-180 to 180)
   keyFigures?: string[];
 }
 
@@ -42,7 +45,7 @@ export interface CivilizationRelation {
   description?: string;
 }
 
-// Trunk (pre-vines, deep roots)
+// Trunk (pre-vines, deep roots) - earliest time, spread across longitudes
 export const trunkNodes: CivilizationNode[] = [
   {
     id: 'trunk-language',
@@ -51,6 +54,9 @@ export const trunkNodes: CivilizationNode[] = [
     themes: ['communication', 'abstraction', 'memory'],
     gifts: ['symbolic thought', 'narrative', 'transmission'],
     color: '#4a4a4a',
+    timeStart: -100000,
+    timeEnd: -10000,
+    longitude: 0, // Center
   },
   {
     id: 'trunk-fire',
@@ -59,6 +65,9 @@ export const trunkNodes: CivilizationNode[] = [
     themes: ['transformation', 'energy', 'control'],
     gifts: ['cooking', 'metallurgy', 'ceramics'],
     color: '#8b4513',
+    timeStart: -400000,
+    timeEnd: -10000,
+    longitude: -20, // West
   },
   {
     id: 'trunk-ritual',
@@ -67,6 +76,9 @@ export const trunkNodes: CivilizationNode[] = [
     themes: ['meaning', 'order', 'continuity'],
     gifts: ['ceremony', 'calendar', 'social cohesion'],
     color: '#5d4037',
+    timeStart: -50000,
+    timeEnd: -10000,
+    longitude: 20, // East
   },
   {
     id: 'trunk-tools',
@@ -75,6 +87,9 @@ export const trunkNodes: CivilizationNode[] = [
     themes: ['extension', 'efficiency', 'adaptation'],
     gifts: ['technology', 'craft', 'innovation'],
     color: '#616161',
+    timeStart: -3000000,
+    timeEnd: -10000,
+    longitude: 0, // Center
   },
   {
     id: 'trunk-kinship',
@@ -83,6 +98,9 @@ export const trunkNodes: CivilizationNode[] = [
     themes: ['identity', 'belonging', 'narrative'],
     gifts: ['social structure', 'cosmology', 'tradition'],
     color: '#424242',
+    timeStart: -100000,
+    timeEnd: -10000,
+    longitude: 40, // Further east
   },
 ];
 
@@ -99,6 +117,9 @@ export const majorVines: CivilizationNode[] = [
     color: '#8b6914',
     thickness: 8,
     timePeriod: 'c. 3500 BCE - 539 BCE',
+    timeStart: -3500,
+    timeEnd: -539,
+    longitude: 44.4, // Mesopotamia (Iraq)
     keyFigures: ['Hammurabi', 'Gilgamesh', 'Sargon of Akkad'],
     links: [
       {
@@ -169,6 +190,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'A slow, vertical vine—less branching, more enduring.',
     color: '#d4af37',
     thickness: 7,
+    timePeriod: 'c. 3100 BCE - 30 BCE',
+    timeStart: -3100,
+    timeEnd: -30,
+    longitude: 31.2, // Egypt
   },
   {
     id: 'vine-mediterranean',
@@ -181,6 +206,9 @@ export const majorVines: CivilizationNode[] = [
     color: '#1e88e5',
     thickness: 9,
     timePeriod: 'c. 800 BCE - 476 CE',
+    timeStart: -800,
+    timeEnd: 476,
+    longitude: 23.7, // Mediterranean (Greece/Rome)
     keyFigures: ['Socrates', 'Plato', 'Aristotle', 'Cicero', 'Augustus'],
     links: [
       {
@@ -270,6 +298,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'A vine that climbs inside other vines—often invisible, structurally essential.',
     color: '#1976d2',
     thickness: 6,
+    timePeriod: 'c. 2000 BCE - present',
+    timeStart: -2000,
+    timeEnd: 2024,
+    longitude: 35.2, // Levant/Israel
   },
   {
     id: 'vine-islamic',
@@ -281,6 +313,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'Acts like a conduit, carrying sap from antiquity into Europe and Asia when others went dormant.',
     color: '#00695c',
     thickness: 7,
+    timePeriod: 'c. 622 CE - present',
+    timeStart: 622,
+    timeEnd: 2024,
+    longitude: 39.8, // Middle East (Mecca/Medina)
   },
   {
     id: 'vine-indic',
@@ -292,6 +328,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'Coils inward and upward at once—less conquest, more recursion.',
     color: '#f57c00',
     thickness: 8,
+    timePeriod: 'c. 1500 BCE - present',
+    timeStart: -1500,
+    timeEnd: 2024,
+    longitude: 77.2, // India
   },
   {
     id: 'vine-sinitic',
@@ -303,6 +343,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'Grows parallel to the trunk, rarely snapping, always adapting.',
     color: '#c62828',
     thickness: 9,
+    timePeriod: 'c. 1600 BCE - present',
+    timeStart: -1600,
+    timeEnd: 2024,
+    longitude: 116.4, // China
   },
   {
     id: 'vine-mesoamerican',
@@ -314,6 +358,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'A brilliant vine cut too early—but its pollen still drifts.',
     color: '#7b1fa2',
     thickness: 6,
+    timePeriod: 'c. 2000 BCE - 1521 CE',
+    timeStart: -2000,
+    timeEnd: 1521,
+    longitude: -99.1, // Mesoamerica (Mexico)
   },
   {
     id: 'vine-medieval',
@@ -325,6 +373,10 @@ export const majorVines: CivilizationNode[] = [
     description: 'A grafted vine—Roman rootstock, Hebraic ethics, Islamic sap.',
     color: '#455a64',
     thickness: 7,
+    timePeriod: 'c. 476 CE - 1500 CE',
+    timeStart: 476,
+    timeEnd: 1500,
+    longitude: 2.3, // Europe (Paris)
   },
   {
     id: 'vine-modern',
@@ -337,6 +389,9 @@ export const majorVines: CivilizationNode[] = [
     color: '#e53935',
     thickness: 10,
     timePeriod: 'c. 1500 CE - present',
+    timeStart: 1500,
+    timeEnd: 2024,
+    longitude: 0.1, // Europe (Greenwich/London)
     keyFigures: ['Galileo', 'Newton', 'Locke', 'Kant', 'Darwin', 'Einstein'],
     links: [
       {
@@ -426,10 +481,14 @@ export const majorVines: CivilizationNode[] = [
     description: 'Often grow below the canopy, surviving fires others set.',
     color: '#2e7d32',
     thickness: 8,
+    timePeriod: 'c. 10000 BCE - present',
+    timeStart: -10000,
+    timeEnd: 2024,
+    longitude: -100.0, // Americas (approximate center)
   },
 ];
 
-// Cross-Vines (forces that weave through all)
+// Cross-Vines (forces that weave through all) - span across time and longitudes
 export const crossVines: CivilizationNode[] = [
   {
     id: 'cross-trade',
@@ -439,6 +498,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['commerce', 'cultural exchange', 'technology transfer'],
     color: '#ff9800',
     thickness: 3,
+    timeStart: -5000,
+    timeEnd: 2024,
+    longitude: 50, // Silk Road region
   },
   {
     id: 'cross-religion',
@@ -448,6 +510,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['ethics', 'ritual', 'cosmology'],
     color: '#9c27b0',
     thickness: 4,
+    timeStart: -10000,
+    timeEnd: 2024,
+    longitude: 35, // Middle East
   },
   {
     id: 'cross-war',
@@ -457,6 +522,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['military technology', 'state formation', 'cultural mixing'],
     color: '#d32f2f',
     thickness: 3,
+    timeStart: -10000,
+    timeEnd: 2024,
+    longitude: 0, // Center
   },
   {
     id: 'cross-technology',
@@ -466,6 +534,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['tools', 'machines', 'systems'],
     color: '#1976d2',
     thickness: 4,
+    timeStart: -3000000,
+    timeEnd: 2024,
+    longitude: 0, // Universal
   },
   {
     id: 'cross-art',
@@ -475,6 +546,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['aesthetics', 'symbolism', 'cultural identity'],
     color: '#e91e63',
     thickness: 3,
+    timeStart: -40000,
+    timeEnd: 2024,
+    longitude: 0, // Universal
   },
   {
     id: 'cross-law',
@@ -484,6 +558,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['legal systems', 'rights', 'institutions'],
     color: '#424242',
     thickness: 3,
+    timeStart: -3000,
+    timeEnd: 2024,
+    longitude: 44, // Mesopotamia origin
   },
   {
     id: 'cross-language-families',
@@ -493,6 +570,9 @@ export const crossVines: CivilizationNode[] = [
     gifts: ['linguistic kinship', 'cultural transmission', 'identity'],
     color: '#795548',
     thickness: 3,
+    timeStart: -100000,
+    timeEnd: 2024,
+    longitude: 0, // Universal
   },
 ];
 

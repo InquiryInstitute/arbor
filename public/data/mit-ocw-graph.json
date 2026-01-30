@@ -7,7 +7,7 @@
       "url": "https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/",
       "department": "Mathematics",
       "level": "Undergraduate",
-      "description": "Introduction to single variable calculus"
+      "description": null
     },
     {
       "id": "18.02",
@@ -16,7 +16,7 @@
       "url": "https://ocw.mit.edu/courses/18-02-multivariable-calculus-fall-2007/",
       "department": "Mathematics",
       "level": "Undergraduate",
-      "description": "Introduction to multivariable calculus"
+      "description": null
     },
     {
       "id": "6.042",
@@ -25,7 +25,7 @@
       "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/",
       "department": "Electrical Engineering and Computer Science",
       "level": "Undergraduate",
-      "description": "Fundamental mathematics for computer science"
+      "description": null
     },
     {
       "id": "6.006",
@@ -34,7 +34,7 @@
       "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/",
       "department": "Electrical Engineering and Computer Science",
       "level": "Undergraduate",
-      "description": "Introduction to algorithms and data structures"
+      "description": null
     },
     {
       "id": "6.046",
@@ -43,7 +43,7 @@
       "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/",
       "department": "Electrical Engineering and Computer Science",
       "level": "Undergraduate",
-      "description": "Advanced algorithms and analysis"
+      "description": null
     }
   ],
   "edges": [

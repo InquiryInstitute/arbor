@@ -605,7 +605,66 @@ export default function VineTree({
         </>
       )}
       
-      {/* Render edges next (so they appear behind nodes) */}
+      {/* Render edges as curved Bézier tendrils */}
+      <defs>
+        {/* Gradient definitions for tendrils */}
+        <linearGradient id="tendrilGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2d5a27" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#2d5a27" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#2d5a27" stopOpacity="0.3" />
+        </linearGradient>
+        <linearGradient id="prereqGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#666" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#666" stopOpacity="0.1" />
+        </linearGradient>
+        
+        {/* Leaflet marker for branch points */}
+        <marker
+          id="leaflet"
+          markerWidth="8"
+          markerHeight="8"
+          refX="4"
+          refY="4"
+          orient="auto"
+        >
+          <path
+            d="M 4,0 Q 6,2 4,4 Q 2,2 4,0"
+            fill="#43A047"
+            fillOpacity="0.6"
+            stroke="#2d5a27"
+            strokeWidth="0.5"
+            strokeOpacity="0.4"
+          />
+        </marker>
+        
+        {/* Bud marker for citations/quotes */}
+        <marker
+          id="bud"
+          markerWidth="6"
+          markerHeight="6"
+          refX="3"
+          refY="3"
+          orient="auto"
+        >
+          <circle cx="3" cy="3" r="2.5" fill="#8B4513" fillOpacity="0.7" />
+          <circle cx="3" cy="3" r="1.5" fill="#D4A574" fillOpacity="0.5" />
+        </marker>
+        
+        {/* Blossom marker for breakthrough moments */}
+        <marker
+          id="blossom"
+          markerWidth="12"
+          markerHeight="12"
+          refX="6"
+          refY="6"
+          orient="auto"
+        >
+          <circle cx="6" cy="6" r="5" fill="#FFD700" fillOpacity="0.8" />
+          <circle cx="6" cy="6" r="3" fill="#FFA500" fillOpacity="0.6" />
+          <circle cx="6" cy="6" r="1.5" fill="#FF6347" fillOpacity="0.8" />
+        </marker>
+      </defs>
+      
       {layout.edges?.map(edge => {
         const sourceNode = allCredentialNodes.find(n => n.id === edge.sources[0]);
         const targetNode = allCredentialNodes.find(n => n.id === edge.targets[0]);
@@ -619,52 +678,95 @@ export default function VineTree({
         const targetX = targetNode.x + (targetNode.width || 0) / 2;
         const targetY = targetNode.y + (targetNode.height || 0) / 2;
 
-        // Determine edge type from relation - style only, no labels
+        // Determine edge type from relation
         const relation = relations.find(r => r.id === edge.id);
         const isPartOf = relation?.relation_type === 'PART_OF';
         const isRecommended = relation?.relation_type === 'RECOMMENDED';
         const isCoreq = relation?.relation_type === 'COREQ';
         const isPrereq = relation?.relation_type === 'PREREQ';
         
-        // Visual encoding by edge type:
-        // PART_OF: thick green with arrow
-        // PREREQ: thin gray, subtle
-        // RECOMMENDED: dotted
-        // COREQ: dashed
-        const strokeWidth = isPartOf ? 3 : isPrereq ? 1.5 : 1;
-        const strokeColor = isPartOf ? '#2d5a27' : isPrereq ? '#888' : isRecommended ? '#999' : '#aaa';
-        const strokeDasharray = isRecommended ? '5,5' : isCoreq ? '3,3' : undefined;
-        const opacity = isPrereq ? 0.5 : 1; // Prereqs are more subtle
+        // Botanical rules: thicker trunk for main chronology (PART_OF), thinner tendrils for others
+        const baseStrokeWidth = isPartOf ? 5 : isPrereq ? 2 : isRecommended ? 1.5 : 1.5;
+        
+        // Add slight noise/variation for organic feel
+        const noise = (Math.random() - 0.5) * 0.3;
+        const strokeWidth = baseStrokeWidth * (1 + noise);
+        
+        // Calculate control points for Bézier curve
+        const dx = targetX - sourceX;
+        const dy = targetY - sourceY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Control points with organic curve (slight S-curve)
+        const curvature = Math.min(distance * 0.3, 80); // Max curve amount
+        const controlX1 = sourceX + dx * 0.3 + (Math.random() - 0.5) * 10; // Add noise
+        const controlY1 = sourceY + dy * 0.3 + curvature * (Math.random() - 0.5) * 0.5;
+        const controlX2 = sourceX + dx * 0.7 + (Math.random() - 0.5) * 10;
+        const controlY2 = sourceY + dy * 0.7 - curvature * (Math.random() - 0.5) * 0.5;
+        
+        // Bézier path
+        const pathData = `M ${sourceX} ${sourceY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${targetX} ${targetY}`;
+        
+        // Colors with botanical feel
+        const strokeColor = isPartOf 
+          ? '#2d5a27' // Dark green trunk
+          : isPrereq 
+          ? '#666' // Gray tendrils
+          : isRecommended 
+          ? '#8B7355' // Brownish for recommended
+          : '#888'; // Default gray
+        
+        const gradientId = isPartOf ? 'tendrilGradient' : 'prereqGradient';
+        const opacity = isPrereq ? 0.5 : isRecommended ? 0.6 : 0.8;
+        const strokeDasharray = isRecommended ? '4,3' : isCoreq ? '3,2' : undefined;
+        
+        // Determine if this is a branch point (multiple edges from source)
+        const branchCount = layout.edges?.filter(e => e.sources[0] === edge.sources[0]).length || 0;
+        const isBranchPoint = branchCount > 1;
+        
+        // Add decorative markers
+        let markers: string[] = [];
+        if (isPartOf) {
+          markers.push('url(#blossom)'); // Blossoms for PART_OF (breakthrough moments)
+        } else if (isBranchPoint) {
+          markers.push('url(#leaflet)'); // Leaflets at branch points
+        } else if (isRecommended) {
+          markers.push('url(#bud)'); // Buds for recommended paths
+        }
 
         return (
-          <line
-            key={edge.id}
-            x1={sourceX}
-            y1={sourceY}
-            x2={targetX}
-            y2={targetY}
-            stroke={strokeColor}
-            strokeWidth={strokeWidth}
-            strokeDasharray={strokeDasharray}
-            strokeOpacity={opacity}
-            markerEnd={isPartOf ? 'url(#arrowhead)' : undefined}
-          />
+          <g key={edge.id}>
+            {/* Main tendril path with gradient */}
+            <path
+              d={pathData}
+              stroke={`url(#${gradientId})`}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray={strokeDasharray}
+              strokeOpacity={opacity}
+              markerEnd={markers[0]}
+              style={{
+                filter: isPartOf ? 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' : 'none',
+              }}
+            />
+            
+            {/* Subtle highlight layer for depth */}
+            {isPartOf && (
+              <path
+                d={pathData}
+                stroke="#43A047"
+                strokeWidth={strokeWidth * 0.4}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeOpacity={0.3}
+              />
+            )}
+          </g>
         );
       })}
-
-      {/* Arrow marker for PART_OF edges */}
-      <defs>
-        <marker
-          id="arrowhead"
-          markerWidth="10"
-          markerHeight="10"
-          refX="9"
-          refY="3"
-          orient="auto"
-        >
-          <polygon points="0 0, 10 3, 0 6" fill="#2d5a27" />
-        </marker>
-      </defs>
 
       {/* Render nodes */}
       {allCredentialNodes.map(node => {

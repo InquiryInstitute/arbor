@@ -136,6 +136,8 @@ export default function CivilizationTree({
   const containerRef = useRef<SVGGElement>(null);
   const [layout, setLayout] = useState<ELKGraph | null>(null);
   const [loading, setLoading] = useState(true);
+  const [timeRange, setTimeRange] = useState<{ min: number; max: number } | null>(null);
+  const [longitudeRange, setLongitudeRange] = useState<{ min: number; max: number } | null>(null);
   
   // Pan/zoom state
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
@@ -146,9 +148,38 @@ export default function CivilizationTree({
 
   useEffect(() => {
     async function computeLayout() {
-      const elk = new ELK();
+      // Calculate time and longitude ranges
+      const nodesWithTime = allCivilizationNodes.filter(n => n.timeStart !== undefined);
+      const nodesWithLongitude = allCivilizationNodes.filter(n => n.longitude !== undefined);
       
-      // Create nodes with appropriate sizes based on type
+      if (nodesWithTime.length === 0 || nodesWithLongitude.length === 0) {
+        console.error('Missing time or longitude data');
+        setLoading(false);
+        return;
+      }
+      
+      const minTime = Math.min(...nodesWithTime.map(n => n.timeStart!));
+      const maxTime = Math.max(...nodesWithTime.map(n => n.timeEnd ?? n.timeStart!));
+      const minLongitude = Math.min(...nodesWithLongitude.map(n => n.longitude!));
+      const maxLongitude = Math.max(...nodesWithLongitude.map(n => n.longitude!));
+      
+      // Store ranges for axis rendering
+      setTimeRange({ min: minTime, max: maxTime });
+      setLongitudeRange({ min: minLongitude, max: maxLongitude });
+      
+      // Add padding to ranges
+      const timeRange = maxTime - minTime;
+      const longitudeRange = maxLongitude - minLongitude;
+      const timePadding = timeRange * 0.1;
+      const longitudePadding = longitudeRange * 0.15;
+      
+      // Map dimensions (leave space for nodes)
+      const mapWidth = width * 0.9;
+      const mapHeight = height * 0.9;
+      const mapStartX = width * 0.05;
+      const mapStartY = height * 0.05;
+      
+      // Create nodes with positions based on longitude (X) and time (Y)
       const elkNodes: ELKNode[] = allCivilizationNodes.map(node => {
         let nodeWidth = 180;
         let nodeHeight = 100;
@@ -161,12 +192,28 @@ export default function CivilizationTree({
           nodeHeight = 70;
         }
         
-        // Layer assignment: trunk at bottom (layer 0), then major vines, then cross-vines at top
-        let layer = 0;
-        if (node.type === 'vine') {
-          layer = 1;
-        } else if (node.type === 'cross-vine') {
-          layer = 2;
+        // Calculate position based on longitude and time
+        let x = mapStartX;
+        let y = mapStartY;
+        
+        if (node.longitude !== undefined) {
+          // Map longitude to X (left to right)
+          const normalizedLongitude = (node.longitude - minLongitude + longitudePadding) / (longitudeRange + 2 * longitudePadding);
+          x = mapStartX + normalizedLongitude * mapWidth - nodeWidth / 2;
+        } else {
+          // Center if no longitude
+          x = mapStartX + mapWidth / 2 - nodeWidth / 2;
+        }
+        
+        if (node.timeStart !== undefined) {
+          // Map time to Y (bottom to top - earlier times at bottom)
+          // Invert so earlier times are at bottom
+          const normalizedTime = (node.timeStart - minTime + timePadding) / (timeRange + 2 * timePadding);
+          // Invert: 1 - normalizedTime so earlier times (smaller values) are at bottom
+          y = mapStartY + (1 - normalizedTime) * mapHeight - nodeHeight / 2;
+        } else {
+          // Place at bottom if no time data
+          y = mapStartY + mapHeight - nodeHeight / 2;
         }
         
         return {
@@ -174,10 +221,8 @@ export default function CivilizationTree({
           labels: [{ text: node.name }],
           width: nodeWidth,
           height: nodeHeight,
-          layoutOptions: {
-            'elk.layered.layer': layer.toString(),
-            'elk.portAlignment.basic': 'JUSTIFIED',
-          },
+          x: x,
+          y: y,
         };
       });
 
@@ -189,33 +234,19 @@ export default function CivilizationTree({
         labels: rel.description ? [{ text: rel.description }] : undefined,
       }));
 
+      // Create a simple graph structure (no ELK layout needed since we're positioning manually)
       const graph: ELKGraph = {
         id: 'root',
         children: elkNodes,
         edges: elkEdges,
-        layoutOptions: {
-          'elk.algorithm': 'layered',
-          'elk.direction': 'UP', // Bottom to top (trunk at bottom)
-          'elk.spacing.nodeNode': '50',
-          'elk.layered.spacing.nodeNodeBetweenLayers': '150',
-          'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
-          'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-          'elk.layered.spacing.edgeNodeBetweenLayers': '60',
-        },
       };
 
-      try {
-        const layouted = await elk.layout(graph);
-        setLayout(layouted);
-        setLoading(false);
-      } catch (error) {
-        console.error('Layout computation failed:', error);
-        setLoading(false);
-      }
+      setLayout(graph);
+      setLoading(false);
     }
 
     computeLayout();
-  }, []);
+  }, [width, height]);
 
   // Calculate bounding box
   const getBoundingBox = useCallback(() => {
@@ -418,6 +449,100 @@ export default function CivilizationTree({
             </marker>
           ))}
         </defs>
+
+        {/* Time axis (left side) */}
+        {timeRange && (
+          <g style={{ pointerEvents: 'none' }}>
+            <line
+              x1={width * 0.05}
+              y1={height * 0.05}
+              x2={width * 0.05}
+              y2={height * 0.95}
+              stroke="#999"
+              strokeWidth={2}
+              strokeDasharray="5,5"
+              opacity={0.5}
+            />
+            {/* Time labels */}
+            {[0, 1, 2, 3, 4, 5].map(i => {
+              const timeValue = timeRange.min + (timeRange.max - timeRange.min) * (1 - i / 5);
+              const y = height * 0.05 + (height * 0.9) * (i / 5);
+              const label = timeValue < 0 
+                ? `${Math.abs(timeValue)} BCE` 
+                : timeValue === 0 
+                ? '1 CE' 
+                : `${timeValue} CE`;
+              
+              return (
+                <g key={i}>
+                  <line
+                    x1={width * 0.05 - 5}
+                    y1={y}
+                    x2={width * 0.05}
+                    y2={y}
+                    stroke="#999"
+                    strokeWidth={1}
+                    opacity={0.5}
+                  />
+                  <text
+                    x={width * 0.05 - 10}
+                    y={y + 4}
+                    fontSize={11}
+                    fill="#666"
+                    textAnchor="end"
+                    dominantBaseline="middle"
+                  >
+                    {label}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        )}
+
+        {/* Longitude axis (bottom) */}
+        {longitudeRange && (
+          <g style={{ pointerEvents: 'none' }}>
+            <line
+              x1={width * 0.05}
+              y1={height * 0.95}
+              x2={width * 0.95}
+              y2={height * 0.95}
+              stroke="#999"
+              strokeWidth={2}
+              strokeDasharray="5,5"
+              opacity={0.5}
+            />
+            {/* Longitude labels */}
+            {[0, 1, 2, 3, 4].map(i => {
+              const lonValue = longitudeRange.min + (longitudeRange.max - longitudeRange.min) * (i / 4);
+              const x = width * 0.05 + (width * 0.9) * (i / 4);
+              
+              return (
+                <g key={i}>
+                  <line
+                    x1={x}
+                    y1={height * 0.95}
+                    x2={x}
+                    y2={height * 0.95 + 5}
+                    stroke="#999"
+                    strokeWidth={1}
+                    opacity={0.5}
+                  />
+                  <text
+                    x={x}
+                    y={height * 0.95 + 20}
+                    fontSize={11}
+                    fill="#666"
+                    textAnchor="middle"
+                  >
+                    {lonValue > 0 ? `${lonValue.toFixed(0)}°E` : lonValue < 0 ? `${Math.abs(lonValue).toFixed(0)}°W` : '0°'}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        )}
 
         <g
           ref={containerRef}

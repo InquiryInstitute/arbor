@@ -82,27 +82,135 @@ class MITOCWScraper:
         """Fetch list of course URLs from MIT OCW."""
         print("Fetching course list from MIT OCW...")
         
+        course_links = set()
+        
+        # Try multiple approaches to find courses
+        approaches = [
+            self._fetch_from_sitemap,
+            self._fetch_from_courses_page,
+            self._fetch_from_search,
+        ]
+        
+        for approach in approaches:
+            try:
+                links = approach()
+                course_links.update(links)
+                if len(course_links) > 0:
+                    print(f"  Found {len(links)} courses via {approach.__name__}")
+            except Exception as e:
+                print(f"  {approach.__name__} failed: {e}")
+                continue
+        
+        course_links_list = sorted(list(course_links))
+        print(f"Total unique course URLs found: {len(course_links_list)}")
+        return course_links_list
+    
+    def _fetch_from_sitemap(self) -> List[str]:
+        """Try to fetch from sitemap."""
+        sitemap_urls = [
+            "https://ocw.mit.edu/sitemap.xml",
+            "https://ocw.mit.edu/courses/sitemap.xml",
+        ]
+        
+        course_links = []
+        for sitemap_url in sitemap_urls:
+            try:
+                print(f"    Trying sitemap: {sitemap_url}")
+                response = self.session.get(sitemap_url, timeout=30)
+                if response.status_code == 200:
+                    # Parse XML sitemap
+                    soup = BeautifulSoup(response.content, 'xml')
+                    for loc in soup.find_all('loc'):
+                        url = loc.text.strip()
+                        # MIT OCW course URLs: https://ocw.mit.edu/courses/SUBJECT-NUMBER-title/
+                        if '/courses/' in url:
+                            # Extract course path
+                            parts = url.split('/courses/')
+                            if len(parts) > 1:
+                                course_path = parts[1].rstrip('/')
+                                # Check if it matches course pattern (has numbers like 18-01 or 6.042)
+                                if re.search(r'\d+[-.]\d+', course_path):
+                                    course_links.append(url)
+            except Exception as e:
+                print(f"    Sitemap error: {e}")
+                continue
+        
+        return course_links
+    
+    def _fetch_from_courses_page(self) -> List[str]:
+        """Fetch from the main courses page."""
+        course_links = []
+        
         try:
             response = self.session.get(self.COURSES_URL, timeout=30)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
-            course_links = []
-            # Look for links to course pages
+            # MIT OCW course URLs follow pattern: /courses/SUBJECT-NUMBER-course-title/
+            # Look for all links that match this pattern
             for link in soup.find_all('a', href=True):
                 href = link['href']
-                # MIT OCW course URLs typically look like /courses/course-name/
-                if '/courses/' in href and href != '/courses/':
-                    full_url = urljoin(self.BASE_URL, href)
+                # Course URLs have format like: /courses/18-01-single-variable-calculus-fall-2006/
+                if '/courses/' in href:
+                    # Extract the path after /courses/
+                    path_parts = href.split('/courses/')
+                    if len(path_parts) > 1:
+                        course_path = path_parts[1].strip('/')
+                        # Check if it looks like a course (has numbers and dashes)
+                        if course_path and not course_path.startswith(('about', 'help', 'search', 'sitemap', '#')):
+                            # Check if it has the course number pattern (e.g., "18-01" or "6.042")
+                            if re.search(r'\d+[-.]\d+', course_path):
+                                full_url = urljoin(self.BASE_URL, href)
+                                if full_url not in course_links:
+                                    course_links.append(full_url)
+        except Exception as e:
+            print(f"Error in _fetch_from_courses_page: {e}")
+        
+        return course_links
+    
+    def _fetch_from_search(self) -> List[str]:
+        """Try to get courses by generating common course number patterns."""
+        course_links = []
+        
+        # MIT course numbers follow patterns like:
+        # - 18.01, 18.02 (Math)
+        # - 6.042, 6.006 (EECS)
+        # - etc.
+        
+        # Try common department prefixes
+        departments = {
+            '18': range(1, 100),  # Math
+            '6': range(1, 200),   # EECS
+            '8': range(1, 50),    # Physics
+            '7': range(1, 50),    # Biology
+            '5': range(1, 50),    # Chemistry
+            '14': range(1, 50),   # Economics
+            '21': range(1, 50),   # Humanities
+            '24': range(1, 50),   # Linguistics
+        }
+        
+        print("  Generating course URLs from common patterns...")
+        for dept, numbers in departments.items():
+            for num in numbers:
+                # Try different URL formats
+                course_num = f"{dept}.{num:02d}"
+                # MIT OCW URLs use dashes: 18-01 not 18.01
+                url_num = course_num.replace('.', '-')
+                
+                # Try common URL patterns
+                patterns = [
+                    f"/courses/{url_num}-",
+                    f"/courses/{dept}-{num:02d}-",
+                ]
+                
+                for pattern in patterns:
+                    # We can't actually verify these exist without fetching,
+                    # but we'll let fetch_course_page handle 404s
+                    full_url = urljoin(self.BASE_URL, pattern)
                     if full_url not in course_links:
                         course_links.append(full_url)
-            
-            print(f"Found {len(course_links)} potential course pages")
-            return course_links[:100]  # Limit for initial testing
-            
-        except Exception as e:
-            print(f"Error fetching course list: {e}")
-            return []
+        
+        return course_links[:5000]  # Limit to avoid too many requests
 
     def fetch_course_page(self, url: str) -> Optional[Course]:
         """Fetch and parse a single course page."""
@@ -229,7 +337,7 @@ class MITOCWScraper:
             }
         }
 
-    def run(self, max_courses: int = 50):
+    def run(self, max_courses: int = None):
         """Main execution: fetch courses and build graph."""
         print("Starting MIT OCW course graph builder...")
         
@@ -241,9 +349,12 @@ class MITOCWScraper:
             self._add_sample_courses()
         else:
             # Fetch individual courses
-            print(f"\nFetching up to {max_courses} courses...")
-            for i, url in enumerate(course_urls[:max_courses], 1):
-                print(f"  [{i}/{min(max_courses, len(course_urls))}] Fetching {url}...")
+            total_courses = len(course_urls) if max_courses is None else min(max_courses, len(course_urls))
+            print(f"\nFetching {total_courses} courses...")
+            
+            for i, url in enumerate(course_urls[:total_courses] if max_courses else course_urls, 1):
+                if i % 10 == 0:
+                    print(f"  Progress: {i}/{total_courses} courses processed...")
                 course = self.fetch_course_page(url)
                 if course:
                     self.courses[course.course_id] = course
