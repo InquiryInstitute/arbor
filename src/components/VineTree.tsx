@@ -24,106 +24,53 @@ export default function VineTree({
     async function computeLayout() {
       const elk = new ELK();
       
-      // Group credentials by level_band, then by college
-      const byLevel = new Map<string, Map<string, Credential[]>>();
-      credentials.forEach(cred => {
-        if (!byLevel.has(cred.level_band)) {
-          byLevel.set(cred.level_band, new Map());
-        }
-        const byCollege = byLevel.get(cred.level_band)!;
-        if (!byCollege.has(cred.college_primary)) {
-          byCollege.set(cred.college_primary, []);
-        }
-        byCollege.get(cred.college_primary)!.push(cred);
-      });
-
-      // Create hierarchical structure: root -> levels -> colleges -> credentials
-      const levelNodes: ELKNode[] = [];
-      const allEdges: ELKEdge[] = [];
+      // Level order for layer assignment
+      const levelOrder = ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'];
       const collegeOrder = ['HUM', 'MATH', 'NAT', 'AINS', 'SOC', 'ELA', 'ARTS', 'HEAL', 'CEF', 'META'];
       
-      // Sort levels from bottom to top
-      const levelOrder = ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD', 'Faculty'];
-      const sortedLevels = Array.from(byLevel.entries()).sort((a, b) => {
-        const idxA = levelOrder.indexOf(a[0]);
-        const idxB = levelOrder.indexOf(b[0]);
-        return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
-      });
-
-      sortedLevels.forEach(([levelBand, byCollege]) => {
-        const collegeNodes: ELKNode[] = [];
+      // Create flat list of credential nodes with layer hints
+      const elkNodes: ELKNode[] = credentials.map(cred => {
+        const levelIndex = levelOrder.indexOf(cred.level_band);
+        const collegeIndex = collegeOrder.indexOf(cred.college_primary);
         
-        // Sort colleges by defined order
-        const sortedColleges = Array.from(byCollege.entries()).sort((a, b) => {
-          const idxA = collegeOrder.indexOf(a[0]);
-          const idxB = collegeOrder.indexOf(b[0]);
-          return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
-        });
-
-        sortedColleges.forEach(([college, creds]) => {
-          const credentialNodes: ELKNode[] = creds.map(cred => ({
-            id: cred.id,
-            labels: [{ text: cred.title }],
-            width: cred.cadence === 'seasonal' ? 200 : 150,
-            height: cred.cadence === 'seasonal' ? 80 : 60,
-          }));
-
-          // Create college container node
-          const collegeNode: ELKNode = {
-            id: `${levelBand}-${college}`,
-            labels: [{ text: college }],
-            children: credentialNodes,
-            width: 0, // Will be calculated
-            height: 0, // Will be calculated
-            layoutOptions: {
-              'elk.padding': '[top=10,left=10,bottom=10,right=10]',
-              'elk.spacing.nodeNode': '20',
-            },
-          };
-          collegeNodes.push(collegeNode);
-        });
-
-        // Create level container node
-        const levelNode: ELKNode = {
-          id: `level-${levelBand}`,
-          labels: [{ text: levelBand }],
-          children: collegeNodes,
-          width: 0,
-          height: 0,
+        return {
+          id: cred.id,
+          labels: [{ text: cred.title }],
+          width: cred.cadence === 'seasonal' ? 200 : 150,
+          height: cred.cadence === 'seasonal' ? 80 : 60,
           layoutOptions: {
-            'elk.padding': '[top=20,left=20,bottom=20,right=20]',
-            'elk.spacing.nodeNode': '40',
-            'elk.direction': 'RIGHT', // Colleges side by side
+            'elk.layered.layer': levelIndex >= 0 ? levelIndex.toString() : undefined,
+            'elk.portAlignment.basic': 'JUSTIFIED',
+            // Use priority to help with horizontal ordering within layer
+            'elk.priority': collegeIndex >= 0 ? collegeIndex.toString() : undefined,
           },
         };
-        levelNodes.push(levelNode);
       });
 
-      // Convert relations to edges (using full paths)
-      relations.forEach(rel => {
-        allEdges.push({
-          id: rel.id,
-          sources: [rel.from_credential_id],
-          targets: [rel.to_credential_id],
-          labels: rel.relation_type === 'PART_OF' 
-            ? [{ text: 'PART_OF' }] 
-            : rel.relation_type === 'PREREQ'
-            ? [{ text: 'PREREQ' }]
-            : undefined,
-        });
-      });
+      // Convert relations to edges
+      const elkEdges: ELKEdge[] = relations.map(rel => ({
+        id: rel.id,
+        sources: [rel.from_credential_id],
+        targets: [rel.to_credential_id],
+        labels: rel.relation_type === 'PART_OF' 
+          ? [{ text: 'PART_OF' }] 
+          : rel.relation_type === 'PREREQ'
+          ? [{ text: 'PREREQ' }]
+          : undefined,
+      }));
 
       const graph: ELKGraph = {
         id: 'root',
-        children: levelNodes,
-        edges: allEdges,
+        children: elkNodes,
+        edges: elkEdges,
         layoutOptions: {
           'elk.algorithm': 'layered',
           'elk.direction': 'UP', // Bottom to top
-          'elk.spacing.nodeNode': '100',
-          'elk.layered.spacing.nodeNodeBetweenLayers': '150',
+          'elk.spacing.nodeNode': '40',
+          'elk.layered.spacing.nodeNodeBetweenLayers': '120',
           'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
           'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+          'elk.layered.spacing.edgeNodeBetweenLayers': '40',
         },
       };
 
@@ -140,34 +87,6 @@ export default function VineTree({
     computeLayout();
   }, [credentials, relations]);
 
-  // Helper to recursively find a node by ID in the hierarchy
-  const findNode = (node: ELKNode, id: string): ELKNode | null => {
-    if (node.id === id) return node;
-    if (node.children) {
-      for (const child of node.children) {
-        const found = findNode(child, id);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-
-  // Flatten all credential nodes for rendering
-  const flattenNodes = (nodes: ELKNode[] | undefined): ELKNode[] => {
-    if (!nodes) return [];
-    const result: ELKNode[] = [];
-    const traverse = (node: ELKNode) => {
-      // Only include leaf nodes (credentials), not container nodes
-      if (!node.children || node.children.length === 0) {
-        result.push(node);
-      } else {
-        node.children.forEach(traverse);
-      }
-    };
-    nodes.forEach(traverse);
-    return result;
-  };
-
   if (loading || !layout) {
     return (
       <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -176,7 +95,7 @@ export default function VineTree({
     );
   }
 
-  const allCredentialNodes = flattenNodes(layout.children);
+  const allCredentialNodes = layout.children || [];
 
   return (
     <svg
@@ -187,12 +106,8 @@ export default function VineTree({
     >
       {/* Render edges first (so they appear behind nodes) */}
       {layout.edges?.map(edge => {
-        const sourceNode = layout.children ? 
-          (findNode({ id: 'root', children: layout.children } as ELKNode, edge.sources[0]) || 
-           allCredentialNodes.find(n => n.id === edge.sources[0])) : null;
-        const targetNode = layout.children ?
-          (findNode({ id: 'root', children: layout.children } as ELKNode, edge.targets[0]) ||
-           allCredentialNodes.find(n => n.id === edge.targets[0])) : null;
+        const sourceNode = allCredentialNodes.find(n => n.id === edge.sources[0]);
+        const targetNode = allCredentialNodes.find(n => n.id === edge.targets[0]);
         
         if (!sourceNode || !targetNode || !sourceNode.x || !sourceNode.y || !targetNode.x || !targetNode.y) {
           return null;
