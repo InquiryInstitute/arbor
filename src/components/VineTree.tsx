@@ -686,8 +686,8 @@ export default function VineTree({
         const isPrereq = relation?.relation_type === 'PREREQ';
         
         // Botanical rules: thicker trunk for main chronology (PART_OF), thinner tendrils for others
-        // Made thicker for visibility when zoomed out
-        const baseStrokeWidth = isPartOf ? 12 : isPrereq ? 6 : isRecommended ? 4 : 4;
+        // Made much thicker for visibility when zoomed out
+        const baseStrokeWidth = isPartOf ? 20 : isPrereq ? 12 : isRecommended ? 8 : 8;
         
         // Deterministic noise based on edge ID for consistent rendering
         const hash = edge.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);

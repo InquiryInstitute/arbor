@@ -12999,6 +12999,1758 @@
   ],
   "edges": [
     {
+      "source": "18.01",
+      "target": "1.00",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "1.017",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "1.017",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "1.022",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "1.061",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "1.204",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "1.63",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.01",
+      "target": "10.01",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.40",
+      "target": "10.40",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.445",
+      "target": "10.445",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.302",
+      "target": "10.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.450",
+      "target": "10.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "10.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.32",
+      "target": "10.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.37",
+      "target": "10.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.490",
+      "target": "10.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.490",
+      "target": "10.491",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.491",
+      "target": "10.491",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.569",
+      "target": "10.569",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "10.571",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.626",
+      "target": "10.626",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.005",
+      "target": "11.005",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.006",
+      "target": "11.006",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.027",
+      "target": "11.027",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.123",
+      "target": "11.123",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.124",
+      "target": "11.124",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.125",
+      "target": "11.125",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "11.126",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "11.126",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.124",
+      "target": "11.129",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.129",
+      "target": "11.129",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.129",
+      "target": "11.131",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.131",
+      "target": "11.131",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.139",
+      "target": "11.139",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.164",
+      "target": "11.164",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.166",
+      "target": "11.166",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.201",
+      "target": "11.201",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.202",
+      "target": "11.202",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.203",
+      "target": "11.202",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.202",
+      "target": "11.203",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.203",
+      "target": "11.203",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.205",
+      "target": "11.205",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.520",
+      "target": "11.205",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.255",
+      "target": "11.255",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.312",
+      "target": "11.312",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.333",
+      "target": "11.333",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.350",
+      "target": "11.350",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.360",
+      "target": "11.360",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.362",
+      "target": "11.362",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.370",
+      "target": "11.362",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.368",
+      "target": "11.368",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.382",
+      "target": "11.382",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.384",
+      "target": "11.384",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.401",
+      "target": "11.401",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.409",
+      "target": "11.409",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.437",
+      "target": "11.437",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.438",
+      "target": "11.438",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.401",
+      "target": "11.439",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.439",
+      "target": "11.439",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.493",
+      "target": "11.467",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.469",
+      "target": "11.469",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.471",
+      "target": "11.471",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.701",
+      "target": "11.471",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.483",
+      "target": "11.483",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.488",
+      "target": "11.488",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.204",
+      "target": "11.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.220",
+      "target": "11.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.520",
+      "target": "11.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.204",
+      "target": "11.521",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.208",
+      "target": "11.521",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.220",
+      "target": "11.521",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.520",
+      "target": "11.521",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.521",
+      "target": "11.521",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.204",
+      "target": "11.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.520",
+      "target": "11.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.521",
+      "target": "11.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.522",
+      "target": "11.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.601",
+      "target": "11.601",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.800",
+      "target": "11.800",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.953",
+      "target": "11.953",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.975",
+      "target": "11.975",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.003",
+      "target": "12.003",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "12.003",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.005",
+      "target": "12.005",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "12.005",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.005",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.006",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.007",
+      "target": "12.007",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.010",
+      "target": "12.010",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "12.010",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.022",
+      "target": "12.010",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.085",
+      "target": "12.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.103",
+      "target": "12.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.086",
+      "target": "12.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.090",
+      "target": "12.090",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.091",
+      "target": "12.091",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.103",
+      "target": "12.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.108",
+      "target": "12.108",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.108",
+      "target": "12.109",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.109",
+      "target": "12.109",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.001",
+      "target": "12.110",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.110",
+      "target": "12.110",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.001",
+      "target": "12.113",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.005",
+      "target": "12.113",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.113",
+      "target": "12.113",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.114",
+      "target": "12.113",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.108",
+      "target": "12.114",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.113",
+      "target": "12.114",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.114",
+      "target": "12.114",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.119",
+      "target": "12.119",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.141",
+      "target": "12.141",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.158",
+      "target": "12.158",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.001",
+      "target": "12.163",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.163",
+      "target": "12.163",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.163",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.201",
+      "target": "12.201",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.201",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.335",
+      "target": "12.335",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.425",
+      "target": "12.425",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "12.425",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.445",
+      "target": "12.445",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.453",
+      "target": "12.453",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.472",
+      "target": "12.472",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "12.472",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.479",
+      "target": "12.479",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.108",
+      "target": "12.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.109",
+      "target": "12.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.490",
+      "target": "12.490",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.491",
+      "target": "12.491",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.510",
+      "target": "12.510",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "12.510",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "12.510",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.517",
+      "target": "12.517",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.517",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.005",
+      "target": "12.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.520",
+      "target": "12.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "12.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "12.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.524",
+      "target": "12.524",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.524",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.510",
+      "target": "12.571",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.571",
+      "target": "12.571",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "12.571",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "12.571",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.581",
+      "target": "12.581",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.744",
+      "target": "12.744",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.757",
+      "target": "12.757",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.759",
+      "target": "12.759",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "12.803",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.803",
+      "target": "12.803",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "12.804",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.803",
+      "target": "12.804",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.804",
+      "target": "12.804",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "12.810",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.810",
+      "target": "12.810",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.803",
+      "target": "12.811",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.810",
+      "target": "12.811",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.811",
+      "target": "12.811",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.803",
+      "target": "12.812",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.810",
+      "target": "12.812",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.812",
+      "target": "12.812",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.815",
+      "target": "12.815",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "12.815",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "12.820",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.820",
+      "target": "12.820",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.842",
+      "target": "12.842",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "12.842",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.864",
+      "target": "12.864",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "12.864",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "12.864",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.086",
+      "target": "12.864",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.950",
+      "target": "12.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.02",
+      "target": "14.02",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.003",
+      "target": "14.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.03",
+      "target": "14.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.02",
+      "target": "14.05",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.05",
+      "target": "14.05",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.02",
+      "target": "14.09",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.09",
+      "target": "14.09",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "14.09",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.12",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.03",
+      "target": "14.12",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.12",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.12",
+      "target": "14.12",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.121",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.121",
+      "target": "14.121",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.121",
+      "target": "14.123",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.122",
+      "target": "14.123",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.123",
+      "target": "14.123",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.123",
+      "target": "14.124",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.124",
+      "target": "14.124",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.122",
+      "target": "14.126",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.126",
+      "target": "14.126",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.13",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.13",
+      "target": "14.13",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.15",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.16",
+      "target": "14.16",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.27",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.27",
+      "target": "14.27",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.27",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.271",
+      "target": "14.271",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.121",
+      "target": "14.282",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.124",
+      "target": "14.282",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.282",
+      "target": "14.282",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.30",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.32",
+      "target": "14.30",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "14.30",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "14.30",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.32",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.32",
+      "target": "14.32",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.381",
+      "target": "14.381",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "14.381",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.381",
+      "target": "14.382",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.382",
+      "target": "14.382",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.382",
+      "target": "14.384",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.384",
+      "target": "14.384",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.382",
+      "target": "14.385",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.385",
+      "target": "14.385",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.382",
+      "target": "14.387",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.387",
+      "target": "14.387",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.41",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.41",
+      "target": "14.41",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.44",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.44",
+      "target": "14.44",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.451",
+      "target": "14.451",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.461",
+      "target": "14.451",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.122",
+      "target": "14.461",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.452",
+      "target": "14.461",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.461",
+      "target": "14.461",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.122",
+      "target": "14.462",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.452",
+      "target": "14.462",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.461",
+      "target": "14.462",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.462",
+      "target": "14.462",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.471",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.471",
+      "target": "14.471",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.472",
+      "target": "14.471",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.02",
+      "target": "14.54",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.54",
+      "target": "14.54",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.581",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.581",
+      "target": "14.581",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.64",
+      "target": "14.64",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.661",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.32",
+      "target": "14.661",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.661",
+      "target": "14.661",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.64",
+      "target": "14.662",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.662",
+      "target": "14.662",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.660",
+      "target": "14.662",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.71",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.02",
+      "target": "14.71",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.05",
+      "target": "14.71",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.71",
+      "target": "14.71",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.72",
+      "target": "14.72",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.73",
+      "target": "14.73",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.04",
+      "target": "14.731",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.06",
+      "target": "14.731",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.731",
+      "target": "14.731",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.74",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.74",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.74",
+      "target": "14.74",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "14.75",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.30",
+      "target": "14.75",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.32",
+      "target": "14.75",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.75",
+      "target": "14.75",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.770",
+      "target": "14.770",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.121",
+      "target": "14.771",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.122",
+      "target": "14.771",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.771",
+      "target": "14.771",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.121",
+      "target": "14.772",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.382",
+      "target": "14.772",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.451",
+      "target": "14.772",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.772",
+      "target": "14.772",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.012",
+      "target": "15.012",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.014",
+      "target": "15.012",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.012",
+      "target": "15.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.014",
+      "target": "15.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.015",
+      "target": "15.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "15.025",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.010",
+      "target": "15.025",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.015",
+      "target": "15.025",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.025",
+      "target": "15.025",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "15.031",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.010",
+      "target": "15.040",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.040",
+      "target": "15.040",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "15.070",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.060",
+      "target": "15.071",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.071",
+      "target": "15.071",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "15.075",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.097",
+      "target": "15.097",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.098",
+      "target": "15.098",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.220",
+      "target": "15.220",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
       "source": "15.012",
       "target": "15.225",
       "type": "prerequisite",
@@ -13011,15 +14763,3507 @@
       "label": "prerequisite"
     },
     {
+      "source": "15.225",
+      "target": "15.225",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.228",
+      "target": "15.228",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.229",
+      "target": "15.229",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.232",
+      "target": "15.232",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.965",
+      "target": "15.232",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.270",
+      "target": "15.270",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.280",
+      "target": "15.280",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.279",
+      "target": "15.281",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.280",
+      "target": "15.281",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.281",
+      "target": "15.281",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
       "source": "15.322",
       "target": "15.322",
       "type": "prerequisite",
       "label": "prerequisite"
+    },
+    {
+      "source": "15.361",
+      "target": "15.361",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.310",
+      "target": "15.369",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.311",
+      "target": "15.369",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.369",
+      "target": "15.369",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.371",
+      "target": "15.371",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.395",
+      "target": "15.395",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.401",
+      "target": "15.402",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.402",
+      "target": "15.402",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.401",
+      "target": "15.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.450",
+      "target": "15.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.401",
+      "target": "15.483",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.414",
+      "target": "15.483",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.483",
+      "target": "15.483",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.514",
+      "target": "15.514",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.515",
+      "target": "15.515",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.564",
+      "target": "15.564",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.566",
+      "target": "15.566",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.615",
+      "target": "15.615",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.649",
+      "target": "15.649",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.665",
+      "target": "15.665",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.060",
+      "target": "15.761",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.761",
+      "target": "15.761",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.760",
+      "target": "15.762",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.761",
+      "target": "15.762",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.760",
+      "target": "15.768",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.761",
+      "target": "15.768",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.768",
+      "target": "15.768",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.071",
+      "target": "15.773",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.072",
+      "target": "15.773",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.773",
+      "target": "15.773",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.871",
+      "target": "15.871",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.872",
+      "target": "15.871",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.871",
+      "target": "15.872",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.872",
+      "target": "15.872",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.871",
+      "target": "15.879",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.872",
+      "target": "15.879",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.879",
+      "target": "15.879",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.902",
+      "target": "15.904",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.904",
+      "target": "15.904",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.968",
+      "target": "15.968",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.974",
+      "target": "15.974",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.996",
+      "target": "15.996",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.997",
+      "target": "15.997",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.00",
+      "target": "16.00",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "16.00",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.121",
+      "target": "16.121",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "16.121",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.21",
+      "target": "16.21",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.225",
+      "target": "16.225",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.30",
+      "target": "16.30",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.06",
+      "target": "16.322",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.322",
+      "target": "16.322",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.323",
+      "target": "16.323",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.001",
+      "target": "16.36",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.36",
+      "target": "16.36",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.410",
+      "target": "16.410",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.459",
+      "target": "16.459",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.485",
+      "target": "16.485",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "16.485",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.50",
+      "target": "16.50",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.50",
+      "target": "16.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.522",
+      "target": "16.522",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.55",
+      "target": "16.55",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.687",
+      "target": "16.687",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.810",
+      "target": "16.810",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.812",
+      "target": "16.812",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.885",
+      "target": "16.886",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.886",
+      "target": "16.886",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.89",
+      "target": "16.892",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "16.920",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "16.920",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.982",
+      "target": "16.982",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.200",
+      "target": "17.200",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.202",
+      "target": "17.202",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.20",
+      "target": "17.251",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.251",
+      "target": "17.251",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.20",
+      "target": "17.271",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.271",
+      "target": "17.271",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.40",
+      "target": "17.40",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.407",
+      "target": "17.407",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.408",
+      "target": "17.408",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.41",
+      "target": "17.41",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.418",
+      "target": "17.418",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.42",
+      "target": "17.42",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.433",
+      "target": "17.433",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.441",
+      "target": "17.441",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.445",
+      "target": "17.445",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.447",
+      "target": "17.447",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.46",
+      "target": "17.46",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.473",
+      "target": "17.473",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.478",
+      "target": "17.478",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.480",
+      "target": "17.480",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.482",
+      "target": "17.482",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.50",
+      "target": "17.50",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.537",
+      "target": "17.537",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.561",
+      "target": "17.561",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.565",
+      "target": "17.565",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.581",
+      "target": "17.581",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.582",
+      "target": "17.582",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.588",
+      "target": "17.588",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.801",
+      "target": "17.801",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.871",
+      "target": "17.801",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.810",
+      "target": "17.810",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.32",
+      "target": "17.871",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.801",
+      "target": "17.871",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.871",
+      "target": "17.871",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "17.953",
+      "target": "17.953",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.01",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.013",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.014",
+      "target": "18.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.024",
+      "target": "18.014",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.02",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.02",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.022",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.022",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.022",
+      "target": "18.022",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.024",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.024",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.024",
+      "target": "18.024",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.014",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.022",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.024",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "18.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.05",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "18.05",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.06",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.06",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.065",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.065",
+      "target": "18.065",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.075",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "18.075",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.022",
+      "target": "18.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "18.085",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "18.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.086",
+      "target": "18.086",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.100",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.100",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.100",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.100",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.101",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.101",
+      "target": "18.101",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.101",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.101",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.102",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.102",
+      "target": "18.102",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.102",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.102",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.103",
+      "target": "18.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.103",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.104",
+      "target": "18.104",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.112",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.117",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.117",
+      "target": "18.117",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.965",
+      "target": "18.117",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.125",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.125",
+      "target": "18.125",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.152",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.152",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.152",
+      "target": "18.152",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.152",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.152",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.103",
+      "target": "18.155",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.155",
+      "target": "18.155",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.155",
+      "target": "18.156",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.156",
+      "target": "18.156",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.175",
+      "target": "18.175",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.175",
+      "target": "18.177",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.177",
+      "target": "18.177",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.200",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.200",
+      "target": "18.200",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.212",
+      "target": "18.212",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.212",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.212",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.218",
+      "target": "18.218",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.225",
+      "target": "18.225",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.225",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.225",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.226",
+      "target": "18.226",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.600",
+      "target": "18.226",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.238",
+      "target": "18.238",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.303",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.303",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "18.303",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.303",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.303",
+      "target": "18.303",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.304",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.304",
+      "target": "18.304",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.310",
+      "target": "18.304",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.304",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.304",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "18.305",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "18.305",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.305",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.305",
+      "target": "18.305",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.306",
+      "target": "18.306",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "18.307",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "18.307",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.307",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.307",
+      "target": "18.307",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.310",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.310",
+      "target": "18.310",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.311",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.311",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.311",
+      "target": "18.311",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.314",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.314",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.314",
+      "target": "18.314",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.314",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.315",
+      "target": "18.315",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.318",
+      "target": "18.318",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.318",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.318",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.319",
+      "target": "18.319",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.325",
+      "target": "18.325",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.327",
+      "target": "18.327",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.303",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.330",
+      "target": "18.330",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.335",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.335",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.330",
+      "target": "18.336",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.336",
+      "target": "18.336",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.337",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.337",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.338",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.353",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.354",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.354",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "18.357",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.357",
+      "target": "18.357",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.305",
+      "target": "18.366",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.366",
+      "target": "18.366",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.305",
+      "target": "18.369",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.369",
+      "target": "18.369",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.385",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.200",
+      "target": "18.404",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.408",
+      "target": "18.408",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.409",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.409",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.409",
+      "target": "18.409",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.417",
+      "target": "18.417",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.433",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.433",
+      "target": "18.433",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.433",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "18.440",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "18.443",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.443",
+      "target": "18.443",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.650",
+      "target": "18.443",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "18.445",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.445",
+      "target": "18.445",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.175",
+      "target": "18.465",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.465",
+      "target": "18.465",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.600",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "18.600",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.600",
+      "target": "18.600",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.642",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "18.642",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.642",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.600",
+      "target": "18.642",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.642",
+      "target": "18.642",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "18.650",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.650",
+      "target": "18.650",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.655",
+      "target": "18.655",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "18.657",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.657",
+      "target": "18.657",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.700",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.700",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.700",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.701",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.701",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.701",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.702",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.702",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.703",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.703",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.703",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.704",
+      "target": "18.704",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.705",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.705",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.705",
+      "target": "18.705",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.706",
+      "target": "18.706",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.712",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.712",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.712",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.712",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.712",
+      "target": "18.712",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.705",
+      "target": "18.725",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.725",
+      "target": "18.725",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.705",
+      "target": "18.726",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.725",
+      "target": "18.726",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.726",
+      "target": "18.726",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.905",
+      "target": "18.726",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.725",
+      "target": "18.727",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.727",
+      "target": "18.727",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.745",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.745",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.745",
+      "target": "18.745",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.755",
+      "target": "18.745",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.755",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.755",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.745",
+      "target": "18.755",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.755",
+      "target": "18.755",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.745",
+      "target": "18.757",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.755",
+      "target": "18.757",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.757",
+      "target": "18.757",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.769",
+      "target": "18.769",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.781",
+      "target": "18.781",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.782",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.782",
+      "target": "18.782",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.783",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.783",
+      "target": "18.783",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.785",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.785",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.785",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.705",
+      "target": "18.785",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.785",
+      "target": "18.785",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.786",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.786",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.781",
+      "target": "18.786",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.786",
+      "target": "18.786",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.900",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.900",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.900",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.900",
+      "target": "18.900",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.901",
+      "target": "18.901",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.901",
+      "target": "18.904",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.904",
+      "target": "18.904",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.905",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.703",
+      "target": "18.905",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.901",
+      "target": "18.905",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.905",
+      "target": "18.905",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.905",
+      "target": "18.906",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.906",
+      "target": "18.906",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.906",
+      "target": "18.915",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.915",
+      "target": "18.915",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.906",
+      "target": "18.917",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.917",
+      "target": "18.917",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "18.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "18.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.950",
+      "target": "18.950",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.101",
+      "target": "18.965",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.905",
+      "target": "18.965",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.965",
+      "target": "18.965",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.965",
+      "target": "18.966",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.966",
+      "target": "18.966",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.433",
+      "target": "18.997",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.997",
+      "target": "18.997",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "2.001",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.001",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "13.013J",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "2.011",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "13.012",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "2.035",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.035",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.04",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "2.062",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "13.811",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "2.171",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.18",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "2.25",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.085",
+      "target": "2.25",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "2.29",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.302",
+      "target": "2.58",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.71",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.06",
+      "target": "2.737",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.075",
+      "target": "2.830",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "2.852",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "14.01",
+      "target": "2.964",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.001",
+      "target": "13.002J",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "13.002J",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "20.011",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "20.109",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.109",
+      "target": "20.109",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.180",
+      "target": "20.181",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.181",
+      "target": "20.181",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.201",
+      "target": "20.201",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "20.309",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.309",
+      "target": "20.309",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "20.320",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.110",
+      "target": "20.320",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.320",
+      "target": "20.320",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.309",
+      "target": "20.380",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.320",
+      "target": "20.380",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.380",
+      "target": "20.380",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.302",
+      "target": "20.430",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.442",
+      "target": "20.442",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.440",
+      "target": "20.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "20.450",
+      "target": "20.450",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.01",
+      "target": "22.01",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.011",
+      "target": "22.011",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.033",
+      "target": "22.033",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.312",
+      "target": "22.033",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "22.058",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.058",
+      "target": "22.058",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "12.010",
+      "target": "22.15",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.15",
+      "target": "22.15",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.05",
+      "target": "22.312",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.06",
+      "target": "22.312",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.312",
+      "target": "22.312",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "10.302",
+      "target": "22.313",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.312",
+      "target": "22.313",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.312",
+      "target": "22.39",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.39",
+      "target": "22.39",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "22.611",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "22.611",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.615",
+      "target": "22.615",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.615",
+      "target": "22.616",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.616",
+      "target": "22.616",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.101",
+      "target": "22.903",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.51",
+      "target": "22.903",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "22.903",
+      "target": "22.903",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.00",
+      "target": "24.00",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.01",
+      "target": "24.01",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.03",
+      "target": "24.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.09",
+      "target": "24.09",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.118",
+      "target": "24.118",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.120",
+      "target": "24.120",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.131",
+      "target": "24.131",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.191",
+      "target": "24.191",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.211",
+      "target": "24.211",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.220",
+      "target": "24.220",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.222",
+      "target": "24.222",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.230",
+      "target": "24.230",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.231",
+      "target": "24.231",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.236",
+      "target": "24.236",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.241",
+      "target": "24.244",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.244",
+      "target": "24.244",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.251",
+      "target": "24.251",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.900",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.901",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.901",
+      "target": "24.901",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.902",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.902",
+      "target": "24.902",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.903",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.903",
+      "target": "24.903",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.904",
+      "target": "24.904",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.906",
+      "target": "24.906",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.910",
+      "target": "24.910",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.912",
+      "target": "24.912",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.914",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.914",
+      "target": "24.914",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "24.915",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.915",
+      "target": "24.915",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.917",
+      "target": "24.917",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.947",
+      "target": "24.947",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.949",
+      "target": "24.949",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.951",
+      "target": "24.949",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.952",
+      "target": "24.949",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.973",
+      "target": "24.949",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.951",
+      "target": "24.952",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.952",
+      "target": "24.952",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.954",
+      "target": "24.954",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.973",
+      "target": "24.954",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.961",
+      "target": "24.961",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.962",
+      "target": "24.961",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.964",
+      "target": "24.961",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.961",
+      "target": "24.962",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.962",
+      "target": "24.962",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.961",
+      "target": "24.964",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.962",
+      "target": "24.964",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.964",
+      "target": "24.964",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.954",
+      "target": "24.973",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.973",
+      "target": "24.973",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.979",
+      "target": "24.979",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "3.00",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "3.020",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "3.021",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "3.052",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "4.42",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "5.61",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.075",
+      "target": "5.72",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "5.73",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "6.02",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "6.034",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "6.041",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "6.041",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "6.042",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "6.055",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "6.1200",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.200",
+      "target": "6.1200",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "16.30",
+      "target": "6.245",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.253",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "6.253",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.100",
+      "target": "6.254",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "6.263",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.04",
+      "target": "6.302",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "6.336",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.336",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.432",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "6.436",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.438",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.453",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.435",
+      "target": "6.845",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.854",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "6.854",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "15.093",
+      "target": "6.972",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "6.972",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.700",
+      "target": "6.972",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.440",
+      "target": "7.91",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "8.033",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "8.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "8.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "8.03",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "8.044",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "8.07",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "8.20",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "8.21",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "8.21",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "8.223",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "8.286",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "8.591",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "8.591",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "8.962",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "8.962",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "9.520",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.417",
+      "target": "9.530",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "9.56",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "9.57",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "24.900",
+      "target": "9.59",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "18.05",
+      "target": "9.66",
+      "type": "prerequisite",
+      "label": "prerequisite"
+    },
+    {
+      "source": "11.124",
+      "target": "11.129",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "11.129",
+      "target": "11.129",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.108",
+      "target": "12.114",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.113",
+      "target": "12.114",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.114",
+      "target": "12.114",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.800",
+      "target": "12.804",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.803",
+      "target": "12.804",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "12.804",
+      "target": "12.804",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.01",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.014",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.022",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.024",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.034",
+      "target": "18.034",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.06",
+      "target": "18.200",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.200",
+      "target": "18.200",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.112",
+      "target": "18.785",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.701",
+      "target": "18.785",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.702",
+      "target": "18.785",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.705",
+      "target": "18.785",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.785",
+      "target": "18.785",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.02",
+      "target": "2.001",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.001",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "2.04",
+      "type": "corequisite",
+      "label": "corequisite"
+    },
+    {
+      "source": "18.03",
+      "target": "3.020",
+      "type": "corequisite",
+      "label": "corequisite"
     }
   ],
   "metadata": {
     "total_courses": 1444,
-    "total_prerequisites": 5,
-    "total_corequisites": 0
+    "total_prerequisites": 1089,
+    "total_corequisites": 34
   }
 }

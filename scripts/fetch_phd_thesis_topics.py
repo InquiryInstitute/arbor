@@ -460,6 +460,125 @@ def save_topics_to_json(topics: List[Dict[str, Any]], output_path: Path):
     print(f"Saved {len(topics)} topics to {output_path}")
 
 
+def search_author_theses(author_name: str, limit: int = 10) -> List[Dict[str, Any]]:
+    """
+    Search for theses by a specific author name.
+    
+    Args:
+        author_name: Author name to search for (e.g., "mcshan, dc")
+        limit: Maximum number of results
+        
+    Returns:
+        List of thesis metadata
+    """
+    print(f"\nSearching for theses by: {author_name}...")
+    
+    # OpenAlex author search
+    url = f"{OPENALEX_API_BASE}/authors"
+    params = {
+        "search": author_name,
+        "per_page": 10,
+    }
+    
+    theses = []
+    
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+        authors = data.get("results", [])
+        
+        if not authors:
+            print(f"  No authors found for: {author_name}")
+            return []
+        
+        # For each author found, get their works
+        for author in authors[:3]:  # Check top 3 matches
+            author_id = author.get("id", "").replace("https://openalex.org/", "")
+            author_name_display = author.get("display_name", "")
+            print(f"  Found author: {author_name_display} (ID: {author_id})")
+            
+            # Get works by this author
+            works_url = f"{OPENALEX_API_BASE}/works"
+            works_params = {
+                "filter": f"author.id:{author_id},type:dissertation",
+                "per_page": 50,
+                "sort": "publication_date:desc",
+            }
+            
+            works_response = requests.get(works_url, params=works_params)
+            if works_response.status_code == 200:
+                works_data = works_response.json()
+                works = works_data.get("results", [])
+                
+                for work in works[:limit]:
+                    # Extract thesis information (same as fetch_openalex_theses)
+                    thesis_data = {
+                        "openalex_id": work.get("id", "").replace("https://openalex.org/", ""),
+                        "title": work.get("title", ""),
+                        "abstract": work.get("abstract", ""),
+                        "year": work.get("publication_year"),
+                        "authors": [],
+                        "institutions": [],
+                        "topics": [],
+                        "keywords": [],
+                        "doi": work.get("doi"),
+                        "openalex_url": work.get("id"),
+                        "cited_by_count": work.get("cited_by_count", 0),
+                    }
+                    
+                    # Extract authors
+                    for auth in work.get("authorships", []):
+                        auth_name = auth.get("author", {}).get("display_name", "")
+                        if auth_name:
+                            thesis_data["authors"].append(auth_name)
+                    
+                    # Extract institutions
+                    for authorship in work.get("authorships", []):
+                        for inst in authorship.get("institutions", []):
+                            inst_name = inst.get("display_name", "")
+                            if inst_name:
+                                thesis_data["institutions"].append(inst_name)
+                    
+                    # Extract OpenAlex topics
+                    for topic in work.get("topics", []):
+                        thesis_data["topics"].append({
+                            "id": topic.get("id", "").replace("https://openalex.org/", ""),
+                            "display_name": topic.get("display_name", ""),
+                            "score": topic.get("score", 0),
+                        })
+                    
+                    # Extract concepts
+                    for concept in work.get("concepts", []):
+                        if concept.get("score", 0) > 0.5:
+                            thesis_data["keywords"].append(concept.get("display_name", ""))
+                    
+                    # Determine discipline
+                    topic_names = [t["display_name"] for t in thesis_data["topics"]]
+                    if topic_names:
+                        thesis_data["discipline"] = topic_names[0]
+                    else:
+                        thesis_data["discipline"] = "Interdisciplinary"
+                    
+                    # Map to college
+                    thesis_data["college"] = map_to_college(
+                        thesis_data["discipline"],
+                        topic_names,
+                        thesis_data["keywords"]
+                    )
+                    
+                    theses.append(thesis_data)
+                    print(f"    Found: {thesis_data['title'][:60]}... ({thesis_data.get('year', 'N/A')})")
+            
+            time.sleep(RATE_LIMIT_DELAY)
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error searching for author {author_name}: {e}")
+    
+    print(f"Found {len(theses)} theses for {author_name}")
+    return theses
+
+
 def main():
     parser = argparse.ArgumentParser(description="Download and curate PhD thesis topics from OpenAlex and OATD")
     parser.add_argument(
@@ -491,6 +610,12 @@ def main():
         action="store_true",
         help="Check OATD for full text availability (slower, requires web scraping)",
     )
+    parser.add_argument(
+        "--authors",
+        type=str,
+        nargs="+",
+        help="Additional author names to search for (e.g., 'mcshan, dc' 'quillin, jk')",
+    )
     
     args = parser.parse_args()
     
@@ -502,13 +627,34 @@ def main():
     # Fetch from OpenAlex
     openalex_theses = fetch_openalex_theses(limit=args.limit)
     
-    if not openalex_theses:
+    # Search for specific authors if provided
+    author_theses = []
+    if args.authors:
+        for author_name in args.authors:
+            author_results = search_author_theses(author_name, limit=20)
+            author_theses.extend(author_results)
+    
+    # Combine all theses
+    all_openalex = openalex_theses + author_theses
+    
+    if not all_openalex:
         print("No theses found. Exiting.")
         return
     
+    # Remove duplicates based on OpenAlex ID
+    seen_ids = set()
+    unique_theses = []
+    for thesis in all_openalex:
+        thesis_id = thesis.get("openalex_id")
+        if thesis_id and thesis_id not in seen_ids:
+            seen_ids.add(thesis_id)
+            unique_theses.append(thesis)
+    
+    print(f"\nTotal unique theses: {len(unique_theses)} (from OpenAlex: {len(openalex_theses)}, from author search: {len(author_theses)})")
+    
     # Convert to our format
     all_topics = []
-    for openalex_data in openalex_theses:
+    for openalex_data in unique_theses:
         # Filter by college if specified
         if args.college and openalex_data.get("college") != args.college:
             continue
