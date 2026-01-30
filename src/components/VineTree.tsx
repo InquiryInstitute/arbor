@@ -48,6 +48,13 @@ export default function VineTree({
         id: 'root',
         children: elkNodes,
         edges: elkEdges,
+        layoutOptions: {
+          'elk.algorithm': 'layered',
+          'elk.direction': 'UP', // Bottom to top
+          'elk.spacing.nodeNode': '80',
+          'elk.layered.spacing.nodeNodeBetweenLayers': '100',
+          'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
+        },
       };
 
       try {
