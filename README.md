@@ -1,10 +1,10 @@
-# Arbor Scientia
+# Arbor Scientiae
 
 **The Tree of Vines** — A living, navigable curriculum graph spanning K → Faculty.
 
 ## Overview
 
-Arbor Scientia (Tree of Knowledge) is the curriculum system for Inquiry Institute. It combines:
+Arbor Scientiae (Tree of Knowledge) is the curriculum system for Inquiry Institute. It combines:
 
 - A canonical knowledge graph of microcredentials
 - A personalized learner overlay showing progress and readiness

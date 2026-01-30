@@ -1,6 +1,6 @@
 # TODO: The Tree of Vines Implementation
 
-Comprehensive task list for building Arbor Scientia.
+Comprehensive task list for building Arbor Scientiae.
 
 ---
 
