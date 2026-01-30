@@ -106,32 +106,40 @@ class MITOCWScraper:
         return course_links_list
     
     def _fetch_from_sitemap(self) -> List[str]:
-        """Try to fetch from sitemap."""
+        """Try to fetch from sitemap using regex parsing."""
         sitemap_urls = [
             "https://ocw.mit.edu/sitemap.xml",
-            "https://ocw.mit.edu/courses/sitemap.xml",
         ]
         
         course_links = []
         for sitemap_url in sitemap_urls:
             try:
-                print(f"    Trying sitemap: {sitemap_url}")
-                response = self.session.get(sitemap_url, timeout=30)
+                print(f"    Fetching sitemap: {sitemap_url}")
+                response = self.session.get(sitemap_url, timeout=60)
                 if response.status_code == 200:
-                    # Parse XML sitemap - use lxml parser
-                    soup = BeautifulSoup(response.content, 'lxml-xml')
-                    for loc in soup.find_all('loc'):
-                        url = loc.text.strip()
-                        # MIT OCW course URLs: https://ocw.mit.edu/courses/SUBJECT-NUMBER-title/
+                    # Parse sitemap using regex (more reliable than XML parsing)
+                    content = response.text
+                    # Find all URLs in the sitemap
+                    urls = re.findall(r'https://ocw\.mit\.edu/courses/[^\s<>\"]+', content)
+                    
+                    for url in urls:
+                        # Remove /sitemap.xml suffix if present and normalize
+                        url = url.replace('/sitemap.xml', '').rstrip('/')
+                        
+                        # MIT OCW course URLs: https://ocw.mit.edu/courses/SUBJECT-NUMBER-title-semester-year/
                         if '/courses/' in url:
                             # Extract course path
                             parts = url.split('/courses/')
                             if len(parts) > 1:
-                                course_path = parts[1].rstrip('/')
+                                course_path = parts[1]
                                 # Check if it matches course pattern (has numbers like 18-01 or 6.042)
                                 # And has more than just numbers (has title)
-                                if re.search(r'\d+[-.]\d+', course_path) and len(course_path.split('-')) > 2:
-                                    course_links.append(url)
+                                if re.search(r'\d+[-.]\d+', course_path) and len(course_path.split('-')) >= 3:
+                                    # Make sure it's a full course URL, not a partial one
+                                    if url.count('/') >= 4:  # Full course URLs have more path segments
+                                        course_links.append(url)
+                    
+                    print(f"    Found {len(course_links)} course URLs in sitemap")
             except Exception as e:
                 print(f"    Sitemap error: {e}")
                 continue
@@ -248,11 +256,23 @@ class MITOCWScraper:
                 description = desc_elem.get('content', '').strip()
             
             if not course_id:
-                # Try to extract from URL
+                # Try to extract from URL - MIT OCW URLs are like: /courses/18-01-single-variable-calculus-fall-2006/
                 url_parts = url.rstrip('/').split('/')
                 if url_parts:
                     last_part = url_parts[-1]
-                    course_id = self.extract_course_id(last_part)
+                    # Extract course number from URL (e.g., "18-01" from "18-01-single-variable-calculus-fall-2006")
+                    match = re.search(r'(\d+[-.]\d+)', last_part)
+                    if match:
+                        course_id = match.group(1).replace('-', '.').upper()
+                    else:
+                        # Try alternative pattern
+                        course_id = self.extract_course_id(last_part)
+            
+            if not course_id:
+                # Last resort: try to find any course number pattern in the URL
+                match = re.search(r'/(\d+[-.]\d+)-', url)
+                if match:
+                    course_id = match.group(1).replace('-', '.').upper()
             
             if not course_id:
                 return None

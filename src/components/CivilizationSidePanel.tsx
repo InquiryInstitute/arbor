@@ -94,6 +94,76 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
           </div>
         )}
 
+        {/* Historical Events */}
+        {node.historicalEvents && node.historicalEvents.length > 0 && (
+          <div style={{ marginBottom: '2rem' }}>
+            <h3 style={{ 
+              fontSize: '1.1rem', 
+              margin: '0 0 0.75rem 0',
+              color: '#2d5a27',
+              borderBottom: '2px solid #e0e0e0',
+              paddingBottom: '0.5rem',
+            }}>
+              Historical Events
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {node.historicalEvents
+                .sort((a, b) => b.year - a.year) // Sort by year, most recent first
+                .map((event, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      background: '#f9f9f9',
+                      padding: '0.75rem',
+                      borderRadius: '6px',
+                      borderLeft: `3px solid ${node.color || '#666'}`,
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+                      <h4 style={{ 
+                        fontSize: '0.95rem', 
+                        margin: 0,
+                        color: '#333',
+                        fontWeight: '600',
+                      }}>
+                        {event.title}
+                      </h4>
+                      <span style={{
+                        fontSize: '0.85rem',
+                        color: '#666',
+                        fontWeight: '500',
+                        whiteSpace: 'nowrap',
+                        marginLeft: '0.5rem',
+                      }}>
+                        {event.year < 0 ? `${Math.abs(event.year)} BCE` : `${event.year} CE`}
+                      </span>
+                    </div>
+                    <p style={{ 
+                      fontSize: '0.85rem', 
+                      color: '#555', 
+                      margin: '0.25rem 0',
+                      lineHeight: '1.5',
+                    }}>
+                      {event.description}
+                    </p>
+                    {event.significance && (
+                      <p style={{ 
+                        fontSize: '0.8rem', 
+                        color: '#666', 
+                        margin: '0.5rem 0 0 0',
+                        fontStyle: 'italic',
+                        paddingTop: '0.5rem',
+                        borderTop: '1px solid #e0e0e0',
+                      }}>
+                        <strong>Significance:</strong> {event.significance}
+                      </p>
+                    )}
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
         {/* Key Figures */}
         {node.keyFigures && node.keyFigures.length > 0 && (
           <div style={{ marginBottom: '2rem' }}>

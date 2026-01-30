@@ -35,6 +35,12 @@ export interface CivilizationNode {
   timeEnd?: number; // Year (BCE as negative, CE as positive)
   longitude?: number; // Geographic longitude (-180 to 180)
   keyFigures?: string[];
+  historicalEvents?: Array<{
+    year: number; // Year (BCE as negative, CE as positive)
+    title: string;
+    description: string;
+    significance?: string;
+  }>;
 }
 
 export interface CivilizationRelation {
@@ -179,6 +185,38 @@ export const majorVines: CivilizationNode[] = [
         author: 'Gwendolyn Leick',
       },
     ],
+    historicalEvents: [
+      {
+        year: -3500,
+        title: 'Invention of Cuneiform Writing',
+        description: 'The world\'s first writing system emerges in Sumer, enabling record-keeping, administration, and literature.',
+        significance: 'Foundation of written history and bureaucratic organization',
+      },
+      {
+        year: -2334,
+        title: 'Rise of Sargon of Akkad',
+        description: 'Sargon establishes the first empire in history, uniting Mesopotamia through military conquest.',
+        significance: 'First example of imperial organization and centralized rule',
+      },
+      {
+        year: -1792,
+        title: 'Code of Hammurabi',
+        description: 'Hammurabi promulgates one of the earliest and most complete legal codes, establishing principles of justice.',
+        significance: 'Foundation of legal systems and the concept of written law',
+      },
+      {
+        year: -612,
+        title: 'Fall of Nineveh',
+        description: 'The Assyrian Empire collapses as Nineveh is destroyed by a coalition of Babylonians and Medes.',
+        significance: 'End of the first great Mesopotamian empire',
+      },
+      {
+        year: -539,
+        title: 'Cyrus the Great Conquers Babylon',
+        description: 'Persian conquest marks the end of independent Mesopotamian civilization.',
+        significance: 'Mesopotamian ideas spread through Persian empire',
+      },
+    ],
   },
   {
     id: 'vine-egyptian',
@@ -194,6 +232,38 @@ export const majorVines: CivilizationNode[] = [
     timeStart: -3100,
     timeEnd: -30,
     longitude: 31.2, // Egypt
+    historicalEvents: [
+      {
+        year: -3100,
+        title: 'Unification of Upper and Lower Egypt',
+        description: 'Narmer (Menes) unites the two kingdoms, establishing the first dynasty and centralized state.',
+        significance: 'Beginning of 3000 years of continuous Egyptian civilization',
+      },
+      {
+        year: -2580,
+        title: 'Construction of the Great Pyramid',
+        description: 'Pharaoh Khufu builds the largest pyramid at Giza, demonstrating advanced engineering and social organization.',
+        significance: 'Peak of Old Kingdom power and architectural achievement',
+      },
+      {
+        year: -1353,
+        title: 'Reign of Akhenaten',
+        description: 'Pharaoh introduces monotheistic worship of Aten, challenging traditional polytheism.',
+        significance: 'Early experiment with monotheism and religious reform',
+      },
+      {
+        year: -1274,
+        title: 'Battle of Kadesh',
+        description: 'Ramesses II fights the Hittites to a draw, leading to the first recorded peace treaty.',
+        significance: 'Diplomacy and international relations',
+      },
+      {
+        year: -30,
+        title: 'Death of Cleopatra',
+        description: 'Last pharaoh of Egypt dies, and Egypt becomes a Roman province.',
+        significance: 'End of independent Egyptian civilization',
+      },
+    ],
   },
   {
     id: 'vine-mediterranean',
@@ -468,6 +538,50 @@ export const majorVines: CivilizationNode[] = [
       {
         title: 'On Liberty',
         author: 'John Stuart Mill',
+      },
+    ],
+    historicalEvents: [
+      {
+        year: -800,
+        title: 'Homeric Epics Composed',
+        description: 'The Iliad and Odyssey are written down, establishing Greek cultural identity and literary tradition.',
+        significance: 'Foundation of Western literature and epic poetry',
+      },
+      {
+        year: -508,
+        title: 'Athenian Democracy Established',
+        description: 'Cleisthenes reforms Athenian government, creating the first democracy.',
+        significance: 'Birth of democratic governance',
+      },
+      {
+        year: -399,
+        title: 'Trial and Death of Socrates',
+        description: 'Socrates is executed for corrupting youth, but his method of inquiry lives on through Plato.',
+        significance: 'Philosophy as a way of life and critical thinking',
+      },
+      {
+        year: -336,
+        title: 'Alexander the Great Begins Conquest',
+        description: 'Alexander starts his campaign, spreading Greek culture across three continents.',
+        significance: 'Hellenistic synthesis of cultures',
+      },
+      {
+        year: -27,
+        title: 'Augustus Becomes First Roman Emperor',
+        description: 'Octavian takes the title Augustus, ending the Republic and beginning the Empire.',
+        significance: 'Transition from republic to empire',
+      },
+      {
+        year: 313,
+        title: 'Edict of Milan',
+        description: 'Constantine legalizes Christianity, beginning its transformation into a state religion.',
+        significance: 'Christianity becomes a major force in Western civilization',
+      },
+      {
+        year: 476,
+        title: 'Fall of Western Roman Empire',
+        description: 'Last Western Roman emperor is deposed, marking the end of classical antiquity.',
+        significance: 'Beginning of the Middle Ages',
       },
     ],
   },

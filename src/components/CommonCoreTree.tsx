@@ -1,23 +1,31 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import ELK from 'elkjs';
 import type { CommonCoreNode, CommonCoreRelation } from '../data/commoncore';
 import { allCommonCoreNodes, commonCoreRelations } from '../data/commoncore';
 
-// Type definitions for layout
-interface LayoutNode {
+// Type definitions for ELK
+interface ELKNode {
   id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  label: string;
-  node: CommonCoreNode;
+  labels?: Array<{ text: string }>;
+  width?: number;
+  height?: number;
+  x?: number;
+  y?: number;
+  children?: ELKNode[];
+  layoutOptions?: Record<string, string>;
 }
 
-interface LayoutEdge {
+interface ELKEdge {
   id: string;
-  sourceId: string;
-  targetId: string;
-  relation: CommonCoreRelation;
+  sources: string[];
+  targets: string[];
+  labels?: Array<{ text: string }>;
+}
+
+interface ELKGraph {
+  id: string;
+  children: ELKNode[];
+  edges: ELKEdge[];
 }
 
 // Color mapping for relation types
@@ -47,7 +55,7 @@ export default function CommonCoreTree({
 }: CommonCoreTreeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<SVGGElement>(null);
-  const [layout, setLayout] = useState<{ nodes: LayoutNode[]; edges: LayoutEdge[] } | null>(null);
+  const [layout, setLayout] = useState<ELKGraph | null>(null);
   const [loading, setLoading] = useState(true);
   
   // Pan/zoom state
@@ -58,219 +66,160 @@ export default function CommonCoreTree({
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   useEffect(() => {
-    function computeLayout() {
-      const nodes: LayoutNode[] = [];
-      const edges: LayoutEdge[] = [];
-      
-      // Layout parameters
-      const margin = 50;
-      const gradeSpacing = (height - 2 * margin) / 13; // 13 grade levels (K + 1-12)
-      const centerX = width / 2;
-      
-      // Group nodes by level and grade
-      const gradeLevelNodes = allCommonCoreNodes.filter(n => n.type === 'grade');
-      const subjectNodes = allCommonCoreNodes.filter(n => n.type === 'subject');
-      const domainNodes = allCommonCoreNodes.filter(n => n.type === 'domain');
-      const clusterNodes = allCommonCoreNodes.filter(n => n.type === 'cluster');
-      
-      // Layout grade nodes (bottom to top)
-      gradeLevelNodes.forEach((node, index) => {
-        const gradeNum = node.grade ?? 0;
-        // Invert: K (0) at bottom, 12 at top
-        const y = height - margin - (gradeNum * gradeSpacing) - gradeSpacing / 2;
+    async function computeLayout() {
+      try {
+        const elk = new ELK();
         
-        nodes.push({
-          id: node.id,
-          x: centerX,
-          y: y,
-          width: 200,
-          height: 60,
-          label: node.name,
-          node,
-        });
-      });
-      
-      // Layout subject nodes (left and right of grade nodes)
-      // For K-8, create subject nodes for each grade
-      // For HS, create one subject node per grade (9-12) that links to math-hs/ela-hs
-      subjectNodes.forEach(subject => {
-        if (subject.grade! <= 8) {
-          // K-8: one subject node per grade
-          const gradeNum = subject.grade ?? 0;
-          const y = height - margin - (gradeNum * gradeSpacing) - gradeSpacing / 2;
-          const offsetX = subject.subject === 'math' ? -250 : 250;
+        // Build hierarchical structure: grade -> subject -> domain -> cluster
+        const gradeNodes = allCommonCoreNodes.filter(n => n.type === 'grade');
+        const subjectNodes = allCommonCoreNodes.filter(n => n.type === 'subject');
+        const domainNodes = allCommonCoreNodes.filter(n => n.type === 'domain');
+        const clusterNodes = allCommonCoreNodes.filter(n => n.type === 'cluster');
+        
+        // Create ELK nodes with hierarchical structure
+        const elkNodes: ELKNode[] = gradeNodes.map(grade => {
+          const gradeNum = grade.grade ?? 0;
           
-          nodes.push({
-            id: subject.id,
-            x: centerX + offsetX,
-            y: y,
-            width: 180,
-            height: 50,
-            label: subject.name,
-            node: subject,
+          // Get subjects for this grade
+          const gradeSubjects = subjectNodes.filter(s => {
+            if (gradeNum <= 8) {
+              return s.grade === gradeNum;
+            } else {
+              // High school: all grades share math-hs and ela-hs
+              return s.id === 'math-hs' || s.id === 'ela-hs';
+            }
           });
-        } else {
-          // HS: create subject nodes for each grade 9-12, all pointing to same content
-          for (let grade = 9; grade <= 12; grade++) {
-            const gradeNum = grade;
-            const y = height - margin - (gradeNum * gradeSpacing) - gradeSpacing / 2;
-            const offsetX = subject.subject === 'math' ? -250 : 250;
+          
+          const subjectChildren: ELKNode[] = gradeSubjects.map(subject => {
+            // Get domains for this subject and grade
+            const subjectDomains = domainNodes.filter(d => 
+              d.subject === subject.subject && 
+              (gradeNum <= 8 ? d.grade === gradeNum : d.grade === gradeNum)
+            );
             
-            // Use the subject ID but create unique instances per grade
-            nodes.push({
-              id: `${subject.id}-${grade}`,
-              x: centerX + offsetX,
-              y: y,
+            const domainChildren: ELKNode[] = subjectDomains.map(domain => {
+              // Get clusters for this domain
+              const domainClusters = clusterNodes.filter(c =>
+                c.subject === domain.subject &&
+                c.domain === domain.domain &&
+                c.grade === domain.grade
+              );
+              
+              const clusterChildren: ELKNode[] = domainClusters.map(cluster => ({
+                id: cluster.id,
+                labels: [{ text: cluster.name }],
+                width: 140,
+                height: 40,
+              }));
+              
+              return {
+                id: domain.id,
+                labels: [{ text: domain.name }],
+                width: 160,
+                height: 45,
+                children: clusterChildren.length > 0 ? clusterChildren : undefined,
+              };
+            });
+            
+            return {
+              id: gradeNum <= 8 ? subject.id : `${subject.id}-${gradeNum}`,
+              labels: [{ text: subject.name }],
               width: 180,
               height: 50,
-              label: subject.name,
-              node: { ...subject, grade },
+              children: domainChildren.length > 0 ? domainChildren : undefined,
+            };
+          });
+          
+          return {
+            id: grade.id,
+            labels: [{ text: grade.name }],
+            width: 200,
+            height: 60,
+            children: subjectChildren,
+          };
+        });
+        
+        // Create edges from relations
+        // Note: ELK handles hierarchical edges automatically through parent-child relationships
+        // We only need to add explicit edges for prerequisites and builds_on (cross-grade connections)
+        const elkEdges: ELKEdge[] = [];
+        
+        commonCoreRelations.forEach(relation => {
+          // Only add explicit edges for prerequisites and builds_on
+          // Contains relations are handled by ELK's hierarchical structure
+          if (relation.relation_type === 'prerequisite' || relation.relation_type === 'builds_on') {
+            elkEdges.push({
+              id: relation.id,
+              sources: [relation.from_id],
+              targets: [relation.to_id],
+              labels: relation.description ? [{ text: relation.description }] : undefined,
             });
           }
-        }
-      });
-      
-      // Layout domain nodes (further out from subjects)
-      domainNodes.forEach(domain => {
-        const gradeNum = domain.grade ?? 0;
-        const y = height - margin - (gradeNum * gradeSpacing) - gradeSpacing / 2;
-        
-        // Find position within subject's domains for this grade
-        const domainsInSubject = domainNodes.filter(d => 
-          d.subject === domain.subject && 
-          d.grade === domain.grade
-        );
-        const domainIndex = domainsInSubject.findIndex(d => d.id === domain.id);
-        const totalDomains = domainsInSubject.length;
-        
-        const baseOffsetX = domain.subject === 'math' ? -450 : 450;
-        const domainSpacing = 80;
-        const offsetX = baseOffsetX + (domainIndex - (totalDomains - 1) / 2) * domainSpacing;
-        
-        nodes.push({
-          id: domain.id,
-          x: centerX + offsetX,
-          y: y,
-          width: 140,
-          height: 40,
-          label: domain.name,
-          node: domain,
         });
-      });
-      
-      // Layout cluster nodes (furthest out)
-      clusterNodes.forEach(cluster => {
-        const gradeNum = cluster.grade ?? 0;
-        const y = height - margin - (gradeNum * gradeSpacing) - gradeSpacing / 2;
         
-        const baseOffsetX = cluster.subject === 'math' ? -650 : 650;
+        // Create ELK graph
+        const elkGraph: ELKGraph = {
+          id: 'root',
+          layoutOptions: {
+            'elk.algorithm': 'layered',
+            'elk.direction': 'UP', // Bottom to top
+            'elk.spacing.nodeNode': '60',
+            'elk.spacing.edgeNode': '30',
+            'elk.layered.spacing.nodeNodeBetweenLayers': '120',
+            'elk.layered.spacing.edgeNodeBetweenLayers': '40',
+            'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
+            'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+            'elk.layered.cycleBreaking.strategy': 'GREEDY',
+            'elk.spacing.edgeEdge': '20',
+            'elk.spacing.edgeNode': '30',
+            'elk.spacing.nodeNode': '50',
+          },
+          children: elkNodes,
+          edges: elkEdges,
+        };
         
-        nodes.push({
-          id: cluster.id,
-          x: centerX + baseOffsetX,
-          y: y,
-          width: 120,
-          height: 35,
-          label: cluster.name,
-          node: cluster,
-        });
-      });
-      
-      // Create edges from relations
-      commonCoreRelations.forEach(relation => {
-        // Handle grade to subject relations
-        if (relation.from_id.startsWith('grade-') && (relation.to_id.startsWith('math-') || relation.to_id.startsWith('ela-'))) {
-          const gradeId = relation.from_id;
-          const subjectId = relation.to_id;
-          const gradeNum = parseInt(gradeId.split('-')[1] === 'k' ? '0' : gradeId.split('-')[1]);
-          
-          // For high school, create edges to all grade-specific subject nodes
-          if (gradeNum >= 9 && subjectId.includes('-hs')) {
-            for (let grade = 9; grade <= 12; grade++) {
-              const sourceNode = nodes.find(n => n.id === gradeId);
-              const targetNode = nodes.find(n => n.id === `${subjectId}-${grade}`);
-              if (sourceNode && targetNode) {
-                edges.push({
-                  id: `${relation.id}-${grade}`,
-                  sourceId: gradeId,
-                  targetId: `${subjectId}-${grade}`,
-                  relation,
-                });
-              }
-            }
-          } else {
-            // For K-8, use the relation as-is
-            const sourceNode = nodes.find(n => n.id === relation.from_id);
-            const targetNode = nodes.find(n => n.id === relation.to_id);
-            if (sourceNode && targetNode) {
-              edges.push({
-                id: relation.id,
-                sourceId: relation.from_id,
-                targetId: relation.to_id,
-                relation,
-              });
-            }
-          }
-        } else {
-          // For other relations, check if nodes exist (may need to map subject IDs)
-          let sourceId = relation.from_id;
-          let targetId = relation.to_id;
-          
-          // If relation is from a high school subject, we need to create edges for all grades
-          if (sourceId === 'math-hs' || sourceId === 'ela-hs') {
-            // Find all grade-specific subject nodes for this subject
-            const subjectType = sourceId.split('-')[0];
-            for (let grade = 9; grade <= 12; grade++) {
-              const sourceNode = nodes.find(n => n.id === `${sourceId}-${grade}`);
-              const targetNode = nodes.find(n => {
-                // Target should be a domain for this grade
-                return n.id === targetId && n.node.grade === grade;
-              });
-              if (sourceNode && targetNode) {
-                edges.push({
-                  id: `${relation.id}-${grade}`,
-                  sourceId: `${sourceId}-${grade}`,
-                  targetId: targetId,
-                  relation,
-                });
-              }
-            }
-          } else {
-            // Regular relation
-            const sourceNode = nodes.find(n => n.id === sourceId);
-            const targetNode = nodes.find(n => n.id === targetId);
-            if (sourceNode && targetNode) {
-              edges.push({
-                id: relation.id,
-                sourceId: sourceId,
-                targetId: targetId,
-                relation,
-              });
-            }
-          }
-        }
-      });
-      
-      setLayout({ nodes, edges });
-      setLoading(false);
+        const layoutedGraph = await elk.layout(elkGraph);
+        setLayout(layoutedGraph as ELKGraph);
+        setLoading(false);
+      } catch (err) {
+        console.error('Layout computation failed:', err);
+        setLoading(false);
+      }
     }
 
     computeLayout();
   }, [width, height]);
 
+  // Flatten ELK nodes recursively
+  const flattenNodes = useCallback((nodes: ELKNode[]): ELKNode[] => {
+    const result: ELKNode[] = [];
+    nodes.forEach(node => {
+      result.push(node);
+      if (node.children) {
+        result.push(...flattenNodes(node.children));
+      }
+    });
+    return result;
+  }, []);
+
   // Calculate bounding box
   const getBoundingBox = useCallback(() => {
-    if (!layout || !layout.nodes || layout.nodes.length === 0) {
+    if (!layout || !layout.children || layout.children.length === 0) {
       return { minX: 0, minY: 0, maxX: width, maxY: height, width: width, height: height };
     }
 
+    const allNodes = flattenNodes(layout.children);
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     
-    layout.nodes.forEach(node => {
-      minX = Math.min(minX, node.x);
-      minY = Math.min(minY, node.y);
-      maxX = Math.max(maxX, node.x + node.width);
-      maxY = Math.max(maxY, node.y + node.height);
+    allNodes.forEach(node => {
+      if (node.x !== undefined && node.y !== undefined) {
+        const nodeWidth = node.width || 200;
+        const nodeHeight = node.height || 60;
+        minX = Math.min(minX, node.x);
+        minY = Math.min(minY, node.y);
+        maxX = Math.max(maxX, node.x + nodeWidth);
+        maxY = Math.max(maxY, node.y + nodeHeight);
+      }
     });
 
     const padding = 50;
@@ -282,7 +231,7 @@ export default function CommonCoreTree({
       width: maxX - minX + 2 * padding,
       height: maxY - minY + 2 * padding,
     };
-  }, [layout, width, height]);
+  }, [layout, width, height, flattenNodes]);
 
   // Zoom to fit
   const zoomToFit = useCallback(() => {
@@ -364,6 +313,73 @@ export default function CommonCoreTree({
     }
   }, [layout, loading, zoomToFit]);
 
+  // Recursively render nodes
+  const renderNode = (elkNode: ELKNode): React.ReactNode => {
+    if (elkNode.x === undefined || elkNode.y === undefined) return null;
+    
+    const nodeData = allCommonCoreNodes.find(n => {
+      // Handle high school subject nodes
+      if (elkNode.id.includes('-hs-')) {
+        const baseId = elkNode.id.split('-').slice(0, 2).join('-');
+        return n.id === baseId;
+      }
+      return n.id === elkNode.id;
+    });
+    
+    if (!nodeData) return null;
+    
+    const isHovered = hoveredNodeId === elkNode.id;
+    const isSelected = selectedNodeId === elkNode.id;
+    const nodeColor = nodeData.color || nodeTypeColors[nodeData.type] || '#888';
+    const strokeWidth = isSelected ? 4 : isHovered ? 3 : 2;
+    const nodeOpacity = isSelected ? 1 : isHovered ? 0.9 : 0.8;
+    const nodeWidth = elkNode.width || 200;
+    const nodeHeight = elkNode.height || 60;
+    const label = elkNode.labels?.[0]?.text || nodeData.name;
+
+    return (
+      <g key={elkNode.id}>
+        <rect
+          x={elkNode.x}
+          y={elkNode.y}
+          width={nodeWidth}
+          height={nodeHeight}
+          fill={nodeColor}
+          stroke={isSelected ? '#000' : nodeColor}
+          strokeWidth={strokeWidth}
+          rx={6}
+          opacity={nodeOpacity}
+          onMouseEnter={() => setHoveredNodeId(elkNode.id)}
+          onMouseLeave={() => setHoveredNodeId(null)}
+          onClick={() => setSelectedNodeId(isSelected ? null : elkNode.id)}
+          style={{ 
+            cursor: 'pointer',
+            filter: isSelected ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' : 
+                    isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
+            transition: 'all 0.2s ease-out',
+          }}
+        />
+        <text
+          x={elkNode.x + nodeWidth / 2}
+          y={elkNode.y + nodeHeight / 2}
+          fontSize={nodeData.type === 'grade' ? 14 : nodeData.type === 'subject' ? 12 : nodeData.type === 'domain' ? 10 : 9}
+          fontWeight={nodeData.type === 'grade' ? 'bold' : nodeData.type === 'subject' ? '600' : 'normal'}
+          fill="#fff"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          style={{ 
+            pointerEvents: 'none',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+          }}
+        >
+          {label}
+        </text>
+        {/* Render children recursively */}
+        {elkNode.children?.map(child => renderNode(child))}
+      </g>
+    );
+  };
+
   if (loading || !layout) {
     return (
       <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -372,7 +388,16 @@ export default function CommonCoreTree({
     );
   }
 
-  const selectedNode = selectedNodeId ? allCommonCoreNodes.find(n => n.id === selectedNodeId) : null;
+  const selectedNode = selectedNodeId ? allCommonCoreNodes.find(n => {
+    if (selectedNodeId.includes('-hs-')) {
+      const baseId = selectedNodeId.split('-').slice(0, 2).join('-');
+      return n.id === baseId;
+    }
+    return n.id === selectedNodeId;
+  }) : null;
+  
+  // Get all nodes for edge rendering
+  const allELKNodes = flattenNodes(layout.children || []);
 
   return (
     <div style={{ position: 'relative', width, height, display: 'flex' }}>
@@ -458,24 +483,39 @@ export default function CommonCoreTree({
             transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}
           >
             {/* Render edges */}
-            {layout.edges.map(edge => {
-              const sourceNode = layout.nodes.find(n => n.id === edge.sourceId);
-              const targetNode = layout.nodes.find(n => n.id === edge.targetId);
+            {(layout.edges || []).map(edge => {
+              const sourceNode = allELKNodes.find(n => {
+                // Handle high school subject nodes
+                if (edge.sources[0].includes('-hs-')) {
+                  return n.id === edge.sources[0];
+                }
+                return n.id === edge.sources[0];
+              });
+              const targetNode = allELKNodes.find(n => {
+                if (edge.targets[0].includes('-hs-')) {
+                  return n.id === edge.targets[0];
+                }
+                return n.id === edge.targets[0];
+              });
               
-              if (!sourceNode || !targetNode) {
+              if (!sourceNode || !targetNode || sourceNode.x === undefined || sourceNode.y === undefined || 
+                  targetNode.x === undefined || targetNode.y === undefined) {
                 return null;
               }
 
-              const relationType = edge.relation.relation_type;
+              // Find relation data
+              const relation = commonCoreRelations.find(r => r.id === edge.id || 
+                edge.id.startsWith(r.id + '-'));
+              const relationType = relation?.relation_type || 'contains';
               const strokeColor = relationColors[relationType] || '#666';
-              const strokeWidth = relationType === 'contains' ? 2 : 1.5;
-              const strokeDasharray = relationType === 'prerequisite' ? '5,5' : undefined;
-              const opacity = 0.6;
+              const strokeWidth = relationType === 'contains' ? 2.5 : relationType === 'prerequisite' ? 3 : 2;
+              const strokeDasharray = relationType === 'prerequisite' ? '8,4' : relationType === 'builds_on' ? '4,4' : undefined;
+              const opacity = relationType === 'prerequisite' ? 0.9 : relationType === 'builds_on' ? 0.8 : 0.6;
 
-              const sourceX = sourceNode.x + sourceNode.width / 2;
-              const sourceY = sourceNode.y + sourceNode.height / 2;
-              const targetX = targetNode.x + targetNode.width / 2;
-              const targetY = targetNode.y + targetNode.height / 2;
+              const sourceX = sourceNode.x + (sourceNode.width || 200) / 2;
+              const sourceY = sourceNode.y + (sourceNode.height || 60) / 2;
+              const targetX = targetNode.x + (targetNode.width || 200) / 2;
+              const targetY = targetNode.y + (targetNode.height || 60) / 2;
 
               return (
                 <line
@@ -493,60 +533,8 @@ export default function CommonCoreTree({
               );
             })}
 
-            {/* Render nodes */}
-            {layout.nodes.map(layoutNode => {
-              const node = layoutNode.node;
-              const isHovered = hoveredNodeId === node.id;
-              const isSelected = selectedNodeId === node.id;
-              const nodeColor = node.color || nodeTypeColors[node.type] || '#888';
-              const strokeWidth = isSelected ? 4 : isHovered ? 3 : 2;
-              const nodeOpacity = isSelected ? 1 : isHovered ? 0.9 : 0.8;
-
-              return (
-                <g 
-                  key={node.id}
-                  onMouseEnter={() => setHoveredNodeId(node.id)}
-                  onMouseLeave={() => setHoveredNodeId(null)}
-                  onClick={() => setSelectedNodeId(isSelected ? null : node.id)}
-                  style={{ 
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s ease-out',
-                  }}
-                >
-                  <rect
-                    x={layoutNode.x}
-                    y={layoutNode.y}
-                    width={layoutNode.width}
-                    height={layoutNode.height}
-                    fill={nodeColor}
-                    stroke={isSelected ? '#000' : nodeColor}
-                    strokeWidth={strokeWidth}
-                    rx={6}
-                    opacity={nodeOpacity}
-                    style={{ 
-                      filter: isSelected ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' : 
-                              isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
-                      transition: 'all 0.2s ease-out',
-                    }}
-                  />
-                  <text
-                    x={layoutNode.x + layoutNode.width / 2}
-                    y={layoutNode.y + layoutNode.height / 2}
-                    fontSize={node.type === 'grade' ? 14 : node.type === 'subject' ? 12 : node.type === 'domain' ? 10 : 9}
-                    fontWeight={node.type === 'grade' ? 'bold' : node.type === 'subject' ? '600' : 'normal'}
-                    fill="#fff"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{ 
-                      pointerEvents: 'none',
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-                    }}
-                  >
-                    {layoutNode.label}
-                  </text>
-                </g>
-              );
-            })}
+            {/* Render nodes recursively */}
+            {layout.children?.map(node => renderNode(node))}
           </g>
         </svg>
       </div>
