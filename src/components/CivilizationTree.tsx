@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import ELK from 'elkjs';
 import type { CivilizationNode, CivilizationRelation } from '../data/civilizations';
 import { allCivilizationNodes, civilizationRelations } from '../data/civilizations';
+import CivilizationSidePanel from './CivilizationSidePanel';
 
 // Type definitions for ELK
 interface ELKNode {
@@ -254,71 +255,24 @@ export default function CivilizationTree({
   const selectedNode = selectedNodeId ? allCivilizationNodes.find(n => n.id === selectedNodeId) : null;
 
   return (
-    <div style={{ position: 'relative', width, height }}>
-      {/* Info panel for selected node */}
-      {selectedNode && (
+    <div style={{ position: 'relative', width, height, display: 'flex' }}>
+      {/* Main SVG area */}
+      <div style={{ 
+        flex: 1, 
+        position: 'relative',
+        marginRight: selectedNode ? '400px' : '0',
+        transition: 'margin-right 0.3s ease-out',
+      }}>
+        {/* Zoom controls */}
         <div style={{
           position: 'absolute',
           top: 10,
-          left: 10,
+          right: 10,
           zIndex: 10,
-          background: 'white',
-          padding: '1rem',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          maxWidth: '300px',
-          border: `3px solid ${selectedNode.color || '#666'}`,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 5,
         }}>
-          <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-            {selectedNode.emoji} {selectedNode.name}
-          </div>
-          {selectedNode.description && (
-            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '0.5rem', fontStyle: 'italic' }}>
-              {selectedNode.description}
-            </p>
-          )}
-          <div style={{ marginTop: '0.75rem' }}>
-            <strong>Themes:</strong>
-            <ul style={{ margin: '0.25rem 0', paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
-              {selectedNode.themes.map(theme => (
-                <li key={theme}>{theme}</li>
-              ))}
-            </ul>
-          </div>
-          <div style={{ marginTop: '0.75rem' }}>
-            <strong>Gifts:</strong>
-            <ul style={{ margin: '0.25rem 0', paddingLeft: '1.5rem', fontSize: '0.85rem' }}>
-              {selectedNode.gifts.map(gift => (
-                <li key={gift}>{gift}</li>
-              ))}
-            </ul>
-          </div>
-          <button
-            onClick={() => setSelectedNodeId(null)}
-            style={{
-              marginTop: '0.75rem',
-              padding: '0.25rem 0.75rem',
-              background: '#f5f5f5',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            Close
-          </button>
-        </div>
-      )}
-
-      {/* Zoom controls */}
-      <div style={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 10,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 5,
-      }}>
         <button
           onClick={() => setTransform({ ...transform, scale: Math.min(10, transform.scale * 1.2) })}
           style={{ padding: '5px 10px', cursor: 'pointer' }}
@@ -347,18 +301,23 @@ export default function CivilizationTree({
         >
           ⟲
         </button>
-      </div>
+        </div>
 
-      <svg
-        ref={svgRef}
-        width={width}
-        height={height}
-        style={{ border: '1px solid #ccc', background: '#fafafa', cursor: isPanning ? 'grabbing' : 'grab' }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-      >
+        <svg
+          ref={svgRef}
+          width={selectedNode ? width - 400 : width}
+          height={height}
+          style={{ 
+            border: '1px solid #ccc', 
+            background: '#fafafa', 
+            cursor: isPanning ? 'grabbing' : 'grab',
+            display: 'block',
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
         <defs>
           {/* Arrow markers for different relation types */}
           {Object.entries(relationColors).map(([type, color]) => (

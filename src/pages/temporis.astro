@@ -1,0 +1,78 @@
+---
+import ArborTemporisTree from '../components/ArborTemporisTree';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Arbor Temporis — The Tree of Time" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Arbor Temporis | Tree of Time</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">← Back to Home</a>
+      </nav>
+      <h1>Arbor Temporis</h1>
+      <p class="subtitle">The Tree of Time — Where Knowledge Climbs Upward</p>
+    </header>
+
+    <main>
+      <ArborTemporisTree client:load width={1400} height={900} />
+    </main>
+
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+      }
+
+      header {
+        background: white;
+        border-bottom: 2px solid #8B4513;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      nav {
+        margin-bottom: 0.5rem;
+      }
+
+      nav a {
+        color: #8B4513;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #8B4513;
+        margin: 0;
+      }
+
+      .subtitle {
+        color: #666;
+        margin: 0.25rem 0 0 0;
+        font-style: italic;
+      }
+
+      main {
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 150px);
+      }
+    </style>
+  </body>
+</html>
