@@ -442,7 +442,7 @@ export default function CivilizationTree({
           ))}
         </defs>
 
-        {/* Time axis (left side) */}
+        {/* Time axis (left side) - Fixed range: 3500 BCE to 2026 CE, ticks at 500-year intervals */}
         {timeRange && (
           <g style={{ pointerEvents: 'none' }}>
             <line
@@ -455,40 +455,53 @@ export default function CivilizationTree({
               strokeDasharray="5,5"
               opacity={0.5}
             />
-            {/* Time labels */}
-            {[0, 1, 2, 3, 4, 5].map(i => {
-              const timeValue = timeRange.min + (timeRange.max - timeRange.min) * (1 - i / 5);
-              const y = height * 0.05 + (height * 0.9) * (i / 5);
-              const label = timeValue < 0 
-                ? `${Math.abs(timeValue)} BCE` 
-                : timeValue === 0 
-                ? '1 CE' 
-                : `${timeValue} CE`;
+            {/* Time labels - 500 year intervals from 3500 BCE to 2026 CE */}
+            {(() => {
+              const ticks = [];
+              const minTime = -3500;
+              const maxTime = 2026;
+              const interval = 500;
               
-              return (
+              // Generate ticks at 500-year intervals
+              for (let year = minTime; year <= maxTime; year += interval) {
+                // Map year to Y position (earlier at bottom)
+                const normalizedTime = (year - minTime) / (maxTime - minTime);
+                const y = height * 0.05 + (height * 0.9) * (1 - normalizedTime);
+                
+                // Format label - no decimals, proper BCE/CE
+                const label = year < 0 
+                  ? `${Math.abs(year)} BCE` 
+                  : year === 0 
+                  ? '1 CE' 
+                  : `${year} CE`;
+                
+                ticks.push({ year, y, label });
+              }
+              
+              return ticks.map((tick, i) => (
                 <g key={i}>
                   <line
                     x1={width * 0.05 - 5}
-                    y1={y}
+                    y1={tick.y}
                     x2={width * 0.05}
-                    y2={y}
+                    y2={tick.y}
                     stroke="#999"
                     strokeWidth={1}
                     opacity={0.5}
                   />
                   <text
                     x={width * 0.05 - 10}
-                    y={y + 4}
+                    y={tick.y + 4}
                     fontSize={11}
                     fill="#666"
                     textAnchor="end"
                     dominantBaseline="middle"
                   >
-                    {label}
+                    {tick.label}
                   </text>
                 </g>
-              );
-            })}
+              ));
+            })()}
           </g>
         )}
 
