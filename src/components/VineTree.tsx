@@ -100,9 +100,10 @@ export default function VineTree({
         const targetY = targetNode.y + (targetNode.height || 0) / 2;
 
         const isPartOf = edge.labels?.[0]?.text === 'PART_OF';
+        const isRecommended = edge.labels?.[0]?.text === 'RECOMMENDED';
         const strokeWidth = isPartOf ? 3 : 1;
         const strokeColor = isPartOf ? '#2d5a27' : '#888';
-        const strokeDasharray = edge.labels?.[0]?.text === 'RECOMMENDED' ? '5,5' : undefined;
+        const strokeDasharray = isRecommended ? '5,5' : undefined;
 
         return (
           <g key={edge.id}>
@@ -116,7 +117,8 @@ export default function VineTree({
               strokeDasharray={strokeDasharray}
               markerEnd={isPartOf ? 'url(#arrowhead)' : undefined}
             />
-            {edge.labels?.[0] && (
+            {/* Only show labels for non-PART_OF edges */}
+            {edge.labels?.[0] && !isPartOf && (
               <text
                 x={(sourceX + targetX) / 2}
                 y={(sourceY + targetY) / 2 - 5}
