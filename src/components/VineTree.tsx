@@ -51,11 +51,30 @@ const getTintedColor = (baseColor: string, levelBand: LevelBand): string => {
   const whiteG = 255;
   const whiteB = 255;
   
-  const newR = r + (whiteR - r) * tintFactor * 0.4; // Max 40% lighter
-  const newG = g + (whiteG - g) * tintFactor * 0.4;
-  const newB = b + (whiteB - b) * tintFactor * 0.4;
+  // Increased tinting from 40% to 60% for better visibility
+  const newR = r + (whiteR - r) * tintFactor * 0.6; // Max 60% lighter
+  const newG = g + (whiteG - g) * tintFactor * 0.6;
+  const newB = b + (whiteB - b) * tintFactor * 0.6;
   
   return rgbToHex(newR, newG, newB);
+};
+
+// Calculate luminance to determine if background is light or dark
+const getLuminance = (r: number, g: number, b: number): number => {
+  // Relative luminance formula from WCAG
+  const [rs, gs, bs] = [r, g, b].map(val => {
+    val = val / 255;
+    return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+};
+
+// Get text color with good contrast against background
+const getTextColor = (backgroundColor: string): string => {
+  const [r, g, b] = hexToRgb(backgroundColor);
+  const luminance = getLuminance(r, g, b);
+  // Use dark text on light backgrounds, light text on dark backgrounds
+  return luminance > 0.5 ? '#1a1a1a' : '#ffffff';
 };
 
 // Get stroke color (darker version for contrast)
@@ -482,6 +501,8 @@ export default function VineTree({
         const strokeColor = getStrokeColor(baseColor, cred.level_band);
         const strokeWidth = isSeasonal ? 2.5 : 2;
         const isHovered = hoveredNodeId === node.id;
+        const textColor = getTextColor(fillColor);
+        const cadenceEmoji = isSeasonal ? '🌱' : '🌙';
         
         // Zoom factor for hovered nodes
         const hoverScale = isHovered ? 1.5 : 1;
@@ -523,43 +544,62 @@ export default function VineTree({
                 transition: 'filter 0.2s ease-out',
               }}
             />
+            {/* Cadence emoji */}
             <text
-              x={node.x + node.width / 2}
-              y={node.y + node.height / 2 - 8}
-              fontSize={isHovered ? (isSeasonal ? 16 : 13) : (isSeasonal ? 11 : 9)}
-              fontWeight={isSeasonal ? 'bold' : 'normal'}
-              fill="#333"
-              textAnchor="middle"
+              x={node.x + 8}
+              y={node.y + (isHovered ? 20 : 14)}
+              fontSize={isHovered ? 18 : 14}
+              textAnchor="start"
               dominantBaseline="middle"
               style={{ 
                 transition: 'font-size 0.2s ease-out',
                 pointerEvents: 'none',
               }}
             >
+              {cadenceEmoji}
+            </text>
+            {/* Title */}
+            <text
+              x={node.x + node.width / 2}
+              y={node.y + node.height / 2 - 8}
+              fontSize={isHovered ? (isSeasonal ? 16 : 13) : (isSeasonal ? 11 : 9)}
+              fontWeight={isSeasonal ? 'bold' : 'normal'}
+              fill={textColor}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              style={{ 
+                transition: 'font-size 0.2s ease-out, fill 0.2s ease-out',
+                pointerEvents: 'none',
+              }}
+            >
               {node.labels?.[0]?.text || cred.title}
             </text>
+            {/* Level band */}
             <text
               x={node.x + node.width / 2}
               y={node.y + node.height - 8}
               fontSize={isHovered ? 10 : 7}
-              fill="#666"
+              fill={textColor}
               textAnchor="middle"
               fontWeight="500"
+              opacity={0.9}
               style={{ 
-                transition: 'font-size 0.2s ease-out',
+                transition: 'font-size 0.2s ease-out, fill 0.2s ease-out',
                 pointerEvents: 'none',
               }}
             >
               {cred.level_band}
             </text>
+            {/* College */}
             <text
               x={node.x + node.width / 2}
               y={node.y + node.height - 2}
               fontSize={isHovered ? 10 : 7}
-              fill="#888"
+              fill={textColor}
               textAnchor="middle"
+              opacity={0.8}
               style={{ 
-                transition: 'font-size 0.2s ease-out',
+                transition: 'font-size 0.2s ease-out, fill 0.2s ease-out',
                 pointerEvents: 'none',
               }}
             >
