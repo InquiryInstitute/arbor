@@ -11,7 +11,6 @@ interface ELKNode {
   height?: number;
   x?: number;
   y?: number;
-  children?: ELKNode[];
   layoutOptions?: Record<string, string>;
 }
 
@@ -30,18 +29,18 @@ interface ELKGraph {
 
 // Color mapping for relation types
 const relationColors: Record<CommonCoreRelation['relation_type'], string> = {
-  contains: '#2d5a27',      // Dark green - hierarchical
-  prerequisite: '#1976d2',   // Blue - prerequisite
-  builds_on: '#ff9800',      // Orange - progression
+  contains: '#4caf50',      // Green - hierarchical
+  prerequisite: '#2196f3',   // Blue - prerequisite (more visible)
+  builds_on: '#ff9800',       // Orange - progression
 };
 
 // Color mapping for node types
 const nodeTypeColors: Record<CommonCoreNode['type'], string> = {
-  grade: '#2196f3',
-  subject: '#4caf50',
-  domain: '#66bb6a',
-  cluster: '#81c784',
-  standard: '#a5d6a7',
+  grade: '#2196f3',      // Blue
+  subject: '#4caf50',    // Green
+  domain: '#66bb6a',     // Light green
+  cluster: '#81c784',    // Lighter green
+  standard: '#a5d6a7',   // Lightest green
 };
 
 interface CommonCoreTreeProps {
@@ -50,8 +49,8 @@ interface CommonCoreTreeProps {
 }
 
 export default function CommonCoreTree({ 
-  width = 1600,
-  height = 1200,
+  width = 1800,
+  height = 1400,
 }: CommonCoreTreeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<SVGGElement>(null);
@@ -70,88 +69,115 @@ export default function CommonCoreTree({
       try {
         const elk = new ELK();
         
-        // Build hierarchical structure: grade -> subject -> domain -> cluster
+        // Get all nodes by type
         const gradeNodes = allCommonCoreNodes.filter(n => n.type === 'grade');
         const subjectNodes = allCommonCoreNodes.filter(n => n.type === 'subject');
         const domainNodes = allCommonCoreNodes.filter(n => n.type === 'domain');
         const clusterNodes = allCommonCoreNodes.filter(n => n.type === 'cluster');
         
-        // Create ELK nodes with hierarchical structure
-        const elkNodes: ELKNode[] = gradeNodes.map(grade => {
+        // Create flat list of all nodes with layer assignment
+        // Layer 0: Grades (K at bottom, 12 at top)
+        // Layer 1: Subjects
+        // Layer 2: Domains
+        // Layer 3: Clusters
+        
+        const elkNodes: ELKNode[] = [];
+        const nodeToLayer = new Map<string, number>();
+        
+        // Add grade nodes (layer 0-12, K=0, 1-12)
+        gradeNodes.forEach(grade => {
           const gradeNum = grade.grade ?? 0;
-          
-          // Get subjects for this grade
-          const gradeSubjects = subjectNodes.filter(s => {
-            if (gradeNum <= 8) {
-              return s.grade === gradeNum;
-            } else {
-              // High school: all grades share math-hs and ela-hs
-              return s.id === 'math-hs' || s.id === 'ela-hs';
-            }
-          });
-          
-          const subjectChildren: ELKNode[] = gradeSubjects.map(subject => {
-            // Get domains for this subject and grade
-            const subjectDomains = domainNodes.filter(d => 
-              d.subject === subject.subject && 
-              (gradeNum <= 8 ? d.grade === gradeNum : d.grade === gradeNum)
-            );
-            
-            const domainChildren: ELKNode[] = subjectDomains.map(domain => {
-              // Get clusters for this domain
-              const domainClusters = clusterNodes.filter(c =>
-                c.subject === domain.subject &&
-                c.domain === domain.domain &&
-                c.grade === domain.grade
-              );
-              
-              const clusterChildren: ELKNode[] = domainClusters.map(cluster => ({
-                id: cluster.id,
-                labels: [{ text: cluster.name }],
-                width: 140,
-                height: 40,
-              }));
-              
-              return {
-                id: domain.id,
-                labels: [{ text: domain.name }],
-                width: 160,
-                height: 45,
-                children: clusterChildren.length > 0 ? clusterChildren : undefined,
-              };
-            });
-            
-            return {
-              id: gradeNum <= 8 ? subject.id : `${subject.id}-${gradeNum}`,
-              labels: [{ text: subject.name }],
-              width: 180,
-              height: 50,
-              children: domainChildren.length > 0 ? domainChildren : undefined,
-            };
-          });
-          
-          return {
+          elkNodes.push({
             id: grade.id,
             labels: [{ text: grade.name }],
-            width: 200,
-            height: 60,
-            children: subjectChildren,
-          };
+            width: 180,
+            height: 50,
+            layoutOptions: {
+              'elk.layered.layer': gradeNum.toString(),
+            },
+          });
+          nodeToLayer.set(grade.id, gradeNum);
         });
         
-        // Create edges from relations
-        // Note: ELK handles hierarchical edges automatically through parent-child relationships
-        // We only need to add explicit edges for prerequisites and builds_on (cross-grade connections)
+        // Add subject nodes (layer = grade + 0.5, positioned between grade and domains)
+        subjectNodes.forEach(subject => {
+          const gradeNum = subject.grade ?? 0;
+          const layer = gradeNum + 0.5;
+          elkNodes.push({
+            id: subject.grade! <= 8 ? subject.id : `${subject.id}-${gradeNum}`,
+            labels: [{ text: subject.name }],
+            width: 160,
+            height: 45,
+            layoutOptions: {
+              'elk.layered.layer': layer.toString(),
+              'elk.priority': subject.subject === 'math' ? '0' : '1', // Math on left, ELA on right
+            },
+          });
+          nodeToLayer.set(subject.grade! <= 8 ? subject.id : `${subject.id}-${gradeNum}`, layer);
+        });
+        
+        // Add domain nodes (layer = grade + 1)
+        domainNodes.forEach(domain => {
+          const gradeNum = domain.grade ?? 0;
+          const layer = gradeNum + 1;
+          elkNodes.push({
+            id: domain.id,
+            labels: [{ text: domain.name }],
+            width: 150,
+            height: 40,
+            layoutOptions: {
+              'elk.layered.layer': layer.toString(),
+              'elk.priority': domain.subject === 'math' ? '0' : '1',
+            },
+          });
+          nodeToLayer.set(domain.id, layer);
+        });
+        
+        // Add cluster nodes (layer = grade + 1.5)
+        clusterNodes.forEach(cluster => {
+          const gradeNum = cluster.grade ?? 0;
+          const layer = gradeNum + 1.5;
+          elkNodes.push({
+            id: cluster.id,
+            labels: [{ text: cluster.name }],
+            width: 140,
+            height: 35,
+            layoutOptions: {
+              'elk.layered.layer': layer.toString(),
+              'elk.priority': cluster.subject === 'math' ? '0' : '1',
+            },
+          });
+          nodeToLayer.set(cluster.id, layer);
+        });
+        
+        // Create edges
         const elkEdges: ELKEdge[] = [];
         
         commonCoreRelations.forEach(relation => {
-          // Only add explicit edges for prerequisites and builds_on
-          // Contains relations are handled by ELK's hierarchical structure
-          if (relation.relation_type === 'prerequisite' || relation.relation_type === 'builds_on') {
+          let sourceId = relation.from_id;
+          let targetId = relation.to_id;
+          
+          // Handle high school subject edges
+          if (relation.from_id.startsWith('grade-') && relation.to_id.includes('-hs')) {
+            const gradeId = relation.from_id;
+            const gradeNum = parseInt(gradeId.split('-')[1] === 'k' ? '0' : gradeId.split('-')[1]);
+            if (gradeNum >= 9 && gradeNum <= 12) {
+              sourceId = gradeId;
+              targetId = `${relation.to_id}-${gradeNum}`;
+            } else {
+              return; // Skip if not a valid HS grade
+            }
+          }
+          
+          // Check if both nodes exist
+          const sourceExists = elkNodes.some(n => n.id === sourceId);
+          const targetExists = elkNodes.some(n => n.id === targetId);
+          
+          if (sourceExists && targetExists) {
             elkEdges.push({
               id: relation.id,
-              sources: [relation.from_id],
-              targets: [relation.to_id],
+              sources: [sourceId],
+              targets: [targetId],
               labels: relation.description ? [{ text: relation.description }] : undefined,
             });
           }
@@ -163,16 +189,15 @@ export default function CommonCoreTree({
           layoutOptions: {
             'elk.algorithm': 'layered',
             'elk.direction': 'UP', // Bottom to top
-            'elk.spacing.nodeNode': '60',
-            'elk.spacing.edgeNode': '30',
-            'elk.layered.spacing.nodeNodeBetweenLayers': '120',
-            'elk.layered.spacing.edgeNodeBetweenLayers': '40',
+            'elk.spacing.nodeNode': '80',
+            'elk.spacing.edgeNode': '40',
+            'elk.layered.spacing.nodeNodeBetweenLayers': '150',
+            'elk.layered.spacing.edgeNodeBetweenLayers': '50',
             'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
             'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
             'elk.layered.cycleBreaking.strategy': 'GREEDY',
-            'elk.spacing.edgeEdge': '20',
-            'elk.spacing.edgeNode': '30',
-            'elk.spacing.nodeNode': '50',
+            'elk.spacing.edgeEdge': '30',
+            'elk.portAlignment.basic': 'JUSTIFIED',
           },
           children: elkNodes,
           edges: elkEdges,
@@ -222,7 +247,7 @@ export default function CommonCoreTree({
       }
     });
 
-    const padding = 50;
+    const padding = 100;
     return {
       minX: minX - padding,
       minY: minY - padding,
@@ -238,7 +263,7 @@ export default function CommonCoreTree({
     const bbox = getBoundingBox();
     const scaleX = width / bbox.width;
     const scaleY = height / bbox.height;
-    const scale = Math.min(scaleX, scaleY, 1) * 0.9;
+    const scale = Math.min(scaleX, scaleY, 1) * 0.85;
     
     const centerX = (bbox.minX + bbox.maxX) / 2;
     const centerY = (bbox.minY + bbox.maxY) / 2;
@@ -313,73 +338,6 @@ export default function CommonCoreTree({
     }
   }, [layout, loading, zoomToFit]);
 
-  // Recursively render nodes
-  const renderNode = (elkNode: ELKNode): React.ReactNode => {
-    if (elkNode.x === undefined || elkNode.y === undefined) return null;
-    
-    const nodeData = allCommonCoreNodes.find(n => {
-      // Handle high school subject nodes
-      if (elkNode.id.includes('-hs-')) {
-        const baseId = elkNode.id.split('-').slice(0, 2).join('-');
-        return n.id === baseId;
-      }
-      return n.id === elkNode.id;
-    });
-    
-    if (!nodeData) return null;
-    
-    const isHovered = hoveredNodeId === elkNode.id;
-    const isSelected = selectedNodeId === elkNode.id;
-    const nodeColor = nodeData.color || nodeTypeColors[nodeData.type] || '#888';
-    const strokeWidth = isSelected ? 4 : isHovered ? 3 : 2;
-    const nodeOpacity = isSelected ? 1 : isHovered ? 0.9 : 0.8;
-    const nodeWidth = elkNode.width || 200;
-    const nodeHeight = elkNode.height || 60;
-    const label = elkNode.labels?.[0]?.text || nodeData.name;
-
-    return (
-      <g key={elkNode.id}>
-        <rect
-          x={elkNode.x}
-          y={elkNode.y}
-          width={nodeWidth}
-          height={nodeHeight}
-          fill={nodeColor}
-          stroke={isSelected ? '#000' : nodeColor}
-          strokeWidth={strokeWidth}
-          rx={6}
-          opacity={nodeOpacity}
-          onMouseEnter={() => setHoveredNodeId(elkNode.id)}
-          onMouseLeave={() => setHoveredNodeId(null)}
-          onClick={() => setSelectedNodeId(isSelected ? null : elkNode.id)}
-          style={{ 
-            cursor: 'pointer',
-            filter: isSelected ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' : 
-                    isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
-            transition: 'all 0.2s ease-out',
-          }}
-        />
-        <text
-          x={elkNode.x + nodeWidth / 2}
-          y={elkNode.y + nodeHeight / 2}
-          fontSize={nodeData.type === 'grade' ? 14 : nodeData.type === 'subject' ? 12 : nodeData.type === 'domain' ? 10 : 9}
-          fontWeight={nodeData.type === 'grade' ? 'bold' : nodeData.type === 'subject' ? '600' : 'normal'}
-          fill="#fff"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{ 
-            pointerEvents: 'none',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-          }}
-        >
-          {label}
-        </text>
-        {/* Render children recursively */}
-        {elkNode.children?.map(child => renderNode(child))}
-      </g>
-    );
-  };
-
   if (loading || !layout) {
     return (
       <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -388,6 +346,7 @@ export default function CommonCoreTree({
     );
   }
 
+  const allELKNodes = flattenNodes(layout.children || []);
   const selectedNode = selectedNodeId ? allCommonCoreNodes.find(n => {
     if (selectedNodeId.includes('-hs-')) {
       const baseId = selectedNodeId.split('-').slice(0, 2).join('-');
@@ -395,9 +354,6 @@ export default function CommonCoreTree({
     }
     return n.id === selectedNodeId;
   }) : null;
-  
-  // Get all nodes for edge rendering
-  const allELKNodes = flattenNodes(layout.children || []);
 
   return (
     <div style={{ position: 'relative', width, height, display: 'flex' }}>
@@ -415,31 +371,35 @@ export default function CommonCoreTree({
           display: 'flex',
           flexDirection: 'column',
           gap: 5,
+          background: 'white',
+          padding: '5px',
+          borderRadius: '4px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         }}>
           <button
             onClick={() => setTransform({ ...transform, scale: Math.min(10, transform.scale * 1.2) })}
-            style={{ padding: '5px 10px', cursor: 'pointer' }}
+            style={{ padding: '5px 10px', cursor: 'pointer', border: '1px solid #ccc' }}
             title="Zoom in"
           >
             +
           </button>
           <button
             onClick={() => setTransform({ ...transform, scale: Math.max(0.1, transform.scale * 0.8) })}
-            style={{ padding: '5px 10px', cursor: 'pointer' }}
+            style={{ padding: '5px 10px', cursor: 'pointer', border: '1px solid #ccc' }}
             title="Zoom out"
           >
             −
           </button>
           <button
             onClick={zoomToFit}
-            style={{ padding: '5px 10px', cursor: 'pointer' }}
+            style={{ padding: '5px 10px', cursor: 'pointer', border: '1px solid #ccc' }}
             title="Zoom to fit"
           >
             ⌂
           </button>
           <button
             onClick={() => setTransform({ x: 0, y: 0, scale: 1 })}
-            style={{ padding: '5px 10px', cursor: 'pointer' }}
+            style={{ padding: '5px 10px', cursor: 'pointer', border: '1px solid #ccc' }}
             title="Reset"
           >
             ⟲
@@ -467,13 +427,13 @@ export default function CommonCoreTree({
               <marker
                 key={type}
                 id={`arrowhead-${type}`}
-                markerWidth="10"
-                markerHeight="10"
-                refX="9"
-                refY="3"
+                markerWidth="12"
+                markerHeight="12"
+                refX="10"
+                refY="6"
                 orient="auto"
               >
-                <polygon points="0 0, 10 3, 0 6" fill={color} />
+                <polygon points="0 0, 12 6, 0 12" fill={color} />
               </marker>
             ))}
           </defs>
@@ -484,19 +444,8 @@ export default function CommonCoreTree({
           >
             {/* Render edges */}
             {(layout.edges || []).map(edge => {
-              const sourceNode = allELKNodes.find(n => {
-                // Handle high school subject nodes
-                if (edge.sources[0].includes('-hs-')) {
-                  return n.id === edge.sources[0];
-                }
-                return n.id === edge.sources[0];
-              });
-              const targetNode = allELKNodes.find(n => {
-                if (edge.targets[0].includes('-hs-')) {
-                  return n.id === edge.targets[0];
-                }
-                return n.id === edge.targets[0];
-              });
+              const sourceNode = allELKNodes.find(n => n.id === edge.sources[0]);
+              const targetNode = allELKNodes.find(n => n.id === edge.targets[0]);
               
               if (!sourceNode || !targetNode || sourceNode.x === undefined || sourceNode.y === undefined || 
                   targetNode.x === undefined || targetNode.y === undefined) {
@@ -508,9 +457,9 @@ export default function CommonCoreTree({
                 edge.id.startsWith(r.id + '-'));
               const relationType = relation?.relation_type || 'contains';
               const strokeColor = relationColors[relationType] || '#666';
-              const strokeWidth = relationType === 'contains' ? 2.5 : relationType === 'prerequisite' ? 3 : 2;
-              const strokeDasharray = relationType === 'prerequisite' ? '8,4' : relationType === 'builds_on' ? '4,4' : undefined;
-              const opacity = relationType === 'prerequisite' ? 0.9 : relationType === 'builds_on' ? 0.8 : 0.6;
+              const strokeWidth = relationType === 'prerequisite' ? 3.5 : relationType === 'builds_on' ? 2.5 : 2;
+              const strokeDasharray = relationType === 'prerequisite' ? '10,5' : relationType === 'builds_on' ? '6,4' : undefined;
+              const opacity = relationType === 'prerequisite' ? 0.95 : relationType === 'builds_on' ? 0.85 : 0.65;
 
               const sourceX = sourceNode.x + (sourceNode.width || 200) / 2;
               const sourceY = sourceNode.y + (sourceNode.height || 60) / 2;
@@ -533,8 +482,69 @@ export default function CommonCoreTree({
               );
             })}
 
-            {/* Render nodes recursively */}
-            {layout.children?.map(node => renderNode(node))}
+            {/* Render nodes */}
+            {allELKNodes.map(elkNode => {
+              if (elkNode.x === undefined || elkNode.y === undefined) return null;
+              
+              const nodeData = allCommonCoreNodes.find(n => {
+                if (elkNode.id.includes('-hs-')) {
+                  const baseId = elkNode.id.split('-').slice(0, 2).join('-');
+                  return n.id === baseId;
+                }
+                return n.id === elkNode.id;
+              });
+              
+              if (!nodeData) return null;
+              
+              const isHovered = hoveredNodeId === elkNode.id;
+              const isSelected = selectedNodeId === elkNode.id;
+              const nodeColor = nodeData.color || nodeTypeColors[nodeData.type] || '#888';
+              const strokeWidth = isSelected ? 4 : isHovered ? 3 : 2;
+              const nodeOpacity = isSelected ? 1 : isHovered ? 0.95 : 0.9;
+              const nodeWidth = elkNode.width || 200;
+              const nodeHeight = elkNode.height || 60;
+              const label = elkNode.labels?.[0]?.text || nodeData.name;
+
+              return (
+                <g key={elkNode.id}>
+                  <rect
+                    x={elkNode.x}
+                    y={elkNode.y}
+                    width={nodeWidth}
+                    height={nodeHeight}
+                    fill={nodeColor}
+                    stroke={isSelected ? '#000' : isHovered ? '#333' : nodeColor}
+                    strokeWidth={strokeWidth}
+                    rx={8}
+                    opacity={nodeOpacity}
+                    onMouseEnter={() => setHoveredNodeId(elkNode.id)}
+                    onMouseLeave={() => setHoveredNodeId(null)}
+                    onClick={() => setSelectedNodeId(isSelected ? null : elkNode.id)}
+                    style={{ 
+                      cursor: 'pointer',
+                      filter: isSelected ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' : 
+                              isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
+                      transition: 'all 0.2s ease-out',
+                    }}
+                  />
+                  <text
+                    x={elkNode.x + nodeWidth / 2}
+                    y={elkNode.y + nodeHeight / 2}
+                    fontSize={nodeData.type === 'grade' ? 13 : nodeData.type === 'subject' ? 11 : nodeData.type === 'domain' ? 10 : 9}
+                    fontWeight={nodeData.type === 'grade' ? 'bold' : nodeData.type === 'subject' ? '600' : 'normal'}
+                    fill="#fff"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{ 
+                      pointerEvents: 'none',
+                      textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+                    }}
+                  >
+                    {label}
+                  </text>
+                </g>
+              );
+            })}
           </g>
         </svg>
       </div>
@@ -552,9 +562,10 @@ export default function CommonCoreTree({
           padding: '1.5rem',
           overflowY: 'auto',
           boxShadow: '-2px 0 8px rgba(0,0,0,0.1)',
+          zIndex: 5,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ margin: 0, color: '#333' }}>{selectedNode.name}</h2>
+            <h2 style={{ margin: 0, color: '#333', fontSize: '1.25rem' }}>{selectedNode.name}</h2>
             <button
               onClick={() => setSelectedNodeId(null)}
               style={{ 
@@ -563,13 +574,14 @@ export default function CommonCoreTree({
                 fontSize: '1.5rem', 
                 cursor: 'pointer',
                 color: '#666',
+                padding: '0 5px',
               }}
             >
               ×
             </button>
           </div>
           
-          <div style={{ marginBottom: '1rem' }}>
+          <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #eee' }}>
             <strong>Type:</strong> {selectedNode.type}
           </div>
           
@@ -594,7 +606,7 @@ export default function CommonCoreTree({
           {selectedNode.description && (
             <div style={{ marginBottom: '1rem' }}>
               <strong>Description:</strong>
-              <p style={{ marginTop: '0.5rem', lineHeight: '1.6' }}>{selectedNode.description}</p>
+              <p style={{ marginTop: '0.5rem', lineHeight: '1.6', color: '#666' }}>{selectedNode.description}</p>
             </div>
           )}
         </div>

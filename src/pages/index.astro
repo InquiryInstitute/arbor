@@ -23,13 +23,13 @@
         <div class="tree-container">
           <a href="/arbor/scientia/" class="tree-card">
             <h3>🌳 Scientia</h3>
-            <p class="tree-description">The Tree of Vines — Curriculum Graph</p>
             <iframe 
               src="/arbor/scientia/" 
               title="Scientia Tree"
               loading="lazy"
               sandbox="allow-same-origin allow-scripts"
             ></iframe>
+            <p class="tree-description">The Tree of Vines — Curriculum Graph</p>
           </a>
         </div>
 
@@ -37,51 +37,51 @@
         <!-- <div class="tree-container">
           <a href="/arbor/temporis/" class="tree-card">
             <h3>⏳ Temporis</h3>
-            <p class="tree-description">The Tree of Time — Historical Progression</p>
             <iframe 
               src="/arbor/temporis/" 
               title="Temporis Tree"
               loading="lazy"
             ></iframe>
+            <p class="tree-description">The Tree of Time — Historical Progression</p>
           </a>
         </div> -->
 
         <div class="tree-container">
           <a href="/arbor/civilatatum/" class="tree-card">
             <h3>🏛️ Civilitatum</h3>
-            <p class="tree-description">The Tree of Civilizations</p>
             <iframe 
               src="/arbor/civilatatum/" 
               title="Civilitatum Tree"
               loading="lazy"
               sandbox="allow-same-origin allow-scripts"
             ></iframe>
+            <p class="tree-description">The Tree of Civilizations</p>
           </a>
         </div>
 
         <div class="tree-container">
           <a href="/arbor/mit/" class="tree-card">
             <h3>📚 MIT OCW</h3>
-            <p class="tree-description">MIT OpenCourseWare Prerequisites (ELK.js Layout)</p>
             <iframe 
               src="/arbor/mit/" 
               title="MIT OCW Tree"
               loading="lazy"
               sandbox="allow-same-origin allow-scripts"
             ></iframe>
+            <p class="tree-description">MIT OpenCourseWare Prerequisites (ELK.js Layout)</p>
           </a>
         </div>
 
         <div class="tree-container">
           <a href="/arbor/commoncore/" class="tree-card">
             <h3>📖 Common Core</h3>
-            <p class="tree-description">Common Core Curriculum Tree — Kindergarten to Grade 12</p>
             <iframe 
               src="/arbor/commoncore/" 
               title="Common Core Tree"
               loading="lazy"
               sandbox="allow-same-origin allow-scripts"
             ></iframe>
+            <p class="tree-description">Common Core Curriculum Tree — Kindergarten to Grade 12</p>
           </a>
         </div>
       </section>
@@ -132,14 +132,19 @@
       }
 
       .forest {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 2rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
         margin: 2rem 0;
+        overflow-x: auto;
+        padding-bottom: 1rem;
       }
 
       .tree-container {
         position: relative;
+        flex: 0 0 auto;
+        min-width: 350px;
+        max-width: 450px;
       }
 
       .tree-card {
@@ -163,15 +168,17 @@
       }
 
       .tree-card h3 {
-        margin: 0 0 0.5rem 0;
+        margin: 0 0 0.75rem 0;
         color: #2d5a27;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+        text-align: center;
       }
 
       .tree-description {
-        margin: 0 0 1rem 0;
+        margin: 1rem 0 0 0;
         color: #666;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        line-height: 1.4;
       }
 
       .tree-card iframe {
@@ -181,38 +188,13 @@
         border-radius: 4px;
         background: #fafafa;
         pointer-events: none; /* Prevent iframe interaction, clicking card goes to page */
-      }
-
-      /* Forest-like organic layout on larger screens */
-      @media (min-width: 1200px) {
-        .forest {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .tree-container:nth-child(1) {
-          grid-column: 1;
-          grid-row: 1 / 3;
-        }
-        
-        .tree-container:nth-child(2) {
-          grid-column: 2;
-          grid-row: 1;
-        }
-        
-        .tree-container:nth-child(3) {
-          grid-column: 2;
-          grid-row: 2;
-        }
-        
-        .tree-container:nth-child(4) {
-          grid-column: 1 / 3;
-          grid-row: 3;
-        }
+        flex: 1;
       }
 
       @media (max-width: 768px) {
-        .forest {
-          grid-template-columns: 1fr;
+        .tree-container {
+          min-width: 300px;
+          max-width: 350px;
         }
         
         .tree-card iframe {
