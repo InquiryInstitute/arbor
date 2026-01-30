@@ -410,28 +410,102 @@ export default function CivilizationTree({
         }}>
         <button
           onClick={() => setTransform({ ...transform, scale: Math.min(10, transform.scale * 1.2) })}
-          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          style={{ 
+            padding: '8px 12px', 
+            cursor: 'pointer',
+            background: 'rgba(255,255,255,0.95)',
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '6px',
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#2d5a27',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
           title="Zoom in"
         >
           +
         </button>
         <button
           onClick={() => setTransform({ ...transform, scale: Math.max(0.1, transform.scale * 0.8) })}
-          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          style={{ 
+            padding: '8px 12px', 
+            cursor: 'pointer',
+            background: 'rgba(255,255,255,0.95)',
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '6px',
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#2d5a27',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
           title="Zoom out"
         >
           −
         </button>
         <button
           onClick={zoomToFit}
-          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          style={{ 
+            padding: '8px 12px', 
+            cursor: 'pointer',
+            background: 'rgba(255,255,255,0.95)',
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '6px',
+            fontSize: '14px',
+            color: '#2d5a27',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
           title="Zoom to fit"
         >
           ⌂
         </button>
         <button
           onClick={() => setTransform({ x: 0, y: 0, scale: 1 })}
-          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          style={{ 
+            padding: '8px 12px', 
+            cursor: 'pointer',
+            background: 'rgba(255,255,255,0.95)',
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '6px',
+            fontSize: '14px',
+            color: '#2d5a27',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.95)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
           title="Reset"
         >
           ⟲
@@ -443,25 +517,55 @@ export default function CivilizationTree({
           width={selectedNode ? width - 400 : width}
           height={height}
           style={{ 
-            border: '1px solid #ccc', 
-            background: '#fafafa', 
+            border: 'none',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f0f2f5 100%)',
             cursor: 'default',
             display: 'block',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05)',
           }}
         >
         <defs>
+          {/* Gradient definitions for beautiful nodes */}
+          <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.1)" />
+          </linearGradient>
+          
+          {/* Shadow filter for nodes */}
+          <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+            <feOffset dx="0" dy="2" result="offsetblur"/>
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.3"/>
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          
+          {/* Glow filter for hovered nodes */}
+          <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
           {/* Arrow markers for different relation types */}
           {Object.entries(relationColors).map(([type, color]) => (
             <marker
               key={type}
               id={`arrowhead-${type}`}
-              markerWidth="10"
-              markerHeight="10"
-              refX="9"
-              refY="3"
+              markerWidth="12"
+              markerHeight="12"
+              refX="10"
+              refY="4"
               orient="auto"
+              markerUnits="strokeWidth"
             >
-              <polygon points="0 0, 10 3, 0 6" fill={color} />
+              <path d="M 0 0 L 12 4 L 0 8 Z" fill={color} opacity="0.8" />
             </marker>
           ))}
         </defs>
@@ -474,10 +578,10 @@ export default function CivilizationTree({
               y1={height * 0.05}
               x2={width * 0.05}
               y2={height * 0.95}
-              stroke="#999"
-              strokeWidth={2}
-              strokeDasharray="5,5"
-              opacity={0.5}
+              stroke="#4a5568"
+              strokeWidth={2.5}
+              strokeDasharray="8,4"
+              opacity={0.4}
             />
             {/* Time labels - 500 year intervals from 3500 BCE to 2026 CE */}
             {(() => {
@@ -505,21 +609,23 @@ export default function CivilizationTree({
               return ticks.map((tick, i) => (
                 <g key={i}>
                   <line
-                    x1={width * 0.05 - 5}
+                    x1={width * 0.05 - 8}
                     y1={tick.y}
                     x2={width * 0.05}
                     y2={tick.y}
-                    stroke="#999"
-                    strokeWidth={1}
+                    stroke="#4a5568"
+                    strokeWidth={1.5}
                     opacity={0.5}
                   />
                   <text
-                    x={width * 0.05 - 10}
+                    x={width * 0.05 - 12}
                     y={tick.y + 4}
-                    fontSize={11}
-                    fill="#666"
+                    fontSize={12}
+                    fill="#2d3748"
                     textAnchor="end"
                     dominantBaseline="middle"
+                    fontFamily="'Crimson Text', serif"
+                    fontWeight="500"
                   >
                     {tick.label}
                   </text>
@@ -537,10 +643,10 @@ export default function CivilizationTree({
               y1={height * 0.95}
               x2={width * 0.95}
               y2={height * 0.95}
-              stroke="#999"
-              strokeWidth={2}
-              strokeDasharray="5,5"
-              opacity={0.5}
+              stroke="#4a5568"
+              strokeWidth={2.5}
+              strokeDasharray="8,4"
+              opacity={0.4}
             />
             {/* Longitude labels */}
             {[0, 1, 2, 3, 4].map(i => {
@@ -553,17 +659,19 @@ export default function CivilizationTree({
                     x1={x}
                     y1={height * 0.95}
                     x2={x}
-                    y2={height * 0.95 + 5}
-                    stroke="#999"
-                    strokeWidth={1}
+                    y2={height * 0.95 + 6}
+                    stroke="#4a5568"
+                    strokeWidth={1.5}
                     opacity={0.5}
                   />
                   <text
                     x={x}
-                    y={height * 0.95 + 20}
-                    fontSize={11}
-                    fill="#666"
+                    y={height * 0.95 + 22}
+                    fontSize={12}
+                    fill="#2d3748"
                     textAnchor="middle"
+                    fontFamily="'Crimson Text', serif"
+                    fontWeight="500"
                   >
                     {lonValue > 0 ? `${lonValue.toFixed(0)}°E` : lonValue < 0 ? `${Math.abs(lonValue).toFixed(0)}°W` : '0°'}
                   </text>
@@ -646,18 +754,29 @@ export default function CivilizationTree({
             const targetX = targetNode.x + (targetNode.width || 0) / 2;
             const targetY = targetNode.y + (targetNode.height || 0) / 2;
 
+            // Create curved path for smoother edges
+            const dx = targetX - sourceX;
+            const dy = targetY - sourceY;
+            const curvature = Math.min(Math.abs(dx), Math.abs(dy)) * 0.3;
+            const cp1x = sourceX + (dx > 0 ? curvature : -curvature);
+            const cp1y = sourceY;
+            const cp2x = targetX - (dx > 0 ? curvature : -curvature);
+            const cp2y = targetY;
+
             return (
-              <line
+              <path
                 key={edge.id}
-                x1={sourceX}
-                y1={sourceY}
-                x2={targetX}
-                y2={targetY}
+                d={`M ${sourceX} ${sourceY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${targetX} ${targetY}`}
+                fill="none"
                 stroke={strokeColor}
                 strokeWidth={strokeWidth}
                 strokeDasharray={strokeDasharray}
                 strokeOpacity={opacity}
+                strokeLinecap="round"
                 markerEnd={`url(#arrowhead-${relationType})`}
+                style={{
+                  transition: 'opacity 0.2s ease',
+                }}
               />
             );
           })}
@@ -672,8 +791,11 @@ export default function CivilizationTree({
             const isHovered = hoveredNodeId === node.id;
             const isSelected = selectedNodeId === node.id;
             const nodeColor = civNode.color || '#888';
-            const strokeWidth = isSelected ? 4 : isHovered ? 3 : 2;
-            const nodeOpacity = isSelected ? 1 : isHovered ? 0.9 : 0.8;
+            const strokeWidth = isSelected ? 3.5 : isHovered ? 2.5 : 2;
+            const nodeOpacity = isSelected ? 1 : isHovered ? 0.95 : 0.85;
+            
+            // Create gradient ID for this node
+            const gradientId = `gradient-${node.id}`;
 
             return (
               <g 
@@ -683,36 +805,74 @@ export default function CivilizationTree({
                 onClick={() => setSelectedNodeId(isSelected ? null : node.id)}
                 style={{ 
                   cursor: 'pointer',
-                  transition: 'transform 0.2s ease-out',
+                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
+                {/* Gradient definition for this node */}
+                <defs>
+                  <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor={nodeColor} stopOpacity="1" />
+                    <stop offset="100%" stopColor={nodeColor} stopOpacity="0.75" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Shadow/glow effect */}
+                {isHovered && (
+                  <rect
+                    x={node.x - 2}
+                    y={node.y - 2}
+                    width={node.width + 4}
+                    height={node.height + 4}
+                    rx={8}
+                    fill="none"
+                    stroke={nodeColor}
+                    strokeWidth={1}
+                    opacity={0.3}
+                    filter="url(#nodeGlow)"
+                  />
+                )}
+                
+                {/* Main node rectangle with gradient */}
                 <rect
                   x={node.x}
                   y={node.y}
                   width={node.width}
                   height={node.height}
-                  fill={nodeColor}
-                  stroke={isSelected ? '#000' : nodeColor}
+                  fill={`url(#${gradientId})`}
+                  stroke={isSelected ? '#1a1a1a' : isHovered ? '#2d2d2d' : 'rgba(0,0,0,0.2)'}
                   strokeWidth={strokeWidth}
-                  rx={6}
+                  rx={8}
                   opacity={nodeOpacity}
+                  filter={isSelected || isHovered ? 'url(#nodeShadow)' : 'url(#nodeShadow)'}
                   style={{ 
-                    filter: isSelected ? 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' : 
-                            isHovered ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.2))' : 'none',
-                    transition: 'all 0.2s ease-out',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   }}
                 />
+                
+                {/* Highlight overlay for depth */}
+                <rect
+                  x={node.x}
+                  y={node.y}
+                  width={node.width}
+                  height={node.height * 0.4}
+                  fill="url(#nodeGradient)"
+                  rx={8}
+                  opacity={0.2}
+                  pointerEvents="none"
+                />
+                {/* Text with better styling */}
                 <text
                   x={node.x + node.width / 2}
-                  y={node.y + node.height / 2 - 12}
-                  fontSize={civNode.type === 'trunk' ? 14 : civNode.type === 'cross-vine' ? 11 : 13}
-                  fontWeight={civNode.type === 'trunk' ? 'bold' : 'normal'}
-                  fill="#fff"
+                  y={node.y + node.height / 2 - (civNode.type === 'cross-vine' ? 8 : 10)}
+                  fontSize={civNode.type === 'cross-vine' ? 12 : 14}
+                  fontWeight="600"
+                  fill="#ffffff"
                   textAnchor="middle"
                   dominantBaseline="middle"
+                  fontFamily="'Crimson Text', serif"
                   style={{ 
                     pointerEvents: 'none',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                    filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.6))',
                   }}
                 >
                   {civNode.emoji && `${civNode.emoji} `}
@@ -721,13 +881,15 @@ export default function CivilizationTree({
                 {civNode.type !== 'trunk' && (
                   <text
                     x={node.x + node.width / 2}
-                    y={node.y + node.height - 8}
-                    fontSize={9}
-                    fill="#fff"
+                    y={node.y + node.height - 10}
+                    fontSize={10}
+                    fill="rgba(255,255,255,0.9)"
                     textAnchor="middle"
+                    fontFamily="'Crimson Text', serif"
+                    fontWeight="500"
                     style={{ 
                       pointerEvents: 'none',
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                      filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))',
                     }}
                   >
                     {civNode.type === 'vine' ? 'Civilization' : 'Force'}

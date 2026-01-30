@@ -138,6 +138,7 @@
         margin: 2rem 0;
         overflow-x: auto;
         padding-bottom: 1rem;
+        align-items: stretch;
       }
 
       .tree-container {
@@ -145,6 +146,7 @@
         flex: 0 0 auto;
         min-width: 350px;
         max-width: 450px;
+        height: calc(100vh - 200px);
       }
 
       .tree-card {
@@ -183,22 +185,19 @@
 
       .tree-card iframe {
         width: 100%;
-        height: 500px;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         background: #fafafa;
         pointer-events: none; /* Prevent iframe interaction, clicking card goes to page */
         flex: 1;
+        min-height: 0;
       }
 
       @media (max-width: 768px) {
         .tree-container {
           min-width: 300px;
           max-width: 350px;
-        }
-        
-        .tree-card iframe {
-          height: 400px;
+          height: calc(100vh - 180px);
         }
       }
     </style>

@@ -1,6 +1,15 @@
 import type { CivilizationNode, CivilizationRelation } from '../data/civilizations';
 import { allCivilizationNodes, civilizationRelations } from '../data/civilizations';
 
+// Helper to adjust color brightness
+function adjustColor(color: string, amount: number): string {
+  const hex = color.replace('#', '');
+  const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
+  const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
+  const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
+
 interface CivilizationSidePanelProps {
   node: CivilizationNode | null;
   onClose: () => void;
@@ -28,29 +37,45 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
       top: 0,
       width: '400px',
       height: '100%',
-      background: 'white',
-      boxShadow: '-4px 0 12px rgba(0,0,0,0.15)',
+      background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)',
+      boxShadow: '-8px 0 24px rgba(0,0,0,0.12), -2px 0 8px rgba(0,0,0,0.08)',
       overflowY: 'auto',
       zIndex: 1000,
-      borderLeft: `4px solid ${node.color || '#666'}`,
+      borderLeft: `5px solid ${node.color || '#666'}`,
     }}>
       {/* Header */}
       <div style={{
-        padding: '1.5rem',
-        background: node.color || '#666',
+        padding: '2rem 1.5rem',
+        background: `linear-gradient(135deg, ${node.color || '#666'} 0%, ${node.color ? adjustColor(node.color, -20) : '#555'} 100%)`,
         color: 'white',
         position: 'sticky',
         top: 0,
         zIndex: 10,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {node.emoji && <span>{node.emoji}</span>}
+            <h2 style={{ 
+              margin: 0, 
+              fontSize: '1.75rem', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: '700',
+              textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            }}>
+              {node.emoji && <span style={{ fontSize: '1.5rem' }}>{node.emoji}</span>}
               {node.name}
             </h2>
             {node.timePeriod && (
-              <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
+              <p style={{ 
+                margin: '0.75rem 0 0 0', 
+                fontSize: '1rem', 
+                opacity: 0.95,
+                fontStyle: 'italic',
+                fontWeight: '400',
+              }}>
                 {node.timePeriod}
               </p>
             )}
@@ -58,17 +83,27 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
           <button
             onClick={onClose}
             style={{
-              background: 'rgba(255,255,255,0.2)',
-              border: 'none',
+              background: 'rgba(255,255,255,0.25)',
+              border: '1px solid rgba(255,255,255,0.3)',
               color: 'white',
               fontSize: '1.5rem',
-              width: '32px',
-              height: '32px',
-              borderRadius: '4px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '8px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              fontWeight: '300',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.35)';
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
             title="Close"
           >
@@ -78,16 +113,23 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
       </div>
 
       {/* Content */}
-      <div style={{ padding: '1.5rem' }}>
+      <div style={{ padding: '2rem 1.5rem' }}>
         {/* Description */}
         {node.description && (
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ 
+            marginBottom: '2.5rem',
+            padding: '1.25rem',
+            background: 'rgba(45, 90, 39, 0.04)',
+            borderRadius: '12px',
+            borderLeft: `4px solid ${node.color || '#666'}`,
+          }}>
             <p style={{ 
-              fontSize: '1rem', 
-              lineHeight: '1.6', 
-              color: '#333',
+              fontSize: '1.05rem', 
+              lineHeight: '1.7', 
+              color: '#2c3e2d',
               fontStyle: 'italic',
               margin: 0,
+              fontFamily: "'Crimson Text', serif",
             }}>
               {node.description}
             </p>
@@ -98,11 +140,13 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
         {node.historicalEvents && node.historicalEvents.length > 0 && (
           <div style={{ marginBottom: '2rem' }}>
             <h3 style={{ 
-              fontSize: '1.1rem', 
-              margin: '0 0 0.75rem 0',
-              color: '#2d5a27',
-              borderBottom: '2px solid #e0e0e0',
-              paddingBottom: '0.5rem',
+              fontSize: '1.25rem', 
+              margin: '0 0 1rem 0',
+              color: '#1a4d2e',
+              borderBottom: `3px solid ${node.color || '#2d5a27'}`,
+              paddingBottom: '0.75rem',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: '600',
             }}>
               Historical Events
             </h3>
@@ -168,11 +212,13 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
         {node.keyFigures && node.keyFigures.length > 0 && (
           <div style={{ marginBottom: '2rem' }}>
             <h3 style={{ 
-              fontSize: '1.1rem', 
-              margin: '0 0 0.75rem 0',
-              color: '#2d5a27',
-              borderBottom: '2px solid #e0e0e0',
-              paddingBottom: '0.5rem',
+              fontSize: '1.25rem', 
+              margin: '0 0 1rem 0',
+              color: '#1a4d2e',
+              borderBottom: `3px solid ${node.color || '#2d5a27'}`,
+              paddingBottom: '0.75rem',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: '600',
             }}>
               Key Figures
             </h3>
@@ -198,11 +244,13 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
         {/* Themes */}
         <div style={{ marginBottom: '2rem' }}>
           <h3 style={{ 
-            fontSize: '1.1rem', 
-            margin: '0 0 0.75rem 0',
-            color: '#2d5a27',
-            borderBottom: '2px solid #e0e0e0',
-            paddingBottom: '0.5rem',
+            fontSize: '1.25rem', 
+            margin: '0 0 1rem 0',
+            color: '#1a4d2e',
+            borderBottom: `3px solid ${node.color || '#2d5a27'}`,
+            paddingBottom: '0.75rem',
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: '600',
           }}>
             Themes
           </h3>
@@ -216,11 +264,13 @@ export default function CivilizationSidePanel({ node, onClose }: CivilizationSid
         {/* Gifts */}
         <div style={{ marginBottom: '2rem' }}>
           <h3 style={{ 
-            fontSize: '1.1rem', 
-            margin: '0 0 0.75rem 0',
-            color: '#2d5a27',
-            borderBottom: '2px solid #e0e0e0',
-            paddingBottom: '0.5rem',
+            fontSize: '1.25rem', 
+            margin: '0 0 1rem 0',
+            color: '#1a4d2e',
+            borderBottom: `3px solid ${node.color || '#2d5a27'}`,
+            paddingBottom: '0.75rem',
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: '600',
           }}>
             Gifts to Humanity
           </h3>

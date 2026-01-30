@@ -214,6 +214,16 @@ class MITOCWScraper:
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
+            # Also try to fetch syllabus page for prerequisites
+            syllabus_url = url.rstrip('/') + '/pages/syllabus/'
+            syllabus_soup = None
+            try:
+                syllabus_response = self.session.get(syllabus_url, timeout=30)
+                if syllabus_response.status_code == 200:
+                    syllabus_soup = BeautifulSoup(syllabus_response.content, 'html.parser')
+            except:
+                pass  # Syllabus page might not exist
+            
             # Extract course ID from URL or page content
             course_id = None
             title = None
@@ -234,21 +244,69 @@ class MITOCWScraper:
                 if not title:
                     title = title_text.strip()
             
-            # Look for prerequisites section
-            prereq_section = soup.find(string=re.compile(r'prerequisite', re.I))
-            if prereq_section:
-                parent = prereq_section.find_parent()
-                if parent:
-                    prereq_text = parent.get_text()
-                    prerequisites = self.parse_prerequisites(prereq_text)
+            # Look for prerequisites in multiple ways
+            prerequisites = []
+            corequisites = []
             
-            # Look for corequisites
-            coreq_section = soup.find(string=re.compile(r'corequisite', re.I))
-            if coreq_section:
-                parent = coreq_section.find_parent()
-                if parent:
-                    coreq_text = parent.get_text()
-                    corequisites = self.parse_prerequisites(coreq_text)
+            # Combine main page and syllabus page for parsing
+            pages_to_check = [soup]
+            if syllabus_soup:
+                pages_to_check.append(syllabus_soup)
+            
+            for page_soup in pages_to_check:
+                # Method 1: Look for prerequisite text in various elements
+                for elem in page_soup.find_all(['p', 'div', 'li', 'td', 'th', 'span', 'strong', 'em']):
+                    text = elem.get_text()
+                    if re.search(r'\bprerequisite', text, re.I):
+                        # Get surrounding context
+                        parent = elem.find_parent(['div', 'section', 'article', 'td'])
+                        if parent:
+                            prereq_text = parent.get_text()
+                            found = self.parse_prerequisites(prereq_text)
+                            prerequisites.extend(found)
+                
+                # Method 2: Look for "Prerequisites:" label followed by course numbers
+                for label in page_soup.find_all(string=re.compile(r'prerequisite[s]?:', re.I)):
+                    parent = label.find_parent()
+                    if parent:
+                        # Get next sibling or parent text
+                        prereq_text = parent.get_text()
+                        found = self.parse_prerequisites(prereq_text)
+                        prerequisites.extend(found)
+                
+                # Method 3: Look in course info/syllabus sections
+                for section in page_soup.find_all(['section', 'div'], class_=re.compile(r'course|syllabus|info', re.I)):
+                    text = section.get_text()
+                    if 'prerequisite' in text.lower():
+                        found = self.parse_prerequisites(text)
+                        prerequisites.extend(found)
+                
+                # Method 4: Look for course numbers near prerequisite keywords in the full page
+                page_text = page_soup.get_text()
+                # Find sections with prerequisite mentions
+                for match in re.finditer(r'prerequisite[s]?[:\s]+([^\.\n]+)', page_text, re.I):
+                    prereq_section = match.group(1)
+                    found = self.parse_prerequisites(prereq_section)
+                    prerequisites.extend(found)
+                
+                # Look for corequisites
+                for elem in page_soup.find_all(['p', 'div', 'li', 'td', 'th']):
+                    text = elem.get_text()
+                    if re.search(r'\bcorequisite', text, re.I):
+                        parent = elem.find_parent(['div', 'section', 'article'])
+                        if parent:
+                            coreq_text = parent.get_text()
+                            found = self.parse_prerequisites(coreq_text)
+                            corequisites.extend(found)
+            
+            # Remove duplicates and normalize
+            prerequisites = sorted(list(set(prerequisites)))
+            corequisites = sorted(list(set(corequisites)))
+            
+            # Remove self-references (course shouldn't be its own prerequisite)
+            if course_id:
+                prerequisites = [p for p in prerequisites if p != course_id]
+                corequisites = [c for c in corequisites if c != course_id]
             
             # Extract description
             desc_elem = soup.find('meta', {'name': 'description'})

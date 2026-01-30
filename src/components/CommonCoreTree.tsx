@@ -85,6 +85,7 @@ export default function CommonCoreTree({
         const nodeToLayer = new Map<string, number>();
         
         // Add grade nodes (layer 0-12, K=0, 1-12)
+        // Grades form the central spine
         gradeNodes.forEach(grade => {
           const gradeNum = grade.grade ?? 0;
           elkNodes.push({
@@ -94,29 +95,41 @@ export default function CommonCoreTree({
             height: 50,
             layoutOptions: {
               'elk.layered.layer': gradeNum.toString(),
+              // Center grades as spine - use priority 0 to keep them centered
+              'elk.priority': '0',
             },
           });
           nodeToLayer.set(grade.id, gradeNum);
         });
         
         // Add subject nodes (layer = grade + 0.5, positioned between grade and domains)
+        // Use port constraints to keep Math and ELA vertically aligned like vines
         subjectNodes.forEach(subject => {
           const gradeNum = subject.grade ?? 0;
           const layer = gradeNum + 0.5;
+          const subjectId = subject.grade! <= 8 ? subject.id : `${subject.id}-${gradeNum}`;
+          
           elkNodes.push({
-            id: subject.grade! <= 8 ? subject.id : `${subject.id}-${gradeNum}`,
+            id: subjectId,
             labels: [{ text: subject.name }],
             width: 160,
             height: 45,
             layoutOptions: {
               'elk.layered.layer': layer.toString(),
-              'elk.priority': subject.subject === 'math' ? '0' : '1', // Math on left, ELA on right
+              // Use port alignment to keep subjects in vertical columns
+              'elk.portAlignment.basic': 'JUSTIFIED',
+              // Force horizontal position: Math on left (negative priority), ELA on right (positive priority)
+              'elk.priority': subject.subject === 'math' ? '-100' : '100',
+              // Use port constraints to maintain vertical alignment
+              'elk.portConstraints': 'FIXED_SIDE',
+              'elk.portAlignment.default': subject.subject === 'math' ? 'LEFT' : 'RIGHT',
             },
           });
-          nodeToLayer.set(subject.grade! <= 8 ? subject.id : `${subject.id}-${gradeNum}`, layer);
+          nodeToLayer.set(subjectId, layer);
         });
         
         // Add domain nodes (layer = grade + 1)
+        // Keep domains aligned with their parent subjects (vine structure)
         domainNodes.forEach(domain => {
           const gradeNum = domain.grade ?? 0;
           const layer = gradeNum + 1;
@@ -127,13 +140,16 @@ export default function CommonCoreTree({
             height: 40,
             layoutOptions: {
               'elk.layered.layer': layer.toString(),
-              'elk.priority': domain.subject === 'math' ? '0' : '1',
+              // Align domains with their subject type (Math left, ELA right)
+              'elk.priority': domain.subject === 'math' ? '-50' : '50',
+              'elk.portAlignment.basic': 'JUSTIFIED',
             },
           });
           nodeToLayer.set(domain.id, layer);
         });
         
         // Add cluster nodes (layer = grade + 1.5)
+        // Keep clusters aligned with their parent domains (vine structure)
         clusterNodes.forEach(cluster => {
           const gradeNum = cluster.grade ?? 0;
           const layer = gradeNum + 1.5;
@@ -144,7 +160,9 @@ export default function CommonCoreTree({
             height: 35,
             layoutOptions: {
               'elk.layered.layer': layer.toString(),
-              'elk.priority': cluster.subject === 'math' ? '0' : '1',
+              // Align clusters with their subject type (Math left, ELA right)
+              'elk.priority': cluster.subject === 'math' ? '-25' : '25',
+              'elk.portAlignment.basic': 'JUSTIFIED',
             },
           });
           nodeToLayer.set(cluster.id, layer);
@@ -198,12 +216,126 @@ export default function CommonCoreTree({
             'elk.layered.cycleBreaking.strategy': 'GREEDY',
             'elk.spacing.edgeEdge': '30',
             'elk.portAlignment.basic': 'JUSTIFIED',
+            // Force tighter horizontal alignment for vine effect
+            'elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
+            'elk.layered.compaction.postCompaction.strategy': 'EDGE_LENGTH',
           },
           children: elkNodes,
           edges: elkEdges,
         };
         
         const layoutedGraph = await elk.layout(elkGraph);
+        
+        // Post-process to create spine structure: grades centered, subjects branching left/right
+        if (layoutedGraph.children) {
+          // Helper to flatten nodes
+          const flattenAllNodes = (nodes: ELKNode[]): ELKNode[] => {
+            const result: ELKNode[] = [];
+            nodes.forEach(node => {
+              result.push(node);
+              if (node.children) {
+                result.push(...flattenAllNodes(node.children));
+              }
+            });
+            return result;
+          };
+          
+          const allNodes = flattenAllNodes(layoutedGraph.children);
+          
+          // Find all grade nodes and calculate center X position for spine
+          const gradeNodesList: ELKNode[] = [];
+          allNodes.forEach(node => {
+            const nodeData = allCommonCoreNodes.find(n => n.id === node.id);
+            if (nodeData?.type === 'grade') {
+              gradeNodesList.push(node);
+            }
+          });
+          
+          // Calculate center X position for the spine (average of all grade X positions)
+          const centerX = gradeNodesList.length > 0
+            ? gradeNodesList.reduce((sum, n) => sum + (n.x || 0), 0) / gradeNodesList.length
+            : width / 2;
+          
+          // Center all grade nodes as the spine
+          gradeNodesList.forEach(node => {
+            if (node.x !== undefined) {
+              node.x = centerX;
+            }
+          });
+          
+          // Calculate average X positions for Math and ELA subjects
+          const mathSubjects: ELKNode[] = [];
+          const elaSubjects: ELKNode[] = [];
+          
+          allNodes.forEach(node => {
+            const nodeData = allCommonCoreNodes.find(n => {
+              if (node.id.includes('-hs-')) {
+                const baseId = node.id.split('-').slice(0, 2).join('-');
+                return n.id === baseId;
+              }
+              return n.id === node.id;
+            });
+            
+            if (nodeData?.type === 'subject') {
+              if (nodeData.subject === 'math') {
+                mathSubjects.push(node);
+              } else if (nodeData.subject === 'ela') {
+                elaSubjects.push(node);
+              }
+            }
+          });
+          
+          // Calculate average X positions for subjects (relative to spine)
+          const mathAvgX = mathSubjects.length > 0
+            ? mathSubjects.reduce((sum, n) => sum + (n.x || 0), 0) / mathSubjects.length
+            : centerX - 300;
+          const elaAvgX = elaSubjects.length > 0
+            ? elaSubjects.reduce((sum, n) => sum + (n.x || 0), 0) / elaSubjects.length
+            : centerX + 300;
+          
+          // Align all Math subjects to the left of spine (vine alignment)
+          mathSubjects.forEach(node => {
+            if (node.x !== undefined) {
+              node.x = mathAvgX;
+            }
+          });
+          
+          // Align all ELA subjects to the right of spine (vine alignment)
+          elaSubjects.forEach(node => {
+            if (node.x !== undefined) {
+              node.x = elaAvgX;
+            }
+          });
+          
+          // Align domains and clusters to their parent subjects (maintain vine structure)
+          allNodes.forEach(node => {
+            const nodeData = allCommonCoreNodes.find(n => {
+              if (node.id.includes('-hs-')) {
+                const baseId = node.id.split('-').slice(0, 2).join('-');
+                return n.id === baseId;
+              }
+              return n.id === node.id;
+            });
+            
+            if (nodeData && (nodeData.type === 'domain' || nodeData.type === 'cluster')) {
+              // Find the subject for this domain/cluster
+              const gradeNum = nodeData.grade ?? 0;
+              const subjectId = gradeNum <= 8 
+                ? `${nodeData.subject}-${gradeNum === 0 ? 'k' : gradeNum}`
+                : `${nodeData.subject}-hs-${gradeNum}`;
+              
+              const subjectNode = allNodes.find(n => n.id === subjectId);
+              if (subjectNode && subjectNode.x !== undefined && node.x !== undefined) {
+                // Align domain/cluster to its subject's X position (with offset for visual separation)
+                const offset = nodeData.type === 'domain' 
+                  ? (nodeData.subject === 'math' ? -200 : 200) 
+                  : (nodeData.subject === 'math' ? -350 : 350);
+                node.x = subjectNode.x + offset;
+              }
+            }
+          });
+        }
+        
         setLayout(layoutedGraph as ELKGraph);
         setLoading(false);
       } catch (err) {

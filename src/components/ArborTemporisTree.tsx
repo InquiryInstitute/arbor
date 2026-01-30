@@ -35,6 +35,11 @@ export default function ArborTemporisTree({
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  
+  // Tooltip state
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [hoveredConnection, setHoveredConnection] = useState<string | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   // Calculate full time range (all nodes)
   const timeHeights = nodes.map(n => n.time_height);
@@ -72,8 +77,9 @@ export default function ArborTemporisTree({
   }, [braids, visibleNodes]);
 
   // Layout parameters
-  const vineLaneWidth = width / vineOrder.length;
   const timePadding = 100; // Padding at top and bottom
+  const yAxisWidth = 80; // Width for Y-axis labels
+  const vineLaneWidth = (width - yAxisWidth) / vineOrder.length; // Account for Y-axis
   const availableHeight = height - 2 * timePadding;
   const nodeHeight = 60;
   const minNodeSpacing = 70; // Minimum vertical spacing between nodes
@@ -111,21 +117,24 @@ export default function ArborTemporisTree({
       }));
       
       // Adjust positions to prevent overlap
+      // Note: In SVG, Y increases downward, so older nodes (higher time_height) should have higher Y (bottom)
+      // Newer nodes (lower time_height) should have lower Y (top)
       const adjusted: Array<{ node: ArborNode; y: number }> = [];
       
       baseYs.forEach(({ node, baseY }, index) => {
         if (index === 0) {
-          // First node: use base position
+          // First node (oldest): use base position (should be at bottom)
           adjusted.push({ node, y: baseY });
         } else {
           // Check if this node would overlap with previous
+          // Previous node is older (higher Y), this node is newer (should be lower Y, higher on screen)
           const prevY = adjusted[index - 1].y;
-          const minY = prevY + minNodeSpacing;
+          const maxY = prevY - minNodeSpacing; // Subtract to move UP (lower Y value)
           
-          // Use the maximum of base position and minimum spacing
-          // But try to stay close to base position if possible
+          // Use the minimum of base position and maximum spacing
+          // Newer nodes should be above older nodes (lower Y values)
           const idealY = baseY;
-          const y = Math.max(idealY, minY);
+          const y = Math.min(idealY, maxY);
           adjusted.push({ node, y });
         }
       });
@@ -155,13 +164,50 @@ export default function ArborTemporisTree({
   const timeToY = useCallback((nodeId: string, timeHeight: number): number => {
     return nodePositions.get(nodeId) ?? timeToBaseY(timeHeight);
   }, [nodePositions, timeToBaseY]);
+  
+  // Generate Y-axis time labels
+  const yAxisLabels = useMemo(() => {
+    const labels: Array<{ time: number; y: number; label: string }> = [];
+    const numLabels = 10; // Number of labels to show
+    
+    for (let i = 0; i <= numLabels; i++) {
+      const normalized = i / numLabels;
+      const time = minTime + (normalized * timeRange);
+      const y = timeToBaseY(time);
+      
+      // Format label
+      let label: string;
+      if (time < 0) {
+        label = `${Math.abs(Math.round(time))} BCE`;
+      } else if (time === 0) {
+        label = '0 CE';
+      } else {
+        label = `${Math.round(time)} CE`;
+      }
+      
+      labels.push({ time, y, label });
+    }
+    
+    return labels;
+  }, [minTime, timeRange, timeToBaseY]);
+  
+  // Format time for display
+  const formatTime = useCallback((timeHeight: number): string => {
+    if (timeHeight < 0) {
+      return `${Math.abs(Math.round(timeHeight))} BCE`;
+    } else if (timeHeight === 0) {
+      return '0 CE';
+    } else {
+      return `${Math.round(timeHeight)} CE`;
+    }
+  }, []);
 
-  // Convert vine to X position (horizontal lane)
+  // Convert vine to X position (horizontal lane) - offset by yAxisWidth
   const vineToX = useCallback((vine: string): number => {
     const index = vineOrder.indexOf(vine as any);
     if (index === -1) return width / 2;
-    return (index + 0.5) * vineLaneWidth;
-  }, [width, vineLaneWidth]);
+    return yAxisWidth + (index + 0.5) * vineLaneWidth;
+  }, [width, vineLaneWidth, yAxisWidth]);
 
   // Calculate bounding box
   const getBoundingBox = useCallback(() => {
@@ -170,6 +216,9 @@ export default function ArborTemporisTree({
     }
 
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    
+    // Include Y-axis in bounding box
+    minX = Math.min(minX, 0);
     
     visibleNodes.forEach(node => {
       const x = vineToX(node.vine);
@@ -226,6 +275,29 @@ export default function ArborTemporisTree({
     });
   }, [getBoundingBox, width, height]);
 
+  // Tooltip handlers
+  const handleNodeMouseEnter = (e: React.MouseEvent, nodeId: string) => {
+    if (!isPanning) {
+      setHoveredNode(nodeId);
+      setTooltipPosition({ x: e.clientX, y: e.clientY });
+    }
+  };
+  
+  const handleNodeMouseLeave = () => {
+    setHoveredNode(null);
+  };
+  
+  const handleConnectionMouseEnter = (e: React.MouseEvent, connId: string) => {
+    if (!isPanning) {
+      setHoveredConnection(connId);
+      setTooltipPosition({ x: e.clientX, y: e.clientY });
+    }
+  };
+  
+  const handleConnectionMouseLeave = () => {
+    setHoveredConnection(null);
+  };
+  
   // Pan handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button === 0) {
@@ -234,6 +306,9 @@ export default function ArborTemporisTree({
         x: e.clientX - transform.x,
         y: e.clientY - transform.y,
       });
+      // Hide tooltips when panning starts
+      setHoveredNode(null);
+      setHoveredConnection(null);
     }
   };
 
@@ -449,9 +524,44 @@ export default function ArborTemporisTree({
           ref={containerRef}
           transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}
         >
-          {/* Draw vine lanes (vertical lines) */}
+          {/* Y-axis line */}
+          <line
+            x1={yAxisWidth}
+            y1={timePadding}
+            x2={yAxisWidth}
+            y2={height - timePadding}
+            stroke="#333"
+            strokeWidth={2}
+          />
+          
+          {/* Y-axis time labels */}
+          {yAxisLabels.map(({ time, y, label }, idx) => (
+            <g key={`yaxis-${idx}`}>
+              <line
+                x1={yAxisWidth - 5}
+                y1={y}
+                x2={yAxisWidth}
+                y2={y}
+                stroke="#333"
+                strokeWidth={1}
+              />
+              <text
+                x={yAxisWidth - 10}
+                y={y}
+                fontSize="11"
+                fill="#333"
+                textAnchor="end"
+                dominantBaseline="middle"
+                fontWeight="500"
+              >
+                {label}
+              </text>
+            </g>
+          ))}
+          
+          {/* Draw vine lanes (vertical lines) - offset by yAxisWidth */}
           {vineOrder.map((vine, index) => {
-            const x = (index + 0.5) * vineLaneWidth;
+            const x = yAxisWidth + (index + 0.5) * vineLaneWidth;
             return (
               <line
                 key={`lane-${vine}`}
@@ -478,7 +588,7 @@ export default function ArborTemporisTree({
             return (
               <g key={`band-${band}`}>
                 <line
-                  x1={0}
+                  x1={yAxisWidth}
                   y1={y}
                   x2={width}
                   y2={y}
@@ -488,7 +598,7 @@ export default function ArborTemporisTree({
                   strokeDasharray="3,3"
                 />
                 <text
-                  x={10}
+                  x={yAxisWidth + 10}
                   y={y - 5}
                   fontSize="10"
                   fill="#666"
@@ -513,6 +623,7 @@ export default function ArborTemporisTree({
 
             const isSelected = selectedNode === fromNode.id || selectedNode === toNode.id;
             const isBraid = selectedBraid && selectedBraid.node_ids.includes(fromNode.id) && selectedBraid.node_ids.includes(toNode.id);
+            const isHovered = hoveredConnection === conn.id;
 
             let strokeColor = '#888';
             let strokeWidth = 1;
@@ -543,19 +654,43 @@ export default function ArborTemporisTree({
               strokeWidth *= 1.5;
               opacity = 0.7;
             }
+            
+            if (isHovered) {
+              strokeWidth *= 1.5;
+              opacity = Math.min(1, opacity * 1.5);
+            }
+
+            // Create an invisible wider line for easier hovering
+            const hoverWidth = Math.max(strokeWidth * 3, 8);
+            const midX = (x1 + x2) / 2;
+            const midY = (y1 + y2) / 2;
 
             return (
-              <line
-                key={conn.id}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke={strokeColor}
-                strokeWidth={strokeWidth}
-                strokeOpacity={opacity}
-                markerEnd={conn.connection_type === 'successor' ? 'url(#arrowhead-up)' : undefined}
-              />
+              <g key={conn.id}>
+                {/* Invisible hover area */}
+                <line
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="transparent"
+                  strokeWidth={hoverWidth}
+                  style={{ cursor: 'pointer' }}
+                  onMouseEnter={(e) => handleConnectionMouseEnter(e, conn.id)}
+                  onMouseLeave={handleConnectionMouseLeave}
+                />
+                {/* Visible connection line */}
+                <line
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke={strokeColor}
+                  strokeWidth={strokeWidth}
+                  strokeOpacity={opacity}
+                  markerEnd={conn.connection_type === 'successor' ? 'url(#arrowhead-up)' : undefined}
+                />
+              </g>
             );
           })}
 
@@ -574,6 +709,8 @@ export default function ArborTemporisTree({
             const strokeColor = isSelected ? '#e74c3c' : baseColor;
             const strokeWidth = isSelected ? 3 : isInBraid ? 2.5 : 2;
 
+            const isHovered = hoveredNode === node.id;
+
             return (
               <g key={node.id}>
                 <rect
@@ -582,11 +719,18 @@ export default function ArborTemporisTree({
                   width={nodeWidth}
                   height={nodeHeight}
                   fill={fillColor}
-                  stroke={strokeColor}
-                  strokeWidth={strokeWidth}
+                  stroke={isHovered ? '#e74c3c' : strokeColor}
+                  strokeWidth={isHovered ? strokeWidth + 1 : strokeWidth}
                   rx={4}
                   style={{ cursor: 'pointer' }}
                   onClick={() => setSelectedNode(selectedNode === node.id ? null : node.id)}
+                  onMouseEnter={(e) => handleNodeMouseEnter(e, node.id)}
+                  onMouseLeave={handleNodeMouseLeave}
+                  onMouseMove={(e) => {
+                    if (hoveredNode === node.id) {
+                      setTooltipPosition({ x: e.clientX, y: e.clientY });
+                    }
+                  }}
                 />
                 <text
                   x={x}
@@ -631,7 +775,7 @@ export default function ArborTemporisTree({
             // Find bounding box of braid
             const xs = braidNodes.map(n => vineToX(n.vine));
             const ys = braidNodes.map(n => timeToY(n.id, n.time_height));
-            const minX = Math.min(...xs) - 80;
+            const minX = Math.max(yAxisWidth, Math.min(...xs) - 80);
             const maxX = Math.max(...xs) + 80;
             const minY = Math.min(...ys) - 40;
             const maxY = Math.max(...ys) + 40;
@@ -655,6 +799,75 @@ export default function ArborTemporisTree({
           })}
         </g>
       </svg>
+
+      {/* Tooltip */}
+      {(hoveredNode || hoveredConnection) && (
+        <div
+          style={{
+            position: 'fixed',
+            left: tooltipPosition.x + 10,
+            top: tooltipPosition.y - 10,
+            background: 'rgba(0, 0, 0, 0.9)',
+            color: 'white',
+            padding: '8px 12px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            pointerEvents: 'none',
+            zIndex: 1000,
+            maxWidth: '300px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            transform: 'translateY(-100%)',
+          }}
+        >
+          {hoveredNode && (() => {
+            const node = visibleNodes.find(n => n.id === hoveredNode);
+            if (!node) return null;
+            return (
+              <>
+                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{node.title}</div>
+                <div style={{ fontSize: '11px', opacity: 0.9 }}>
+                  <div>{node.vine} • {node.date_approximate || formatTime(node.time_height)}</div>
+                  {node.temporal_band && (
+                    <div>{TEMPORAL_BAND_SYMBOLS[node.temporal_band]} {node.temporal_band}</div>
+                  )}
+                  {node.description && (
+                    <div style={{ marginTop: '4px', opacity: 0.8 }}>{node.description.substring(0, 100)}{node.description.length > 100 ? '...' : ''}</div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
+          {hoveredConnection && (() => {
+            const conn = visibleConnections.find(c => c.id === hoveredConnection);
+            if (!conn) return null;
+            const fromNode = visibleNodes.find(n => n.id === conn.from_node_id);
+            const toNode = visibleNodes.find(n => n.id === conn.to_node_id);
+            if (!fromNode || !toNode) return null;
+            
+            let connLabel = '';
+            if (conn.connection_type === 'predecessor') {
+              connLabel = 'Predecessor';
+            } else if (conn.connection_type === 'successor') {
+              connLabel = 'Successor';
+            } else if (conn.connection_type === 'cross_link') {
+              connLabel = 'Contemporary';
+            }
+            
+            return (
+              <>
+                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{connLabel}</div>
+                <div style={{ fontSize: '11px', opacity: 0.9 }}>
+                  <div><strong>From:</strong> {fromNode.title}</div>
+                  <div style={{ marginTop: '2px' }}><strong>To:</strong> {toNode.title}</div>
+                  {conn.description && (
+                    <div style={{ marginTop: '4px', opacity: 0.8 }}>{conn.description}</div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
 
       {/* Node details panel */}
       {selectedNode && (
