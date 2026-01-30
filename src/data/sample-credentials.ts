@@ -1,44 +1,14 @@
 // Comprehensive credential data for Tree of Vines
-// All 70 microcredentials across 10 colleges and all level bands
+// Full K-PhD+ progression with all level bands and cross-college prerequisites
 import type { Credential, CredentialRelation } from '../types/credential';
 
 // Helper to generate IDs
 const id = (level: string, college: string, slug: string) => 
   `${level}.${college}.${slug}`;
 
-// College mapping from MICROCREDENTIALS.md to our college codes
-const collegeMap: Record<string, 'MATH' | 'NAT' | 'HUM' | 'AINS' | 'ELA' | 'META' | 'SOC' | 'ARTS' | 'CEF' | 'HEAL'> = {
-  'Form & Number': 'MATH',
-  'Matter & Life': 'NAT',
-  'Value & Virtue': 'HUM',
-  'Mind & Machine': 'AINS',
-  'Word & Meaning': 'ELA',
-  'Learning & Becoming': 'META',
-  'Time & Memory': 'HUM',
-  'Society & Economy': 'SOC',
-  'Culture & Creation': 'ARTS',
-  'Spirit & Nature': 'CEF',
-};
-
-// Level mapping from MICROCREDENTIALS.md to our level bands
-const levelMap: Record<string, 'K-1' | 'G2-3' | 'G4-6' | 'G7-8' | 'G9-10' | 'G11-12' | 'UG' | 'MS' | 'PhD'> = {
-  'K-5': 'K-1',
-  '6-8': 'G2-3',
-  '9-12': 'G9-10',
-  'Undergraduate': 'UG',
-  'Graduate': 'MS',
-  'PhD': 'PhD',
-};
-
-// Helper to create slug from title
-const slugify = (title: string) => 
-  title.toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-
 export const sampleCredentials: Credential[] = [
   // ============================================
-  // 1. Form & Number (MATH)
+  // 1. Form & Number (MATH) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'MATH', 'counting-patterns'),
@@ -57,12 +27,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'MATH', 'fractions-decimals'),
+    title: 'Fractions, Decimals, and Ratios',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'MATH', 'pre-algebra'),
+    title: 'Pre-Algebra Foundations',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'MATH', 'algebraic-thinking'),
     title: 'Algebraic Thinking',
     cadence: 'seasonal',
     college_primary: 'MATH',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'MATH', 'functions-analysis'),
+    title: 'Functions and Analysis',
+    cadence: 'seasonal',
+    college_primary: 'MATH',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'MATH', 'calculus'),
@@ -90,7 +84,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 2. Matter & Life (NAT)
+  // 2. Matter & Life (NAT) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'NAT', 'what-alive'),
@@ -109,12 +103,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'NAT', 'ecosystems'),
+    title: 'Ecosystems and Interdependence',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'NAT', 'matter-energy'),
+    title: 'Matter, Energy, and Change',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'NAT', 'evolution'),
     title: 'Evolution by Natural Selection',
     cadence: 'seasonal',
     college_primary: 'NAT',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'NAT', 'molecular-foundations'),
+    title: 'Molecular Foundations of Life',
+    cadence: 'seasonal',
+    college_primary: 'NAT',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'NAT', 'genetics'),
@@ -142,7 +160,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 3. Value & Virtue (HUM)
+  // 3. Value & Virtue (HUM) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'HUM', 'what-fair'),
@@ -161,12 +179,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'HUM', 'virtue-character'),
+    title: 'Virtue and Character',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'HUM', 'moral-reasoning'),
+    title: 'Moral Reasoning',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'HUM', 'moral-philosophy'),
     title: 'Moral Philosophy',
     cadence: 'seasonal',
     college_primary: 'HUM',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'HUM', 'ethical-theories'),
+    title: 'Ethical Theories and Applications',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'HUM', 'existential-ethics'),
@@ -194,7 +236,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 4. Mind & Machine (AINS)
+  // 4. Mind & Machine (AINS) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'AINS', 'how-think'),
@@ -213,12 +255,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'AINS', 'algorithms-logic'),
+    title: 'Algorithms and Logic',
+    cadence: 'seasonal',
+    college_primary: 'AINS',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'AINS', 'programming-fundamentals'),
+    title: 'Programming Fundamentals',
+    cadence: 'seasonal',
+    college_primary: 'AINS',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'AINS', 'art-programming'),
     title: 'The Art of Programming',
     cadence: 'seasonal',
     college_primary: 'AINS',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'AINS', 'data-structures'),
+    title: 'Data Structures and Algorithms',
+    cadence: 'seasonal',
+    college_primary: 'AINS',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'AINS', 'artificial-intelligence'),
@@ -246,7 +312,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 5. Word & Meaning (ELA)
+  // 5. Word & Meaning (ELA) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'ELA', 'power-stories'),
@@ -265,12 +331,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'ELA', 'reading-writing'),
+    title: 'Reading and Writing Deeply',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'ELA', 'literary-forms'),
+    title: 'Literary Forms and Genres',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'ELA', 'literary-analysis'),
     title: 'Literary Analysis',
     cadence: 'seasonal',
     college_primary: 'ELA',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'ELA', 'rhetoric-argument'),
+    title: 'Rhetoric and Argumentation',
+    cadence: 'seasonal',
+    college_primary: 'ELA',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'ELA', 'hermeneutics'),
@@ -298,7 +388,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 6. Learning & Becoming (META)
+  // 6. Learning & Becoming (META) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'META', 'learning-discovery'),
@@ -317,12 +407,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'META', 'learning-strategies'),
+    title: 'Learning Strategies and Metacognition',
+    cadence: 'seasonal',
+    college_primary: 'META',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'META', 'critical-thinking'),
+    title: 'Critical Thinking and Inquiry',
+    cadence: 'seasonal',
+    college_primary: 'META',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'META', 'cognitive-development'),
     title: 'Cognitive Development',
     cadence: 'seasonal',
     college_primary: 'META',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'META', 'epistemology'),
+    title: 'Epistemology: How We Know',
+    cadence: 'seasonal',
+    college_primary: 'META',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'META', 'constructivist-learning'),
@@ -350,7 +464,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 7. Time & Memory (HUM - second branch)
+  // 7. Time & Memory (HUM - second branch) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'HUM', 'what-history'),
@@ -369,12 +483,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'HUM', 'world-civilizations'),
+    title: 'World Civilizations',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'HUM', 'historical-thinking'),
+    title: 'Historical Thinking and Analysis',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'HUM', 'historiography'),
     title: 'Historiography: How History is Written',
     cadence: 'seasonal',
     college_primary: 'HUM',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'HUM', 'historical-methods'),
+    title: 'Historical Methods and Research',
+    cadence: 'seasonal',
+    college_primary: 'HUM',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'HUM', 'memory-studies'),
@@ -402,7 +540,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 8. Society & Economy (SOC)
+  // 8. Society & Economy (SOC) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'SOC', 'living-community'),
@@ -421,12 +559,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'SOC', 'civics-citizenship'),
+    title: 'Civics and Citizenship',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'SOC', 'social-systems'),
+    title: 'Social Systems and Institutions',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'SOC', 'political-theory'),
     title: 'Political Theory',
     cadence: 'seasonal',
     college_primary: 'SOC',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'SOC', 'political-economy'),
+    title: 'Political Economy',
+    cadence: 'seasonal',
+    college_primary: 'SOC',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'SOC', 'economic-systems'),
@@ -454,7 +616,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 9. Culture & Creation (ARTS)
+  // 9. Culture & Creation (ARTS) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'ARTS', 'making-creating'),
@@ -473,12 +635,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'ARTS', 'artistic-expression'),
+    title: 'Artistic Expression and Media',
+    cadence: 'seasonal',
+    college_primary: 'ARTS',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'ARTS', 'art-criticism'),
+    title: 'Art Criticism and Analysis',
+    cadence: 'seasonal',
+    college_primary: 'ARTS',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'ARTS', 'aesthetics-beauty'),
     title: 'Aesthetics and Beauty',
     cadence: 'seasonal',
     college_primary: 'ARTS',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'ARTS', 'art-movements'),
+    title: 'Art Movements and Context',
+    cadence: 'seasonal',
+    college_primary: 'ARTS',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'ARTS', 'art-history'),
@@ -489,7 +675,7 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 12,
   },
   {
-    id: id('MS', 'ARTS', 'art-criticism'),
+    id: id('MS', 'ARTS', 'art-criticism-theory'),
     title: 'Art Criticism and Theory',
     cadence: 'seasonal',
     college_primary: 'ARTS',
@@ -506,7 +692,7 @@ export const sampleCredentials: Credential[] = [
   },
 
   // ============================================
-  // 10. Spirit & Nature (CEF)
+  // 10. Spirit & Nature (CEF) - Full K-PhD progression
   // ============================================
   {
     id: id('K-1', 'CEF', 'wonder-natural-world'),
@@ -525,12 +711,36 @@ export const sampleCredentials: Credential[] = [
     duration_weeks: 10,
   },
   {
+    id: id('G4-6', 'CEF', 'environmental-stewardship'),
+    title: 'Environmental Stewardship',
+    cadence: 'seasonal',
+    college_primary: 'CEF',
+    level_band: 'G4-6',
+    duration_weeks: 10,
+  },
+  {
+    id: id('G7-8', 'CEF', 'sustainability'),
+    title: 'Sustainability and Systems',
+    cadence: 'seasonal',
+    college_primary: 'CEF',
+    level_band: 'G7-8',
+    duration_weeks: 10,
+  },
+  {
     id: id('G9-10', 'CEF', 'environmental-philosophy'),
     title: 'Environmental Philosophy',
     cadence: 'seasonal',
     college_primary: 'CEF',
     level_band: 'G9-10',
     duration_weeks: 10,
+  },
+  {
+    id: id('G11-12', 'CEF', 'ecological-ethics'),
+    title: 'Ecological Ethics',
+    cadence: 'seasonal',
+    college_primary: 'CEF',
+    level_band: 'G11-12',
+    duration_weeks: 12,
   },
   {
     id: id('UG', 'CEF', 'deep-ecology'),
@@ -559,74 +769,117 @@ export const sampleCredentials: Credential[] = [
 ];
 
 // Generate PREREQ relations (linear chains within each college)
+const generatePrereqChain = (
+  college: string,
+  levels: string[],
+  slugs: string[]
+): CredentialRelation[] => {
+  const relations: CredentialRelation[] = [];
+  for (let i = 0; i < levels.length - 1; i++) {
+    relations.push({
+      id: `prereq-${college}-${i + 1}`,
+      from_credential_id: id(levels[i], college, slugs[i]),
+      to_credential_id: id(levels[i + 1], college, slugs[i + 1]),
+      relation_type: 'PREREQ',
+    });
+  }
+  return relations;
+};
+
 export const sampleRelations: CredentialRelation[] = [
   // MATH chain
-  { id: 'r-math-1', from_credential_id: id('K-1', 'MATH', 'counting-patterns'), to_credential_id: id('G2-3', 'MATH', 'art-arithmetic'), relation_type: 'PREREQ' },
-  { id: 'r-math-2', from_credential_id: id('G2-3', 'MATH', 'art-arithmetic'), to_credential_id: id('G9-10', 'MATH', 'algebraic-thinking'), relation_type: 'PREREQ' },
-  { id: 'r-math-3', from_credential_id: id('G9-10', 'MATH', 'algebraic-thinking'), to_credential_id: id('UG', 'MATH', 'calculus'), relation_type: 'PREREQ' },
-  { id: 'r-math-4', from_credential_id: id('UG', 'MATH', 'calculus'), to_credential_id: id('MS', 'MATH', 'infinity-set-theory'), relation_type: 'PREREQ' },
-  { id: 'r-math-5', from_credential_id: id('MS', 'MATH', 'infinity-set-theory'), to_credential_id: id('PhD', 'MATH', 'topology'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('MATH', 
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['counting-patterns', 'art-arithmetic', 'fractions-decimals', 'pre-algebra', 'algebraic-thinking', 'functions-analysis', 'calculus', 'infinity-set-theory', 'topology']
+  ),
 
   // NAT chain
-  { id: 'r-nat-1', from_credential_id: id('K-1', 'NAT', 'what-alive'), to_credential_id: id('G2-3', 'NAT', 'cell-unit-life'), relation_type: 'PREREQ' },
-  { id: 'r-nat-2', from_credential_id: id('G2-3', 'NAT', 'cell-unit-life'), to_credential_id: id('G9-10', 'NAT', 'evolution'), relation_type: 'PREREQ' },
-  { id: 'r-nat-3', from_credential_id: id('G9-10', 'NAT', 'evolution'), to_credential_id: id('UG', 'NAT', 'genetics'), relation_type: 'PREREQ' },
-  { id: 'r-nat-4', from_credential_id: id('UG', 'NAT', 'genetics'), to_credential_id: id('MS', 'NAT', 'molecular-bio'), relation_type: 'PREREQ' },
-  { id: 'r-nat-5', from_credential_id: id('MS', 'NAT', 'molecular-bio'), to_credential_id: id('PhD', 'NAT', 'systems-bio'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('NAT',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['what-alive', 'cell-unit-life', 'ecosystems', 'matter-energy', 'evolution', 'molecular-foundations', 'genetics', 'molecular-bio', 'systems-bio']
+  ),
 
   // HUM (Value & Virtue) chain
-  { id: 'r-hum-vv-1', from_credential_id: id('K-1', 'HUM', 'what-fair'), to_credential_id: id('G2-3', 'HUM', 'intro-ethics'), relation_type: 'PREREQ' },
-  { id: 'r-hum-vv-2', from_credential_id: id('G2-3', 'HUM', 'intro-ethics'), to_credential_id: id('G9-10', 'HUM', 'moral-philosophy'), relation_type: 'PREREQ' },
-  { id: 'r-hum-vv-3', from_credential_id: id('G9-10', 'HUM', 'moral-philosophy'), to_credential_id: id('UG', 'HUM', 'existential-ethics'), relation_type: 'PREREQ' },
-  { id: 'r-hum-vv-4', from_credential_id: id('UG', 'HUM', 'existential-ethics'), to_credential_id: id('MS', 'HUM', 'beyond-good-evil'), relation_type: 'PREREQ' },
-  { id: 'r-hum-vv-5', from_credential_id: id('MS', 'HUM', 'beyond-good-evil'), to_credential_id: id('PhD', 'HUM', 'metaethics'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('HUM',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['what-fair', 'intro-ethics', 'virtue-character', 'moral-reasoning', 'moral-philosophy', 'ethical-theories', 'existential-ethics', 'beyond-good-evil', 'metaethics']
+  ),
 
   // AINS chain
-  { id: 'r-ains-1', from_credential_id: id('K-1', 'AINS', 'how-think'), to_credential_id: id('G2-3', 'AINS', 'intro-computation'), relation_type: 'PREREQ' },
-  { id: 'r-ains-2', from_credential_id: id('G2-3', 'AINS', 'intro-computation'), to_credential_id: id('G9-10', 'AINS', 'art-programming'), relation_type: 'PREREQ' },
-  { id: 'r-ains-3', from_credential_id: id('G9-10', 'AINS', 'art-programming'), to_credential_id: id('UG', 'AINS', 'artificial-intelligence'), relation_type: 'PREREQ' },
-  { id: 'r-ains-4', from_credential_id: id('UG', 'AINS', 'artificial-intelligence'), to_credential_id: id('MS', 'AINS', 'machine-learning'), relation_type: 'PREREQ' },
-  { id: 'r-ains-5', from_credential_id: id('MS', 'AINS', 'machine-learning'), to_credential_id: id('PhD', 'AINS', 'consciousness'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('AINS',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['how-think', 'intro-computation', 'algorithms-logic', 'programming-fundamentals', 'art-programming', 'data-structures', 'artificial-intelligence', 'machine-learning', 'consciousness']
+  ),
 
   // ELA chain
-  { id: 'r-ela-1', from_credential_id: id('K-1', 'ELA', 'power-stories'), to_credential_id: id('G2-3', 'ELA', 'language-meaning'), relation_type: 'PREREQ' },
-  { id: 'r-ela-2', from_credential_id: id('G2-3', 'ELA', 'language-meaning'), to_credential_id: id('G9-10', 'ELA', 'literary-analysis'), relation_type: 'PREREQ' },
-  { id: 'r-ela-3', from_credential_id: id('G9-10', 'ELA', 'literary-analysis'), to_credential_id: id('UG', 'ELA', 'hermeneutics'), relation_type: 'PREREQ' },
-  { id: 'r-ela-4', from_credential_id: id('UG', 'ELA', 'hermeneutics'), to_credential_id: id('MS', 'ELA', 'semiotics'), relation_type: 'PREREQ' },
-  { id: 'r-ela-5', from_credential_id: id('MS', 'ELA', 'semiotics'), to_credential_id: id('PhD', 'ELA', 'deconstruction'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('ELA',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['power-stories', 'language-meaning', 'reading-writing', 'literary-forms', 'literary-analysis', 'rhetoric-argument', 'hermeneutics', 'semiotics', 'deconstruction']
+  ),
 
   // META chain
-  { id: 'r-meta-1', from_credential_id: id('K-1', 'META', 'learning-discovery'), to_credential_id: id('G2-3', 'META', 'art-teaching'), relation_type: 'PREREQ' },
-  { id: 'r-meta-2', from_credential_id: id('G2-3', 'META', 'art-teaching'), to_credential_id: id('G9-10', 'META', 'cognitive-development'), relation_type: 'PREREQ' },
-  { id: 'r-meta-3', from_credential_id: id('G9-10', 'META', 'cognitive-development'), to_credential_id: id('UG', 'META', 'constructivist-learning'), relation_type: 'PREREQ' },
-  { id: 'r-meta-4', from_credential_id: id('UG', 'META', 'constructivist-learning'), to_credential_id: id('MS', 'META', 'adult-learning'), relation_type: 'PREREQ' },
-  { id: 'r-meta-5', from_credential_id: id('MS', 'META', 'adult-learning'), to_credential_id: id('PhD', 'META', 'lifelong-learning'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('META',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['learning-discovery', 'art-teaching', 'learning-strategies', 'critical-thinking', 'cognitive-development', 'epistemology', 'constructivist-learning', 'adult-learning', 'lifelong-learning']
+  ),
 
   // HUM (Time & Memory) chain
-  { id: 'r-hum-tm-1', from_credential_id: id('K-1', 'HUM', 'what-history'), to_credential_id: id('G2-3', 'HUM', 'historical-sources'), relation_type: 'PREREQ' },
-  { id: 'r-hum-tm-2', from_credential_id: id('G2-3', 'HUM', 'historical-sources'), to_credential_id: id('G9-10', 'HUM', 'historiography'), relation_type: 'PREREQ' },
-  { id: 'r-hum-tm-3', from_credential_id: id('G9-10', 'HUM', 'historiography'), to_credential_id: id('UG', 'HUM', 'memory-studies'), relation_type: 'PREREQ' },
-  { id: 'r-hum-tm-4', from_credential_id: id('UG', 'HUM', 'memory-studies'), to_credential_id: id('MS', 'HUM', 'philosophy-history'), relation_type: 'PREREQ' },
-  { id: 'r-hum-tm-5', from_credential_id: id('MS', 'HUM', 'philosophy-history'), to_credential_id: id('PhD', 'HUM', 'temporal-being'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('HUM',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['what-history', 'historical-sources', 'world-civilizations', 'historical-thinking', 'historiography', 'historical-methods', 'memory-studies', 'philosophy-history', 'temporal-being']
+  ),
 
   // SOC chain
-  { id: 'r-soc-1', from_credential_id: id('K-1', 'SOC', 'living-community'), to_credential_id: id('G2-3', 'SOC', 'government-society'), relation_type: 'PREREQ' },
-  { id: 'r-soc-2', from_credential_id: id('G2-3', 'SOC', 'government-society'), to_credential_id: id('G9-10', 'SOC', 'political-theory'), relation_type: 'PREREQ' },
-  { id: 'r-soc-3', from_credential_id: id('G9-10', 'SOC', 'political-theory'), to_credential_id: id('UG', 'SOC', 'economic-systems'), relation_type: 'PREREQ' },
-  { id: 'r-soc-4', from_credential_id: id('UG', 'SOC', 'economic-systems'), to_credential_id: id('MS', 'SOC', 'capital-political-economy'), relation_type: 'PREREQ' },
-  { id: 'r-soc-5', from_credential_id: id('MS', 'SOC', 'capital-political-economy'), to_credential_id: id('PhD', 'SOC', 'advanced-social-theory'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('SOC',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['living-community', 'government-society', 'civics-citizenship', 'social-systems', 'political-theory', 'political-economy', 'economic-systems', 'capital-political-economy', 'advanced-social-theory']
+  ),
 
   // ARTS chain
-  { id: 'r-arts-1', from_credential_id: id('K-1', 'ARTS', 'making-creating'), to_credential_id: id('G2-3', 'ARTS', 'nature-art'), relation_type: 'PREREQ' },
-  { id: 'r-arts-2', from_credential_id: id('G2-3', 'ARTS', 'nature-art'), to_credential_id: id('G9-10', 'ARTS', 'aesthetics-beauty'), relation_type: 'PREREQ' },
-  { id: 'r-arts-3', from_credential_id: id('G9-10', 'ARTS', 'aesthetics-beauty'), to_credential_id: id('UG', 'ARTS', 'art-history'), relation_type: 'PREREQ' },
-  { id: 'r-arts-4', from_credential_id: id('UG', 'ARTS', 'art-history'), to_credential_id: id('MS', 'ARTS', 'art-criticism'), relation_type: 'PREREQ' },
-  { id: 'r-arts-5', from_credential_id: id('MS', 'ARTS', 'art-criticism'), to_credential_id: id('PhD', 'ARTS', 'philosophy-art'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('ARTS',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['making-creating', 'nature-art', 'artistic-expression', 'art-criticism', 'aesthetics-beauty', 'art-movements', 'art-history', 'art-criticism-theory', 'philosophy-art']
+  ),
 
   // CEF chain
-  { id: 'r-cef-1', from_credential_id: id('K-1', 'CEF', 'wonder-natural-world'), to_credential_id: id('G2-3', 'CEF', 'ecology-interconnection'), relation_type: 'PREREQ' },
-  { id: 'r-cef-2', from_credential_id: id('G2-3', 'CEF', 'ecology-interconnection'), to_credential_id: id('G9-10', 'CEF', 'environmental-philosophy'), relation_type: 'PREREQ' },
-  { id: 'r-cef-3', from_credential_id: id('G9-10', 'CEF', 'environmental-philosophy'), to_credential_id: id('UG', 'CEF', 'deep-ecology'), relation_type: 'PREREQ' },
-  { id: 'r-cef-4', from_credential_id: id('UG', 'CEF', 'deep-ecology'), to_credential_id: id('MS', 'CEF', 'theology-nature'), relation_type: 'PREREQ' },
-  { id: 'r-cef-5', from_credential_id: id('MS', 'CEF', 'theology-nature'), to_credential_id: id('PhD', 'CEF', 'transcendence-sacred'), relation_type: 'PREREQ' },
+  ...generatePrereqChain('CEF',
+    ['K-1', 'G2-3', 'G4-6', 'G7-8', 'G9-10', 'G11-12', 'UG', 'MS', 'PhD'],
+    ['wonder-natural-world', 'ecology-interconnection', 'environmental-stewardship', 'sustainability', 'environmental-philosophy', 'ecological-ethics', 'deep-ecology', 'theology-nature', 'transcendence-sacred']
+  ),
+
+  // ============================================
+  // Cross-college prerequisites
+  // ============================================
+  
+  // MATH supports NAT (quantitative biology needs math)
+  { id: 'cross-math-nat-1', from_credential_id: id('G7-8', 'MATH', 'pre-algebra'), to_credential_id: id('G9-10', 'NAT', 'evolution'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-math-nat-2', from_credential_id: id('G11-12', 'MATH', 'functions-analysis'), to_credential_id: id('UG', 'NAT', 'genetics'), relation_type: 'PREREQ' },
+  { id: 'cross-math-nat-3', from_credential_id: id('UG', 'MATH', 'calculus'), to_credential_id: id('MS', 'NAT', 'molecular-bio'), relation_type: 'RECOMMENDED' },
+
+  // MATH supports AINS (computation needs math)
+  { id: 'cross-math-ains-1', from_credential_id: id('G4-6', 'MATH', 'fractions-decimals'), to_credential_id: id('G7-8', 'AINS', 'programming-fundamentals'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-math-ains-2', from_credential_id: id('G9-10', 'MATH', 'algebraic-thinking'), to_credential_id: id('G11-12', 'AINS', 'data-structures'), relation_type: 'PREREQ' },
+  { id: 'cross-math-ains-3', from_credential_id: id('UG', 'MATH', 'calculus'), to_credential_id: id('UG', 'AINS', 'artificial-intelligence'), relation_type: 'RECOMMENDED' },
+
+  // ELA supports HUM (reading/writing needed for philosophy/history)
+  { id: 'cross-ela-hum-1', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G7-8', 'HUM', 'moral-reasoning'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-2', from_credential_id: id('G9-10', 'ELA', 'literary-analysis'), to_credential_id: id('G9-10', 'HUM', 'moral-philosophy'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-3', from_credential_id: id('G11-12', 'ELA', 'rhetoric-argument'), to_credential_id: id('G11-12', 'HUM', 'ethical-theories'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-4', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G7-8', 'HUM', 'historical-thinking'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-hum-5', from_credential_id: id('G9-10', 'ELA', 'literary-analysis'), to_credential_id: id('G9-10', 'HUM', 'historiography'), relation_type: 'RECOMMENDED' },
+
+  // ELA supports SOC (communication for civics)
+  { id: 'cross-ela-soc-1', from_credential_id: id('G4-6', 'ELA', 'reading-writing'), to_credential_id: id('G4-6', 'SOC', 'civics-citizenship'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-ela-soc-2', from_credential_id: id('G11-12', 'ELA', 'rhetoric-argument'), to_credential_id: id('G9-10', 'SOC', 'political-theory'), relation_type: 'RECOMMENDED' },
+
+  // NAT supports CEF (biology for ecology)
+  { id: 'cross-nat-cef-1', from_credential_id: id('G2-3', 'NAT', 'cell-unit-life'), to_credential_id: id('G2-3', 'CEF', 'ecology-interconnection'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-nat-cef-2', from_credential_id: id('G4-6', 'NAT', 'ecosystems'), to_credential_id: id('G4-6', 'CEF', 'environmental-stewardship'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-nat-cef-3', from_credential_id: id('G9-10', 'NAT', 'evolution'), to_credential_id: id('G9-10', 'CEF', 'environmental-philosophy'), relation_type: 'RECOMMENDED' },
+
+  // META supports all (learning about learning helps everything)
+  { id: 'cross-meta-1', from_credential_id: id('G4-6', 'META', 'learning-strategies'), to_credential_id: id('G7-8', 'MATH', 'pre-algebra'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-meta-2', from_credential_id: id('G4-6', 'META', 'learning-strategies'), to_credential_id: id('G7-8', 'ELA', 'literary-forms'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-meta-3', from_credential_id: id('G7-8', 'META', 'critical-thinking'), to_credential_id: id('G9-10', 'HUM', 'moral-philosophy'), relation_type: 'RECOMMENDED' },
+  { id: 'cross-meta-4', from_credential_id: id('G7-8', 'META', 'critical-thinking'), to_credential_id: id('G9-10', 'SOC', 'political-theory'), relation_type: 'RECOMMENDED' },
 ];
