@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import ELK from 'elkjs';
 import type { Credential, CredentialRelation, ELKGraph, ELKNode, ELKEdge } from '../types/credential';
 import { sampleCredentials, sampleRelations } from '../data/sample-credentials';
@@ -17,8 +17,14 @@ export default function VineTree({
   height = 800,
 }: VineTreeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<SVGGElement>(null);
   const [layout, setLayout] = useState<ELKGraph | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Pan/zoom state
+  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     async function computeLayout() {
@@ -87,6 +93,107 @@ export default function VineTree({
     computeLayout();
   }, [credentials, relations]);
 
+  // Calculate bounding box of all nodes
+  const getBoundingBox = useCallback(() => {
+    if (!layout || !layout.children || layout.children.length === 0) {
+      return { minX: 0, minY: 0, maxX: width, maxY: height, width: width, height: height };
+    }
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    
+    layout.children.forEach(node => {
+      if (node.x !== undefined && node.y !== undefined) {
+        const nodeWidth = node.width || 200;
+        const nodeHeight = node.height || 80;
+        minX = Math.min(minX, node.x);
+        minY = Math.min(minY, node.y);
+        maxX = Math.max(maxX, node.x + nodeWidth);
+        maxY = Math.max(maxY, node.y + nodeHeight);
+      }
+    });
+
+    // Add padding
+    const padding = 50;
+    return {
+      minX: minX - padding,
+      minY: minY - padding,
+      maxX: maxX + padding,
+      maxY: maxY + padding,
+      width: maxX - minX + 2 * padding,
+      height: maxY - minY + 2 * padding,
+    };
+  }, [layout, width, height]);
+
+  // Zoom to fit
+  const zoomToFit = useCallback(() => {
+    const bbox = getBoundingBox();
+    const scaleX = width / bbox.width;
+    const scaleY = height / bbox.height;
+    const scale = Math.min(scaleX, scaleY, 1) * 0.9; // 90% to add some padding
+    
+    const centerX = (bbox.minX + bbox.maxX) / 2;
+    const centerY = (bbox.minY + bbox.maxY) / 2;
+    
+    setTransform({
+      x: width / 2 - centerX * scale,
+      y: height / 2 - centerY * scale,
+      scale,
+    });
+  }, [getBoundingBox, width, height]);
+
+  // Pan handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button === 0) { // Left mouse button
+      setIsPanning(true);
+      setPanStart({
+        x: e.clientX - transform.x,
+        y: e.clientY - transform.y,
+      });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isPanning) {
+      setTransform({
+        ...transform,
+        x: e.clientX - panStart.x,
+        y: e.clientY - panStart.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsPanning(false);
+  };
+
+  // Zoom handler
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    const newScale = Math.max(0.1, Math.min(5, transform.scale * delta));
+    
+    // Zoom towards mouse position
+    const rect = svgRef.current?.getBoundingClientRect();
+    if (rect) {
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      const scaleChange = newScale / transform.scale;
+      setTransform({
+        x: mouseX - (mouseX - transform.x) * scaleChange,
+        y: mouseY - (mouseY - transform.y) * scaleChange,
+        scale: newScale,
+      });
+    }
+  };
+
+  // Zoom to fit on layout change
+  useEffect(() => {
+    if (layout && !loading) {
+      setTimeout(zoomToFit, 100); // Small delay to ensure layout is rendered
+    }
+  }, [layout, loading, zoomToFit]);
+
   if (loading || !layout) {
     return (
       <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -98,12 +205,62 @@ export default function VineTree({
   const allCredentialNodes = layout.children || [];
 
   return (
-    <svg
-      ref={svgRef}
-      width={width}
-      height={height}
-      style={{ border: '1px solid #ccc', background: '#fafafa' }}
-    >
+    <div style={{ position: 'relative', width, height }}>
+      {/* Zoom controls */}
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 5,
+      }}>
+        <button
+          onClick={() => setTransform({ ...transform, scale: Math.min(5, transform.scale * 1.2) })}
+          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          title="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={() => setTransform({ ...transform, scale: Math.max(0.1, transform.scale * 0.8) })}
+          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          title="Zoom out"
+        >
+          −
+        </button>
+        <button
+          onClick={zoomToFit}
+          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          title="Zoom to fit"
+        >
+          ⌂
+        </button>
+        <button
+          onClick={() => setTransform({ x: 0, y: 0, scale: 1 })}
+          style={{ padding: '5px 10px', cursor: 'pointer' }}
+          title="Reset"
+        >
+          ⟲
+        </button>
+      </div>
+
+      <svg
+        ref={svgRef}
+        width={width}
+        height={height}
+        style={{ border: '1px solid #ccc', background: '#fafafa', cursor: isPanning ? 'grabbing' : 'grab' }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onWheel={handleWheel}
+      >
+        <g
+          ref={containerRef}
+          transform={`translate(${transform.x}, ${transform.y}) scale(${transform.scale})`}
+        >
       {/* Render edges first (so they appear behind nodes) */}
       {layout.edges?.map(edge => {
         const sourceNode = allCredentialNodes.find(n => n.id === edge.sources[0]);
@@ -214,6 +371,8 @@ export default function VineTree({
           </g>
         );
       })}
-    </svg>
+        </g>
+      </svg>
+    </div>
   );
 }
