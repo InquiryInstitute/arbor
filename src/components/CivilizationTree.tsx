@@ -139,7 +139,7 @@ export default function CivilizationTree({
   const [timeRange, setTimeRange] = useState<{ min: number; max: number } | null>(null);
   const [longitudeRange, setLongitudeRange] = useState<{ min: number; max: number } | null>(null);
   
-  // Pan/zoom state
+  // Pan/zoom state (panning disabled)
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
@@ -304,29 +304,17 @@ export default function CivilizationTree({
     });
   }, [getBoundingBox, width, height]);
 
-  // Pan handlers
+  // Pan handlers - disabled
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 0) {
-      setIsPanning(true);
-      setPanStart({
-        x: e.clientX - transform.x,
-        y: e.clientY - transform.y,
-      });
-    }
+    // Panning disabled
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (isPanning) {
-      setTransform({
-        ...transform,
-        x: e.clientX - panStart.x,
-        y: e.clientY - panStart.y,
-      });
-    }
+    // Panning disabled
   };
 
   const handleMouseUp = () => {
-    setIsPanning(false);
+    // Panning disabled
   };
 
   // Zoom handler
@@ -434,13 +422,9 @@ export default function CivilizationTree({
           style={{ 
             border: '1px solid #ccc', 
             background: '#fafafa', 
-            cursor: isPanning ? 'grabbing' : 'grab',
+            cursor: 'default',
             display: 'block',
           }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
         >
         <defs>
           {/* Arrow markers for different relation types */}
