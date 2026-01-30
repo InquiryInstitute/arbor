@@ -231,26 +231,40 @@ export default function VineTree({
     setIsPanning(false);
   };
 
-  // Zoom handler
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newScale = Math.max(0.1, Math.min(5, transform.scale * delta));
-    
-    // Zoom towards mouse position
-    const rect = svgRef.current?.getBoundingClientRect();
-    if (rect) {
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+  // Zoom handler - must use native event listener with passive: false
+  useEffect(() => {
+    const svgElement = svgRef.current;
+    if (!svgElement) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
       
-      const scaleChange = newScale / transform.scale;
-      setTransform({
-        x: mouseX - (mouseX - transform.x) * scaleChange,
-        y: mouseY - (mouseY - transform.y) * scaleChange,
-        scale: newScale,
+      // Get current transform from state using a ref or functional update
+      setTransform(prev => {
+        const newScale = Math.max(0.1, Math.min(5, prev.scale * delta));
+        
+        // Zoom towards mouse position
+        const rect = svgElement.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        const scaleChange = newScale / prev.scale;
+        return {
+          x: mouseX - (mouseX - prev.x) * scaleChange,
+          y: mouseY - (mouseY - prev.y) * scaleChange,
+          scale: newScale,
+        };
       });
-    }
-  };
+    };
+
+    // Attach with passive: false to allow preventDefault
+    svgElement.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      svgElement.removeEventListener('wheel', handleWheel);
+    };
+  }, [setTransform]);
 
   // Zoom to fit on layout change
   useEffect(() => {
@@ -320,7 +334,6 @@ export default function VineTree({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onWheel={handleWheel}
       >
         <g
           ref={containerRef}
