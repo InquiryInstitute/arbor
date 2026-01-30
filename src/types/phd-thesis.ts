@@ -1,6 +1,11 @@
 // Type definitions for PhD Thesis Topics
 
 /**
+ * College mapping from the Arbor credential system
+ */
+export type College = 'HUM' | 'MATH' | 'NAT' | 'AINS' | 'SOC' | 'ELA' | 'ARTS' | 'HEAL' | 'CEF' | 'META';
+
+/**
  * Academic discipline or field of study
  */
 export type Discipline =
@@ -59,6 +64,8 @@ export type TopicStatus =
  * Source of the thesis topic
  */
 export type TopicSource =
+  | 'openalex'        // From OpenAlex API
+  | 'oatd'            // From OATD (Open Access Theses and Dissertations)
   | 'university'      // From university databases
   | 'proquest'        // From ProQuest Dissertations
   | 'github'          // From GitHub repositories
@@ -76,6 +83,10 @@ export interface PhDThesisTopic {
   discipline: Discipline;
   subdiscipline?: string;
   
+  // College mapping
+  college_primary?: College; // Primary college from Arbor system
+  colleges?: College[]; // Multiple colleges if interdisciplinary
+  
   // Research details
   abstract?: string;
   keywords: string[];
@@ -92,6 +103,19 @@ export interface PhDThesisTopic {
   source: TopicSource;
   source_url?: string;
   
+  // OpenAlex integration
+  openalex_id?: string; // OpenAlex work ID
+  openalex_topics?: Array<{
+    id: string;
+    display_name: string;
+    score?: number;
+  }>;
+  
+  // OATD integration
+  oatd_id?: string; // OATD record ID
+  has_full_text?: boolean; // Whether full text is available via OATD
+  full_text_url?: string; // Direct link to full text if available
+  
   // Relationships
   related_topics?: string[]; // IDs of related thesis topics
   prerequisites?: string[]; // Knowledge areas required
@@ -107,7 +131,7 @@ export interface PhDThesisTopic {
   links?: Array<{
     title: string;
     url: string;
-    type?: 'paper' | 'dataset' | 'code' | 'website' | 'other';
+    type?: 'paper' | 'dataset' | 'code' | 'website' | 'full_text' | 'other';
   }>;
   
   // Notes and curation
@@ -168,4 +192,69 @@ export function generateThesisTopicId(title: string, author?: string, year?: num
   }
   
   return parts.join('-');
+}
+
+/**
+ * Map discipline to Arbor college(s)
+ * Returns primary college and potentially additional colleges for interdisciplinary work
+ */
+export function mapDisciplineToCollege(discipline: Discipline, keywords: string[] = []): { primary: College; additional?: College[] } {
+  const keywordStr = keywords.join(' ').toLowerCase();
+  const discLower = discipline.toLowerCase();
+  
+  // Direct mappings
+  if (discLower.includes('mathematics') || discLower.includes('math')) {
+    return { primary: 'MATH' };
+  }
+  
+  if (discLower.includes('computer science') || discLower.includes('artificial intelligence') || 
+      discLower.includes('machine learning') || discLower.includes('ai') || keywordStr.includes('ai') ||
+      keywordStr.includes('machine learning') || keywordStr.includes('neural network')) {
+    return { primary: 'AINS' };
+  }
+  
+  if (discLower.includes('physics') || discLower.includes('chemistry') || 
+      discLower.includes('biology') || discLower.includes('natural science')) {
+    return { primary: 'NAT' };
+  }
+  
+  if (discLower.includes('philosophy') || discLower.includes('literature') || 
+      discLower.includes('history') || discLower.includes('theology') ||
+      discLower.includes('classics') || discLower.includes('humanities')) {
+    return { primary: 'HUM' };
+  }
+  
+  if (discLower.includes('language') || discLower.includes('linguistics') ||
+      discLower.includes('english') || discLower.includes('writing')) {
+    return { primary: 'ELA' };
+  }
+  
+  if (discLower.includes('art') || discLower.includes('music') || 
+      discLower.includes('aesthetic') || discLower.includes('visual')) {
+    return { primary: 'ARTS' };
+  }
+  
+  if (discLower.includes('psychology') || discLower.includes('sociology') ||
+      discLower.includes('economics') || discLower.includes('political science') ||
+      discLower.includes('social science')) {
+    return { primary: 'SOC' };
+  }
+  
+  if (discLower.includes('health') || discLower.includes('medicine') ||
+      discLower.includes('public health')) {
+    return { primary: 'HEAL' };
+  }
+  
+  if (discLower.includes('ecology') || discLower.includes('environment') ||
+      discLower.includes('sustainability') || discLower.includes('climate')) {
+    return { primary: 'CEF' };
+  }
+  
+  if (discLower.includes('education') || discLower.includes('pedagogy') ||
+      discLower.includes('learning') || discLower.includes('teaching')) {
+    return { primary: 'META' };
+  }
+  
+  // Default to META for interdisciplinary or unknown
+  return { primary: 'META' };
 }

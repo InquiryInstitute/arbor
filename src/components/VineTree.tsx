@@ -324,19 +324,14 @@ export default function VineTree({
     }
   }, [layout, loading, zoomToFit]);
 
-  if (loading || !layout) {
-    return (
-      <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p>Loading tree...</p>
-      </div>
-    );
-  }
+  // Get nodes - must be before any early returns to satisfy hooks rules
+  const allCredentialNodes = layout?.children || [];
 
-  const allCredentialNodes = layout.children || [];
-
-  // Calculate college lane positions for labeling
+  // Calculate college lane positions for labeling - MUST be before early return
   const collegePositions = useMemo(() => {
     const positions: Record<College, { x: number; y: number; count: number }> = {} as Record<College, { x: number; y: number; count: number }>;
+    
+    if (!allCredentialNodes.length) return positions;
     
     allCredentialNodes.forEach(node => {
       const cred = credentials.find(c => c.id === node.id);
@@ -369,7 +364,7 @@ export default function VineTree({
     return positions;
   }, [allCredentialNodes, credentials]);
 
-  // Calculate vine art data
+  // Calculate vine art data - MUST be before early return
   const vineArtData = useMemo(() => {
     if (!allCredentialNodes.length) return null;
     
@@ -411,6 +406,15 @@ export default function VineTree({
     
     return { collegeSpines, trunkX, minY, maxY };
   }, [allCredentialNodes, credentials]);
+
+  // Early return AFTER all hooks
+  if (loading || !layout) {
+    return (
+      <div style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p>Loading tree...</p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ position: 'relative', width, height }}>
