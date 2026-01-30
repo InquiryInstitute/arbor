@@ -212,6 +212,32 @@ export default function VineTree({
     });
   }, [getBoundingBox, width, height]);
 
+  // Zoom to a specific node
+  const zoomToNode = useCallback((node: ELKNode) => {
+    if (!node.x || !node.y || !node.width || !node.height || !svgRef.current) {
+      return;
+    }
+
+    const nodeCenterX = node.x + node.width / 2;
+    const nodeCenterY = node.y + node.height / 2;
+    
+    // Calculate zoom to make node fill about 40% of viewport width for good readability
+    const targetWidth = width * 0.4;
+    const nodeWidth = node.width;
+    const zoomScale = targetWidth / nodeWidth;
+    const newScale = Math.min(Math.max(zoomScale, 0.5), 10); // Clamp between 0.5x and 10x
+    
+    // Center the node in the viewport
+    const newX = width / 2 - nodeCenterX * newScale;
+    const newY = height / 2 - nodeCenterY * newScale;
+    
+    setTransform({
+      x: newX,
+      y: newY,
+      scale: newScale,
+    });
+  }, [width, height]);
+
   // Pan handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button === 0) { // Left mouse button
@@ -248,7 +274,7 @@ export default function VineTree({
       
       // Get current transform from state using a ref or functional update
       setTransform(prev => {
-        const newScale = Math.max(0.1, Math.min(5, prev.scale * delta));
+        const newScale = Math.max(0.1, Math.min(10, prev.scale * delta));
         
         // Zoom towards mouse position
         const rect = svgElement.getBoundingClientRect();
@@ -302,7 +328,7 @@ export default function VineTree({
         gap: 5,
       }}>
         <button
-          onClick={() => setTransform({ ...transform, scale: Math.min(5, transform.scale * 1.2) })}
+          onClick={() => setTransform({ ...transform, scale: Math.min(10, transform.scale * 1.2) })}
           style={{ padding: '5px 10px', cursor: 'pointer' }}
           title="Zoom in"
         >
@@ -315,6 +341,43 @@ export default function VineTree({
         >
           −
         </button>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          padding: '5px',
+          gap: '2px',
+        }}>
+          <input
+            type="range"
+            min="0.1"
+            max="10"
+            step="0.1"
+            value={transform.scale}
+            onChange={(e) => {
+              const newScale = parseFloat(e.target.value);
+              // Keep current center point when zooming with slider
+              const rect = svgRef.current?.getBoundingClientRect();
+              if (rect) {
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const scaleChange = newScale / transform.scale;
+                setTransform({
+                  x: centerX - (centerX - transform.x) * scaleChange,
+                  y: centerY - (centerY - transform.y) * scaleChange,
+                  scale: newScale,
+                });
+              } else {
+                setTransform({ ...transform, scale: newScale });
+              }
+            }}
+            style={{ width: '60px', cursor: 'pointer' }}
+            title={`Zoom: ${transform.scale.toFixed(1)}x`}
+          />
+          <span style={{ fontSize: '9px', color: '#666' }}>
+            {transform.scale.toFixed(1)}x
+          </span>
+        </div>
         <button
           onClick={zoomToFit}
           style={{ padding: '5px 10px', cursor: 'pointer' }}
@@ -436,6 +499,10 @@ export default function VineTree({
             key={node.id}
             onMouseEnter={() => handleNodeHover(node.id)}
             onMouseLeave={() => handleNodeHover(null)}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              zoomToNode(node);
+            }}
             transform={`translate(${centerX}, ${centerY}) scale(${hoverScale}) translate(${-centerX}, ${-centerY})`}
             style={{ 
               cursor: 'pointer',
