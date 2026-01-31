@@ -204,10 +204,15 @@ export default function CivilizationTree({
       
       sortedLayers.forEach((layerTime, layerIndex) => {
         const layerNodes = timeLayers[layerTime];
-        const layerY = trunkY - (layerIndex / (sortedLayers.length - 1)) * treeHeight;
+        // Fix division by zero when there's only one layer
+        const layerY = sortedLayers.length > 1
+          ? trunkY - (layerIndex / (sortedLayers.length - 1)) * treeHeight
+          : trunkY - treeHeight / 2;
         
         // Calculate spread width for this layer (wider at top, narrower at bottom)
-        const layerProgress = layerIndex / Math.max(1, sortedLayers.length - 1);
+        const layerProgress = sortedLayers.length > 1
+          ? layerIndex / (sortedLayers.length - 1)
+          : 0.5;
         // Tree shape: narrow at bottom, wide at top (like a real tree)
         const layerWidth = trunkWidth + (width * 0.7 - trunkWidth) * Math.pow(layerProgress, 0.6);
         
@@ -272,28 +277,59 @@ export default function CivilizationTree({
 
       setLayout(graph);
       
-      // Set initial transform to show the tree
-      // Tree is centered horizontally, positioned from bottom
-      const treeCenterX = width / 2;
-      const treeTopY = treeStartY;
-      const treeBottomY = trunkY;
-      
-      // Calculate scale to fit tree in viewport
-      const treeWidth = width * 0.8;
-      const treeHeight = treeBottomY - treeTopY;
-      const scaleX = (width * 0.9) / treeWidth;
-      const scaleY = (height * 0.9) / treeHeight;
-      const initialScale = Math.min(scaleX, scaleY, 1) * 0.95;
-      
-      // Center the tree in the viewport
-      const initialX = width / 2 - treeCenterX * initialScale;
-      const initialY = height / 2 - ((treeTopY + treeBottomY) / 2) * initialScale;
-      
-      setTransform({
-        x: initialX,
-        y: initialY,
-        scale: initialScale,
-      });
+      // Calculate bounding box of all nodes to ensure they're visible
+      if (elkNodes.length > 0) {
+        const nodeBounds = elkNodes.reduce((bounds, node) => {
+          const left = node.x || 0;
+          const right = (node.x || 0) + (node.width || 0);
+          const top = node.y || 0;
+          const bottom = (node.y || 0) + (node.height || 0);
+          
+          return {
+            minX: Math.min(bounds.minX, left),
+            maxX: Math.max(bounds.maxX, right),
+            minY: Math.min(bounds.minY, top),
+            maxY: Math.max(bounds.maxY, bottom),
+          };
+        }, {
+          minX: Infinity,
+          maxX: -Infinity,
+          minY: Infinity,
+          maxY: -Infinity,
+        });
+        
+        const boundsWidth = nodeBounds.maxX - nodeBounds.minX;
+        const boundsHeight = nodeBounds.maxY - nodeBounds.minY;
+        const boundsCenterX = (nodeBounds.minX + nodeBounds.maxX) / 2;
+        const boundsCenterY = (nodeBounds.minY + nodeBounds.maxY) / 2;
+        
+        // Add padding around nodes
+        const padding = 100;
+        const paddedWidth = boundsWidth + padding * 2;
+        const paddedHeight = boundsHeight + padding * 2;
+        
+        // Calculate scale to fit all nodes
+        const scaleX = (width * 0.9) / paddedWidth;
+        const scaleY = (height * 0.9) / paddedHeight;
+        const initialScale = Math.min(scaleX, scaleY, 1) * 0.9;
+        
+        // Center the nodes in the viewport
+        const initialX = width / 2 - boundsCenterX * initialScale;
+        const initialY = height / 2 - boundsCenterY * initialScale;
+        
+        setTransform({
+          x: initialX,
+          y: initialY,
+          scale: initialScale,
+        });
+      } else {
+        // Fallback if no nodes
+        setTransform({
+          x: 0,
+          y: 0,
+          scale: 1,
+        });
+      }
       
       setLoading(false);
     }
