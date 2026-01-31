@@ -10,7 +10,8 @@
     "astro": "astro",
     "sync-courses": "tsx src/scripts/sync-external-courses.ts",
     "enhance-credentials": "tsx src/scripts/enhance-credentials.ts",
-    "import-prerequisites": "tsx src/scripts/import-prerequisites.ts"
+    "import-prerequisites": "tsx src/scripts/import-prerequisites.ts",
+    "discover-courses": "tsx src/scripts/discover-all-courses.ts"
   },
   "dependencies": {
     "astro": "^4.0.0",
