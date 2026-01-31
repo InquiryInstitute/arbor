@@ -168,95 +168,81 @@ export default function CivilizationTree({
       setTimeRange({ min: minTime, max: maxTime });
       setLongitudeRange({ min: minLongitude, max: maxLongitude });
       
-      // Tree layout: Group nodes by time periods and arrange in tree structure
+      // Tree layout: Position nodes so bottom = timeStart, top = timeEnd
       const nodes = allCivilizationNodes.filter(node => node.type !== 'trunk');
       
-      // Group nodes by time periods (layers of the tree)
-      const timeLayers: { [key: number]: typeof nodes } = {};
-      const layerInterval = 500; // 500 year intervals
+      // Map dimensions for positioning
+      const mapWidth = width * 0.9;
+      const mapHeight = height * 0.9;
+      const mapStartX = width * 0.05;
+      const mapStartY = height * 0.05;
+      
+      // Calculate time range for scaling
+      const timeRange = maxTime - minTime;
+      const longitudeRange = maxLongitude - minLongitude;
+      
+      // Calculate positions: each node spans from timeStart (bottom) to timeEnd (top)
+      const elkNodes: ELKNode[] = [];
+      const nodePositions: { [key: string]: { x: number; y: number; top: number; bottom: number } } = {};
       
       nodes.forEach(node => {
-        if (node.timeStart !== undefined) {
-          // Round to nearest 500 year interval
-          const layer = Math.floor((node.timeStart - minTime) / layerInterval) * layerInterval;
-          if (!timeLayers[layer]) {
-            timeLayers[layer] = [];
-          }
-          timeLayers[layer].push(node);
+        // Default node dimensions
+        let nodeWidth = 180;
+        let minNodeHeight = 60; // Minimum height for visibility
+        let maxNodeHeight = 300; // Maximum height
+        
+        if (node.type === 'cross-vine') {
+          nodeWidth = 150;
+          minNodeHeight = 40;
+          maxNodeHeight = 200;
         }
-      });
-      
-      // Sort layers by time (earliest first)
-      const sortedLayers = Object.keys(timeLayers)
-        .map(Number)
-        .sort((a, b) => a - b);
-      
-      // Tree dimensions
-      const trunkWidth = 200; // Width of trunk at bottom
-      const trunkY = height * 0.95; // Bottom of tree
-      const treeHeight = height * 0.85; // Height of tree
-      const treeStartY = height * 0.1; // Top of tree
-      const centerX = width / 2;
-      
-      // Calculate positions using tree layout
-      const elkNodes: ELKNode[] = [];
-      const nodePositions: { [key: string]: { x: number; y: number; layer: number } } = {};
-      
-      sortedLayers.forEach((layerTime, layerIndex) => {
-        const layerNodes = timeLayers[layerTime];
-        // Fix division by zero when there's only one layer
-        const layerY = sortedLayers.length > 1
-          ? trunkY - (layerIndex / (sortedLayers.length - 1)) * treeHeight
-          : trunkY - treeHeight / 2;
         
-        // Calculate spread width for this layer (wider at top, narrower at bottom)
-        const layerProgress = sortedLayers.length > 1
-          ? layerIndex / (sortedLayers.length - 1)
-          : 0.5;
-        // Tree shape: narrow at bottom, wide at top (like a real tree)
-        const layerWidth = trunkWidth + (width * 0.7 - trunkWidth) * Math.pow(layerProgress, 0.6);
+        // Calculate node height based on time span
+        let nodeHeight = minNodeHeight;
+        if (node.timeStart !== undefined && node.timeEnd !== undefined) {
+          const timeSpan = node.timeEnd - node.timeStart;
+          // Scale time span to pixel height
+          const pixelHeight = (timeSpan / timeRange) * mapHeight;
+          nodeHeight = Math.max(minNodeHeight, Math.min(maxNodeHeight, pixelHeight));
+        } else if (node.timeStart !== undefined) {
+          // If only start time, use minimum height
+          nodeHeight = minNodeHeight;
+        }
         
-        // Sort nodes in layer by longitude for natural spread
-        const sortedLayerNodes = [...layerNodes].sort((a, b) => {
-          const lonA = a.longitude ?? 0;
-          const lonB = b.longitude ?? 0;
-          return lonA - lonB;
-        });
+        // Calculate Y position: bottom of node at timeStart
+        let y = mapStartY + mapHeight;
+        let nodeBottom = mapStartY + mapHeight;
+        let nodeTop = nodeBottom - nodeHeight;
         
-        // Position nodes in this layer
-        sortedLayerNodes.forEach((node, nodeIndex) => {
-          let nodeWidth = 180;
-          let nodeHeight = 100;
-          
-          if (node.type === 'cross-vine') {
-            nodeWidth = 150;
-            nodeHeight = 70;
-          }
-          
-          // Spread nodes horizontally across layer width
-          // Use longitude as a guide but spread evenly
-          const normalizedIndex = sortedLayerNodes.length > 1 
-            ? nodeIndex / (sortedLayerNodes.length - 1)
-            : 0.5;
-          
-          // Add some variation based on longitude
-          const longitudeOffset = node.longitude !== undefined
-            ? ((node.longitude - minLongitude) / (maxLongitude - minLongitude) - 0.5) * 0.3
+        if (node.timeStart !== undefined) {
+          // Map timeStart to Y position (earlier times at bottom)
+          const normalizedTime = timeRange > 0 
+            ? (node.timeStart - minTime) / timeRange 
             : 0;
-          
-          const x = centerX + (normalizedIndex - 0.5 + longitudeOffset) * layerWidth - nodeWidth / 2;
-          const y = layerY - nodeHeight / 2;
-          
-          nodePositions[node.id] = { x, y, layer: layerIndex };
-          
-          elkNodes.push({
-            id: node.id,
-            labels: [{ text: node.name }],
-            width: nodeWidth,
-            height: nodeHeight,
-            x: x,
-            y: y,
-          });
+          // Invert so earlier times are at bottom
+          nodeBottom = mapStartY + (1 - normalizedTime) * mapHeight;
+          nodeTop = nodeBottom - nodeHeight;
+          y = nodeTop; // Y position is the top-left corner
+        }
+        
+        // Calculate X position based on longitude
+        let x = mapStartX + mapWidth / 2 - nodeWidth / 2; // Default center
+        if (node.longitude !== undefined) {
+          const normalizedLongitude = longitudeRange > 0
+            ? (node.longitude - minLongitude) / longitudeRange
+            : 0.5;
+          x = mapStartX + normalizedLongitude * mapWidth - nodeWidth / 2;
+        }
+        
+        nodePositions[node.id] = { x, y, top: nodeTop, bottom: nodeBottom };
+        
+        elkNodes.push({
+          id: node.id,
+          labels: [{ text: node.name }],
+          width: nodeWidth,
+          height: nodeHeight,
+          x: x,
+          y: y,
         });
       });
 
