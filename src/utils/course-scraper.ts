@@ -69,48 +69,100 @@ export async function scrapeMITOCWCourses(): Promise<ExternalCourse[]> {
 }
 
 /**
- * Fetch courses from MIT OCW API
+ * MIT OCW Course from JSON API
+ */
+interface MITOCWCourseJSON {
+  id: string;
+  title: string;
+  url: string;
+  description?: string;
+  level?: string;
+  department?: string;
+  department_number?: string;
+  prerequisites?: string;
+  'as-taught-in'?: string;
+  'term-offered'?: string;
+  'course-features'?: string[];
+  instructors?: Array<{ name: string }>;
+}
+
+/**
+ * Fetch courses from MIT OCW JSON API
+ * API endpoint: https://ocw.mit.edu/courses/index.json
  */
 export async function fetchMITOCWFromAPI(): Promise<ExternalCourse[]> {
   try {
-    // MIT OCW doesn't have a public REST API, but we can scrape their course listings
-    // Alternative: Use their course search/index pages
+    console.log('Fetching MIT OCW courses from JSON API...');
+    const response = await fetch('https://ocw.mit.edu/courses/index.json', {
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
     
-    // Example approach:
-    // 1. Fetch https://ocw.mit.edu/courses/
-    // 2. Parse HTML for course links
-    // 3. For each course, fetch course page and extract metadata
-    
-    const response = await fetch('https://ocw.mit.edu/courses/');
     if (!response.ok) {
-      throw new Error(`Failed to fetch MIT OCW: ${response.statusText}`);
+      // If JSON endpoint doesn't exist, try alternative approaches
+      console.warn(`JSON endpoint returned ${response.status}, trying alternative...`);
+      return await fetchMITOCWAlternative();
     }
     
-    const html = await response.text();
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      console.warn('Response is not JSON, trying alternative...');
+      return await fetchMITOCWAlternative();
+    }
     
-    // Parse course links from HTML
-    // This is a simplified example - in production, use a proper HTML parser
-    const courseLinkRegex = /\/courses\/([^\/]+)\//g;
-    const matches = [...html.matchAll(courseLinkRegex)];
-    const courseIds = [...new Set(matches.map(m => m[1]))];
+    const data = await response.json();
+    const coursesJson: MITOCWCourseJSON[] = Array.isArray(data) ? data : data.courses || [];
     
-    console.log(`Found ${courseIds.length} MIT OCW courses`);
+    console.log(`Found ${coursesJson.length} MIT OCW courses in JSON`);
     
-    // For each course, fetch details
-    const courses: ExternalCourse[] = [];
-    for (const courseId of courseIds.slice(0, 100)) { // Limit to 100 for testing
-      try {
-        const course = await fetchMITOCWCourseDetails(courseId);
-        if (course) {
-          courses.push(course);
-        }
-        // Rate limiting
-        await new Promise(resolve => setTimeout(resolve, 100));
-      } catch (error) {
-        console.error(`Error fetching course ${courseId}:`, error);
+    // Convert JSON courses to ExternalCourse format
+    const courses: ExternalCourse[] = coursesJson.map(course => {
+      // Determine level
+      let level = 'Undergraduate';
+      if (course.level) {
+        level = course.level.includes('Graduate') ? 'Graduate' : 'Undergraduate';
+      } else if (course.department_number) {
+        // MIT course numbers: 1-16 = undergraduate, 17+ = graduate
+        const deptNum = parseInt(course.department_number.split('-')[0]);
+        level = deptNum >= 17 ? 'Graduate' : 'Undergraduate';
       }
-    }
+      
+      // Extract prerequisites
+      const prerequisites: string[] = [];
+      if (course.prerequisites) {
+        // Parse prerequisites text - could be comma-separated or more complex
+        const prereqText = course.prerequisites;
+        // Simple parsing - split by common delimiters
+        prerequisites.push(...prereqText
+          .split(/[,;]|and|or/i)
+          .map(p => p.trim())
+          .filter(p => p.length > 0 && !p.match(/^(none|n\/a|not required)$/i))
+        );
+      }
+      
+      // Determine subject from department
+      const subject = course.department || course.department_number?.split('-')[0] || 'Unknown';
+      
+      // Estimate duration (MIT courses are typically semester-length)
+      const duration_weeks = 16; // Standard semester
+      
+      return {
+        id: `mit-${course.id}`,
+        source: 'mit_ocw',
+        title: course.title,
+        url: course.url || `https://ocw.mit.edu/courses/${course.id}/`,
+        description: course.description,
+        level,
+        subject,
+        duration_weeks,
+        prerequisites: prerequisites.length > 0 ? prerequisites : undefined,
+        prerequisites_detected: prerequisites.length === 0,
+        tags: course['course-features'] || [],
+      };
+    });
     
+    console.log(`Converted ${courses.length} courses to ExternalCourse format`);
     return courses;
   } catch (error) {
     console.error('Error fetching MIT OCW courses:', error);
@@ -119,59 +171,26 @@ export async function fetchMITOCWFromAPI(): Promise<ExternalCourse[]> {
 }
 
 /**
- * Fetch details for a specific MIT OCW course
+ * Fetch detailed information for a specific MIT OCW course
+ * Can be used to get additional metadata not in the index.json
  */
-async function fetchMITOCWCourseDetails(courseId: string): Promise<ExternalCourse | null> {
+export async function fetchMITOCWCourseDetails(courseId: string): Promise<Partial<ExternalCourse> | null> {
   try {
-    const url = `https://ocw.mit.edu/courses/${courseId}/`;
+    // MIT OCW also has individual course JSON endpoints
+    // Format: https://ocw.mit.edu/courses/{course-id}/index.json
+    const url = `https://ocw.mit.edu/courses/${courseId}/index.json`;
     const response = await fetch(url);
     if (!response.ok) return null;
     
-    const html = await response.text();
+    const courseData = await response.json();
     
-    // Extract course metadata from HTML
-    // In production, use a proper HTML parser like cheerio or jsdom
-    
-    // Extract title
-    const titleMatch = html.match(/<title>([^<]+)<\/title>/);
-    const title = titleMatch ? titleMatch[1].replace(' | MIT OpenCourseWare', '').trim() : courseId;
-    
-    // Extract description
-    const descMatch = html.match(/<meta name="description" content="([^"]+)"/);
-    const description = descMatch ? descMatch[1] : undefined;
-    
-    // Extract level (undergraduate/graduate)
-    const levelMatch = html.match(/Level[^:]*:\s*([^<\n]+)/i);
-    const level = levelMatch ? levelMatch[1].trim() : 'Undergraduate';
-    
-    // Extract subject/department
-    const deptMatch = html.match(/Department[^:]*:\s*([^<\n]+)/i);
-    const subject = deptMatch ? deptMatch[1].trim() : undefined;
-    
-    // Extract prerequisites
-    const prereqSection = html.match(/Prerequisites[^:]*:([^<]+)/i);
-    const prerequisites: string[] = [];
-    if (prereqSection) {
-      // Parse prerequisite text into array
-      const prereqText = prereqSection[1].trim();
-      // Simple parsing - in production, use more sophisticated parsing
-      prerequisites.push(...prereqText.split(/[,;]/).map(p => p.trim()).filter(p => p.length > 0));
-    }
-    
+    // Extract additional details that might not be in the main index
     return {
-      id: `mit-${courseId}`,
-      source: 'mit_ocw',
-      title,
-      url,
-      description,
-      level: level.includes('Graduate') ? 'Graduate' : 'Undergraduate',
-      subject,
-      duration_weeks: 16, // Default semester length
-      prerequisites: prerequisites.length > 0 ? prerequisites : undefined,
-      prerequisites_detected: prerequisites.length === 0,
+      description: courseData.description || courseData['course-description'],
+      // Additional fields can be extracted here
     };
   } catch (error) {
-    console.error(`Error fetching MIT OCW course ${courseId}:`, error);
+    console.error(`Error fetching MIT OCW course details for ${courseId}:`, error);
     return null;
   }
 }
