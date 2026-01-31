@@ -1,6 +1,98 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import ELK from 'elkjs';
-import type { MITOCWGraph } from '../types/mit-ocw';
+import type { MITOCWGraph, MITOCWNode } from '../types/mit-ocw';
+
+// Map course number prefixes to topics (same as MITOCWTopics)
+const COURSE_PREFIX_TO_TOPIC: Record<string, string> = {
+  '1': 'Engineering',
+  '2': 'Mechanical Engineering',
+  '3': 'Materials Science',
+  '4': 'Architecture',
+  '5': 'Chemistry',
+  '6': 'Computer Science',
+  '7': 'Biology',
+  '8': 'Physics',
+  '9': 'Brain and Cognitive Sciences',
+  '10': 'Chemical Engineering',
+  '11': 'Urban Studies and Planning',
+  '12': 'Earth, Atmospheric, and Planetary Sciences',
+  '14': 'Economics',
+  '15': 'Management',
+  '16': 'Aerospace Engineering',
+  '17': 'Political Science',
+  '18': 'Mathematics',
+  '20': 'Biological Engineering',
+  '21': 'Humanities',
+  '21A': 'Anthropology',
+  '21H': 'History',
+  '21L': 'Literature',
+  '21M': 'Music and Theater Arts',
+  '22': 'Nuclear Science and Engineering',
+  '24': 'Linguistics and Philosophy',
+  'CC': 'Comparative Media Studies',
+  'CMS': 'Comparative Media Studies',
+  'ES': 'Experimental Study Group',
+  'HST': 'Health Sciences and Technology',
+  'IDS': 'Institute for Data, Systems, and Society',
+  'MAS': 'Media Arts and Sciences',
+  'SCM': 'Supply Chain Management',
+  'SP': 'Special Programs',
+  'STS': 'Science, Technology, and Society',
+  'WGS': 'Women\'s and Gender Studies',
+};
+
+function getTopicFromCourse(course: MITOCWNode): string {
+  if (course.department) {
+    return course.department;
+  }
+  const match = course.id.match(/^(\d+[A-Z]?)/);
+  if (match) {
+    const prefix = match[1];
+    if (COURSE_PREFIX_TO_TOPIC[prefix]) {
+      return COURSE_PREFIX_TO_TOPIC[prefix];
+    }
+    const numPrefix = prefix.replace(/[A-Z]/g, '');
+    if (COURSE_PREFIX_TO_TOPIC[numPrefix]) {
+      return COURSE_PREFIX_TO_TOPIC[numPrefix];
+    }
+  }
+  return 'Other';
+}
+
+// Color palette for topics
+const TOPIC_COLORS: Record<string, { fill: string; stroke: string }> = {
+  'Computer Science': { fill: '#3b82f6', stroke: '#1e40af' },
+  'Mathematics': { fill: '#8b5cf6', stroke: '#6d28d9' },
+  'Physics': { fill: '#ef4444', stroke: '#dc2626' },
+  'Chemistry': { fill: '#10b981', stroke: '#059669' },
+  'Biology': { fill: '#14b8a6', stroke: '#0d9488' },
+  'Engineering': { fill: '#f59e0b', stroke: '#d97706' },
+  'Mechanical Engineering': { fill: '#f97316', stroke: '#ea580c' },
+  'Electrical Engineering': { fill: '#ec4899', stroke: '#db2777' },
+  'Economics': { fill: '#06b6d4', stroke: '#0891b2' },
+  'Management': { fill: '#84cc16', stroke: '#65a30d' },
+  'Urban Studies and Planning': { fill: '#22c55e', stroke: '#16a34a' },
+  'Architecture': { fill: '#a855f7', stroke: '#9333ea' },
+  'Political Science': { fill: '#6366f1', stroke: '#4f46e5' },
+  'Brain and Cognitive Sciences': { fill: '#ec4899', stroke: '#db2777' },
+  'Earth, Atmospheric, and Planetary Sciences': { fill: '#0ea5e9', stroke: '#0284c7' },
+  'Aerospace Engineering': { fill: '#64748b', stroke: '#475569' },
+  'Materials Science': { fill: '#f43f5e', stroke: '#e11d48' },
+  'Chemical Engineering': { fill: '#14b8a6', stroke: '#0d9488' },
+  'Biological Engineering': { fill: '#22c55e', stroke: '#16a34a' },
+  'Nuclear Science and Engineering': { fill: '#fbbf24', stroke: '#f59e0b' },
+  'Linguistics and Philosophy': { fill: '#a78bfa', stroke: '#8b5cf6' },
+  'Humanities': { fill: '#fb7185', stroke: '#f43f5e' },
+  'Anthropology': { fill: '#c084fc', stroke: '#a855f7' },
+  'History': { fill: '#f472b6', stroke: '#ec4899' },
+  'Literature': { fill: '#60a5fa', stroke: '#3b82f6' },
+  'Music and Theater Arts': { fill: '#34d399', stroke: '#10b981' },
+  'Other': { fill: '#94a3b8', stroke: '#64748b' },
+};
+
+function getTopicColor(topic: string): { fill: string; stroke: string } {
+  return TOPIC_COLORS[topic] || TOPIC_COLORS['Other'];
+}
 
 interface ELKNode {
   id: string;
@@ -133,6 +225,18 @@ export function MITOCWGraphELK() {
   // Get node data for rendering
   const nodeMap = new Map(graphData.nodes.map(n => [n.id, n]));
   const edgeMap = new Map(graphData.edges.map(e => [`${e.source}-${e.target}`, e]));
+  
+  // Create topic color map
+  const topicColorMap = useMemo(() => {
+    const map = new Map<string, { fill: string; stroke: string }>();
+    graphData.nodes.forEach(node => {
+      const topic = getTopicFromCourse(node);
+      if (!map.has(topic)) {
+        map.set(topic, getTopicColor(topic));
+      }
+    });
+    return map;
+  }, [graphData]);
 
   // Calculate viewBox
   const nodes = layout.nodes.filter(n => n.x !== undefined && n.y !== undefined);
@@ -218,16 +322,19 @@ export function MITOCWGraphELK() {
             const nodeData = nodeMap.get(node.id);
             if (!nodeData) return null;
 
+            const topic = getTopicFromCourse(nodeData);
+            const colors = topicColorMap.get(topic) || getTopicColor('Other');
+
             return (
               <g key={node.id} transform={`translate(${node.x},${node.y})`}>
                 <rect
                   width={node.width}
                   height={node.height}
                   rx="8"
-                  fill="#3b82f6"
-                  stroke="#1e40af"
+                  fill={colors.fill}
+                  stroke={colors.stroke}
                   strokeWidth="2"
-                  className="cursor-pointer hover:fill-blue-600 transition-colors"
+                  className="cursor-pointer transition-all hover:opacity-80"
                   onClick={() => window.open(nodeData.url, '_blank')}
                 />
                 <text

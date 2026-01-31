@@ -86,6 +86,8 @@ export default function CommonCoreTree({
         
         // Add grade nodes (layer 0-12, K=0, 1-12)
         // Grades form the central spine
+        // With direction UP, lower layer numbers are at bottom, higher at top
+        // So K (0) should be at bottom, Grade 12 (12) at top
         gradeNodes.forEach(grade => {
           const gradeNum = grade.grade ?? 0;
           elkNodes.push({
@@ -94,6 +96,7 @@ export default function CommonCoreTree({
             width: 180,
             height: 50,
             layoutOptions: {
+              // Layer assignment: K=0 (bottom), Grade 12=12 (top)
               'elk.layered.layer': gradeNum.toString(),
               // Center grades as spine - use priority 0 to keep them centered
               'elk.priority': '0',
@@ -242,22 +245,47 @@ export default function CommonCoreTree({
           
           const allNodes = flattenAllNodes(layoutedGraph.children);
           
-          // Find all grade nodes and calculate center X position for spine
-          const gradeNodesList: ELKNode[] = [];
+          // Find all grade nodes and ensure they're ordered bottom to top (K at bottom, 12 at top)
+          const gradeNodesList: Array<{ node: ELKNode; gradeNum: number }> = [];
           allNodes.forEach(node => {
             const nodeData = allCommonCoreNodes.find(n => n.id === node.id);
             if (nodeData?.type === 'grade') {
-              gradeNodesList.push(node);
+              gradeNodesList.push({ node, gradeNum: nodeData.grade ?? 0 });
             }
           });
           
+          // Sort by Y position (bottom to top: lower Y = bottom, higher Y = top)
+          gradeNodesList.sort((a, b) => (a.node.y || 0) - (b.node.y || 0));
+          
+          // Verify that grade numbers increase from bottom to top
+          // If not, we may need to adjust - but with direction UP, this should be correct
+          const firstGrade = gradeNodesList[0]?.gradeNum;
+          const lastGrade = gradeNodesList[gradeNodesList.length - 1]?.gradeNum;
+          
+          // If grades are reversed (higher grade at bottom), we need to fix it
+          if (firstGrade !== undefined && lastGrade !== undefined && firstGrade > lastGrade) {
+            // Reverse the Y positions to fix the order
+            const minY = Math.min(...gradeNodesList.map(item => item.node.y || 0));
+            const maxY = Math.max(...gradeNodesList.map(item => item.node.y || 0));
+            const yRange = maxY - minY;
+            
+            // Reassign Y positions so lower grades have lower Y values
+            gradeNodesList.forEach(({ node, gradeNum }) => {
+              // Calculate what Y position this grade should have
+              // K (0) should be at minY, Grade 12 (12) should be at maxY
+              const totalGrades = 13; // K + 12 grades
+              const targetY = minY + (gradeNum / (totalGrades - 1)) * yRange;
+              node.y = targetY;
+            });
+          }
+          
           // Calculate center X position for the spine (average of all grade X positions)
           const centerX = gradeNodesList.length > 0
-            ? gradeNodesList.reduce((sum, n) => sum + (n.x || 0), 0) / gradeNodesList.length
+            ? gradeNodesList.reduce((sum, item) => sum + (item.node.x || 0), 0) / gradeNodesList.length
             : width / 2;
           
           // Center all grade nodes as the spine
-          gradeNodesList.forEach(node => {
+          gradeNodesList.forEach(({ node }) => {
             if (node.x !== undefined) {
               node.x = centerX;
             }

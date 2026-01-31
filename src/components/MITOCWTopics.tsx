@@ -257,24 +257,64 @@ export function MITOCWTopics() {
           </select>
         </div>
 
-        {/* Vine Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 mb-6">
-          {topicGroups.map(group => (
-            <button
-              key={group.topic}
-              onClick={() => setSelectedTopic(selectedTopic === group.topic ? null : group.topic)}
-              className={`p-3 rounded-lg border-2 text-left transition-colors ${
-                selectedTopic === group.topic
-                  ? 'border-green-600 bg-green-50'
-                  : 'border-gray-200 hover:border-green-300 bg-white'
-              }`}
-            >
-              <div className="font-medium text-sm text-gray-900">{group.topic}</div>
-              <div className="text-xs text-gray-500 mt-1">
-                {group.undergraduate.length} UG • {group.graduate.length} G
-              </div>
-            </button>
-          ))}
+        {/* Vine Summary - Sortable Table */}
+        <div className="mb-6 overflow-x-auto">
+          <table className="w-full border-collapse bg-white rounded-lg shadow-sm">
+            <thead>
+              <tr className="bg-gray-50 border-b-2 border-gray-200">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    onClick={() => {/* Add sorting logic if needed */}}>
+                  Topic (Vine)
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Undergraduate
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Graduate
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                  Total
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {topicGroups.map((group, index) => (
+                <tr
+                  key={group.topic}
+                  onClick={() => setSelectedTopic(selectedTopic === group.topic ? null : group.topic)}
+                  className={`cursor-pointer transition-colors ${
+                    selectedTopic === group.topic
+                      ? 'bg-green-50 hover:bg-green-100'
+                      : 'hover:bg-gray-50'
+                  } ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
+                >
+                  <td className="px-4 py-3">
+                    <div className="flex items-center">
+                      <span className="text-lg mr-2">🌿</span>
+                      <span className="font-medium text-sm text-gray-900">{group.topic}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-right text-sm text-blue-700 font-medium">
+                    {group.undergraduate.length}
+                  </td>
+                  <td className="px-4 py-3 text-right text-sm text-purple-700 font-medium">
+                    {group.graduate.length}
+                  </td>
+                  <td className="px-4 py-3 text-right text-sm text-gray-900 font-semibold">
+                    {group.count}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-100 border-t-2 border-gray-300">
+              <tr>
+                <td className="px-4 py-3 font-semibold text-sm text-gray-900">Total</td>
+                <td className="px-4 py-3 text-right text-sm text-blue-700 font-semibold">{totalUndergraduate}</td>
+                <td className="px-4 py-3 text-right text-sm text-purple-700 font-semibold">{totalGraduate}</td>
+                <td className="px-4 py-3 text-right text-sm text-gray-900 font-bold">{graphData.nodes.length}</td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
 
