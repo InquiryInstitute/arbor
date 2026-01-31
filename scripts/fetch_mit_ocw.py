@@ -242,7 +242,15 @@ class MITOCWScraper:
                 title_text = title_elem.get_text()
                 course_id = self.extract_course_id(title_text)
                 if not title:
-                    title = title_text.strip()
+                    # Extract title (before the | separator)
+                    if '|' in title_text:
+                        title = title_text.split('|')[0].strip()
+                        # Extract subject/topic (middle part of "Title | Subject | MIT OCW")
+                        parts = [p.strip() for p in title_text.split('|')]
+                        if len(parts) >= 2:
+                            department = parts[1]  # Subject is usually the second part
+                    else:
+                        title = title_text.strip()
             
             # Look for prerequisites in multiple ways
             prerequisites = []
@@ -312,6 +320,26 @@ class MITOCWScraper:
             desc_elem = soup.find('meta', {'name': 'description'})
             if desc_elem:
                 description = desc_elem.get('content', '').strip()
+            
+            # Try to determine level (Undergraduate/Graduate)
+            # Check page text for level indicators
+            page_text_lower = page_text.lower()
+            if not level:
+                if any(word in page_text_lower for word in ['graduate', 'graduate-level', 'grad']):
+                    level = 'Graduate'
+                elif any(word in page_text_lower for word in ['undergraduate', 'undergrad', 'freshman', 'sophomore', 'junior', 'senior']):
+                    level = 'Undergraduate'
+                # MIT course numbers: 1xx-6xx are typically undergraduate, 7xx+ are graduate
+                elif course_id:
+                    course_num_match = re.search(r'\.(\d+)', course_id)
+                    if course_num_match:
+                        course_num = int(course_num_match.group(1))
+                        if course_num >= 700:
+                            level = 'Graduate'
+                        elif course_num < 100:
+                            level = 'Undergraduate'
+                        else:
+                            level = 'Undergraduate'  # Default
             
             if not course_id:
                 # Try to extract from URL - MIT OCW URLs are like: /courses/18-01-single-variable-calculus-fall-2006/

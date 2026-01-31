@@ -1,5 +1,6 @@
 ---
 import { MITOCWGraphELK } from '../components/MITOCWGraphELK';
+import { MITOCWTopics } from '../components/MITOCWTopics';
 ---
 
 <!doctype html>
@@ -19,6 +20,10 @@ import { MITOCWGraphELK } from '../components/MITOCWGraphELK';
           <MITOCWGraphELK client:load />
         </div>
       </section>
+
+      <section class="topics-section">
+        <MITOCWTopics client:load />
+      </section>
     </main>
 
     <style>
@@ -37,15 +42,25 @@ import { MITOCWGraphELK } from '../components/MITOCWGraphELK';
       main {
         margin: 0;
         padding: 0;
-        width: 100vw;
+        display: flex;
+        flex-direction: column;
         height: 100vh;
+        overflow: hidden;
       }
 
       .graph-section {
+        flex: 0 0 50%;
         margin: 0;
         padding: 0;
         width: 100%;
-        height: 100%;
+        min-height: 0;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      .topics-section {
+        flex: 1;
+        overflow-y: auto;
+        background: #f9fafb;
       }
 
       #mit-graph-container {

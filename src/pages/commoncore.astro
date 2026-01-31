@@ -25,10 +25,18 @@ import CommonCoreTable from '../components/CommonCoreTable';
     <main>
       <div class="intro">
         <p>
-          The Common Core State Standards are organized as a tree, with Kindergarten at the bottom 
-          and Grade 12 at the top. Each grade level branches into Mathematics and English Language Arts, 
+          The <strong>Common Core State Standards (CCSS)</strong> are organized as a tree, with Kindergarten at the bottom 
+          and Grade 12 at the top. Each grade level branches into <strong>Mathematics</strong> and <strong>English Language Arts</strong>, 
           which further branch into domains, clusters, and standards.
         </p>
+        <div class="note important">
+          <strong>Note:</strong> Common Core only covers Mathematics and English Language Arts. Other subjects use different frameworks:
+          <ul>
+            <li><strong>C3 Framework</strong> for Social Studies & Civics</li>
+            <li><strong>NGSS</strong> (Next Generation Science Standards) for Science</li>
+            <li><strong>State-specific standards</strong> for Arts, Health, Physical Education, etc.</li>
+          </ul>
+        </div>
         <p class="note">
           <strong>Click</strong> on any node to see detailed information. 
           <strong>Drag</strong> to pan, <strong>scroll</strong> to zoom.
@@ -123,6 +131,23 @@ import CommonCoreTable from '../components/CommonCoreTable';
         border-top: 1px solid #e0e0e0;
         font-size: 0.9rem;
         color: #666;
+      }
+
+      .intro .note.important {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+
+      .intro .note.important ul {
+        margin: 0.5rem 0 0 1.5rem;
+        padding: 0;
+      }
+
+      .intro .note.important li {
+        margin: 0.25rem 0;
       }
 
       .tree-container {
