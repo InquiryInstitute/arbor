@@ -1,0 +1,1178 @@
+[
+  {
+    "id": "mit-6-100l-introduction-to-cs-and-programming-using-python-fall-2022",
+    "source": "mit_ocw",
+    "title": "Introduction to CS and Programming using Python",
+    "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "description": "This subject is aimed at students with little to no programming experience. It aims to provide students with an understanding of the role computation can play in solving problems. It also aims to help students, regardless of their major, feel justifiably confident in their ability to write simple programs that allow them to accomplish useful goals. The class will use the Python 3 programming language.",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Programming Languages"
+    ]
+  },
+  {
+    "id": "mit-18-06sc-linear-algebra-fall-2011",
+    "source": "mit_ocw",
+    "title": "Linear Algebra",
+    "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/",
+    "description": "This course covers matrix theory and linear algebra, emphasizing topics useful in other disciplines such as physics, economics and social sciences, natural sciences, and engineering. It parallels the combination of theory and applications in Professor Strang’s textbook [_Introduction to Linear Algebra_](http://math.mit.edu/~gs/linearalgebra/).\n\nCourse Format\n\nThis course has been designed for independent study. It provides everything you will need to understand the concepts covered in the course. The materials include:\n\n- A complete set of **Lecture Videos** by Professor Gilbert Strang.\n- **Summary Notes** for all videos along with suggested readings in Prof. Strang's textbook [_Linear Algebra_](http://math.mit.edu/~gs/linearalgebra/).\n- **Problem Solving Videos** on every topic taught by an experienced MIT Recitation Instructor.\n- **Problem Sets** to do on your own with **Solutions** to check your answers against when you're done.\n- A selection of **Java® Demonstrations** to illustrate key concepts.\n- A full set of **Exams with Solutions**, including review material to help you prepare.",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Linear Algebra"
+    ]
+  },
+  {
+    "id": "mit-24-908-creole-languages-and-caribbean-identities-spring-2017",
+    "source": "mit_ocw",
+    "title": "Creole Languages and Caribbean Identities",
+    "url": "https://ocw.mit.edu/courses/24-908-creole-languages-and-caribbean-identities-spring-2017/",
+    "description": "Caribbean Creole languages result from language contact via colonization and the slave trade. In this course we explore the history of Creole languages from cognitive, historical and comparative perspectives. We evaluate popular theories about \"Creole genesis\" and the role of language acquisition. Then we explore the non-linguistic aspects of Creole formation, using sources from literature, religion and music. We also look into issues of Caribbean identities as we examine Creole speakers' and others' beliefs and attitudes toward their cultures. We also make comparisons with relevant aspects of African-American culture in the U.S.",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "Linguistics",
+      "Society",
+      "Latin and Caribbean Studies"
+    ]
+  },
+  {
+    "id": "mit-18-01sc-single-variable-calculus-fall-2010",
+    "source": "mit_ocw",
+    "title": "Single Variable Calculus",
+    "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/",
+    "description": "This calculus course covers differentiation and integration of functions of one variable, and concludes with a brief discussion of infinite series. Calculus is fundamental to many scientific disciplines including physics, engineering, and economics.\n\nCourse Format\n\nThis course has been designed for independent study. It includes all of the materials you will need to understand the concepts covered in this subject. The materials in this course include:\n\n- **Lecture Videos** with supporting written notes\n- **Recitation Videos** of problem-solving tips\n- **Worked Examples** with detailed solutions to sample problems\n- **Problem sets** with solutions\n- **Exams** with solutions\n- **Interactive Java Applets** (\"Mathlets\") to reinforce key concepts\n\nContent Development\n\nDavid Jerison     \nArthur Mattuck     \nHaynes Miller     \nBenjamin Brubaker     \nJeremy Orloff\n\nHeidi Burgiel     \nChristine Breiner     \nDavid Jordan     \nJoel Lewis\n\nAbout OCW Scholar\n\nOCW Scholar courses are designed specifically for OCW's single largest audience: independent learners. These courses are substantially more complete than typical OCW courses, and include new custom-created content as well as materials repurposed from previously published courses.",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Calculus",
+      "Mathematics",
+      "Differential Equations"
+    ]
+  },
+  {
+    "id": "mit-1-89-environmental-microbiology-fall-2004",
+    "source": "mit_ocw",
+    "title": "Environmental Microbiology",
+    "url": "https://ocw.mit.edu/courses/1-89-environmental-microbiology-fall-2004/",
+    "description": "This class provides a general introduction to the diverse roles of microorganisms in natural and artificial environments. It will cover topics including: cellular architecture, energetics, and growth; evolution and gene flow; population and community dynamics; water and soil microbiology; biogeochemical cycling; and microorganisms in biodeterioration and bioremediation.\n",
+    "level": "Graduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Biology",
+      "Microbiology",
+      "Science",
+      "Earth Science",
+      "Environmental Science"
+    ]
+  },
+  {
+    "id": "mit-6-092-introduction-to-programming-in-java-january-iap-2010",
+    "source": "mit_ocw",
+    "title": "Introduction to Programming in Java",
+    "url": "https://ocw.mit.edu/courses/6-092-introduction-to-programming-in-java-january-iap-2010/",
+    "description": "This course is an introduction to software engineering, using the Java™ programming language. It covers concepts useful to 6.005. Students will learn the fundamentals of Java. The focus is on developing high quality, working software that solves real problems.\n\nThe course is designed for students with some programming experience, but if you have none and are motivated you will do fine. Students who have taken 6.005 should not take this course. Each class is composed of one hour of lecture and one hour of assisted lab work.\n\nThis course is offered during the Independent Activities Period (IAP), which is a special 4-week term at MIT that runs from the first week of January until the end of the month.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Programming Languages",
+      "Engineering",
+      "Computer Science",
+      "Software Design and Engineering"
+    ]
+  },
+  {
+    "id": "mit-18-05-introduction-to-probability-and-statistics-spring-2022",
+    "source": "mit_ocw",
+    "title": "Introduction to Probability and Statistics",
+    "url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/",
+    "description": "This course provides an elementary introduction to probability and statistics with applications. Topics include basic combinatorics, random variables, probability distributions, Bayesian inference, hypothesis testing, confidence intervals, and linear regression.\n\nThese same course materials, including interactive components (online reading questions and problem checkers) are available on MIT’s [Open Learning Library](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.05r_10+2022_Summer/about), which is free to use. You have the option to enroll and track your progress, or you can view and use the materials without enrolling.",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Discrete Mathematics",
+      "Mathematics",
+      "Probability and Statistics"
+    ]
+  },
+  {
+    "id": "mit-6-0002-introduction-to-computational-thinking-and-data-science-fall-2016",
+    "source": "mit_ocw",
+    "title": "Introduction to Computational Thinking and Data Science",
+    "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/",
+    "description": "6.0002 is the continuation of _[6.0001 Introduction to Computer Science and Programming in Python](/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/)_ and is intended for students with little or no programming experience. It aims to provide students with an understanding of the role computation can play in solving problems and to help students, regardless of their major, feel justifiably confident of their ability to write small programs that allow them to accomplish useful goals. The class uses the Python 3.5 programming language.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Mathematics",
+      "Probability and Statistics"
+    ]
+  },
+  {
+    "id": "mit-6-006-introduction-to-algorithms-spring-2020",
+    "source": "mit_ocw",
+    "title": "Introduction to Algorithms",
+    "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+    "description": "This course is an introduction to mathematical modeling of computational problems, as well as common algorithms, algorithmic paradigms, and data structures used to solve these problems. It emphasizes the relationship between algorithms and programming and introduces basic performance measures and analysis techniques for these problems.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Algorithms and Data Structures",
+      "Engineering",
+      "Computer Science",
+      "Theory of Computation",
+      "Mathematics",
+      "Computation"
+    ]
+  },
+  {
+    "id": "mit-8-04-quantum-physics-i-spring-2016",
+    "source": "mit_ocw",
+    "title": "Quantum Physics I",
+    "url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/",
+    "description": "This is the first course in the undergraduate Quantum Physics sequence. It introduces the basic features of quantum mechanics. It covers the experimental basis of quantum physics, introduces wave mechanics, Schrödinger's equation in a single dimension, and Schrödinger's equation in three dimensions. The lectures and lecture notes for this course form the basis of Zwiebach’s textbook *Mastering Quantum Mechanics* published by [MIT Press](https://mitpress.mit.edu/books/mastering-quantum-mechanics) in April 2022.\n\nThis presentation of 8.04 by Barton Zwiebach (2016) differs somewhat and complements nicely the presentation of [Allan Adams (2013)](/courses/8-04-quantum-physics-i-spring-2013/). Adams covers a larger set of ideas; Zwiebach tends to go deeper into a smaller set of ideas, offering a systematic and detailed treatment. Adams begins with the subtleties of superpostion, while Zwiebach discusses the surprises of interaction-free measurements. While both courses overlap over a sizable amount of standard material, Adams discussed applications to condensed matter physics, while Zwiebach focused on scattering and resonances. The different perspectives of the instructors make the problem sets in the two courses rather different.",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Physics",
+      "Quantum Mechanics"
+    ]
+  },
+  {
+    "id": "mit-6-034-artificial-intelligence-fall-2010",
+    "source": "mit_ocw",
+    "title": "Artificial Intelligence",
+    "url": "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/",
+    "description": "This course introduces students to the basic knowledge representation, problem solving, and learning methods of artificial intelligence. Upon completion of 6.034, students should be able to develop intelligent systems by assembling solutions to concrete computational problems; understand the role of knowledge representation, problem solving, and learning in intelligent-system engineering; and appreciate the role of problem solving, vision, and language in understanding human intelligence from a computational perspective.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Artificial Intelligence",
+      "Engineering",
+      "Computer Science",
+      "Algorithms and Data Structures",
+      "Engineering",
+      "Computer Science",
+      "Theory of Computation"
+    ]
+  },
+  {
+    "id": "mit-6-s096-introduction-to-c-and-c-january-iap-2013",
+    "source": "mit_ocw",
+    "title": "Introduction to C and C++",
+    "url": "https://ocw.mit.edu/courses/6-s096-introduction-to-c-and-c-january-iap-2013/",
+    "description": "This course provides a fast-paced introduction to the C and C++ programming languages. You will learn the required background knowledge, including memory management, pointers, preprocessor macros, object-oriented programming, and how to find bugs when you inevitably use any of those incorrectly. There will be daily assignments and a small-scale individual project.\n\nThis course is offered during the Independent Activities Period (IAP), which is a special 4-week term at MIT that runs from the first week of January until the end of the month.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Programming Languages",
+      "Engineering",
+      "Computer Science",
+      "Software Design and Engineering"
+    ]
+  },
+  {
+    "id": "mit-9-00sc-introduction-to-psychology-fall-2011",
+    "source": "mit_ocw",
+    "title": "Introduction to Psychology",
+    "url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/",
+    "description": "This course is a survey of the scientific study of human nature, including how the mind works, and how the brain supports the mind. Topics include the mental and neural bases of perception, emotion, learning, memory, cognition, child development, personality, psychopathology, and social interaction. Students will consider how such knowledge relates to debates about nature and nurture, free will, consciousness, human differences, self, and society.\n\nCourse Format\n\nThis course has been designed for independent study. It includes all of the materials you will need to understand the concepts covered in this subject. The materials in this course include:\n\n- A full set of **Lecture Videos** by Prof. John Gabrieli.\n- **Reading Assignments** in several books, including one **free online textbook** and detailed notes on another book.\n- Assorted multiple choice and short answer questions to **Check Yourself** on the material in each session.\n- Supporting **Discussion** content that elaborates on the lectures and reading.\n- A rich collection of online resources for **Further Study** on each session's topics.\n- A full set of **Exams** with solution keys, and extra practice questions for review.",
+    "level": "Undergraduate",
+    "subject": "Social Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Social Science",
+      "Psychology",
+      "Science",
+      "Cognitive Science"
+    ]
+  },
+  {
+    "id": "mit-18-700-linear-algebra-fall-2013",
+    "source": "mit_ocw",
+    "title": "Linear Algebra",
+    "url": "https://ocw.mit.edu/courses/18-700-linear-algebra-fall-2013/",
+    "description": "This course offers a rigorous treatment of linear algebra, including vector spaces, systems of linear equations, bases, linear independence, matrices, determinants, eigenvalues, inner products, quadratic forms, and canonical forms of matrices. Compared with [_18.06 Linear Algebra_](/courses/18-06sc-linear-algebra-fall-2011/), more emphasis is placed on theory and proofs.",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Linear Algebra"
+    ]
+  },
+  {
+    "id": "mit-8-02-physics-ii-electricity-and-magnetism-spring-2007",
+    "source": "mit_ocw",
+    "title": "Physics II: Electricity and Magnetism",
+    "url": "https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2007/",
+    "description": "This freshman-level course is the second semester of introductory physics. The focus is on electricity and magnetism. The subject is taught using the TEAL (Technology Enabled Active Learning) format which utilizes small group interaction and current technology. The TEAL/Studio Project at MIT is a new approach to physics education designed to help students develop much better intuition about, and conceptual models of, physical phenomena.\n\n**Staff List**\n\nVisualizations:    \nProf. John Belcher\n\nInstructors:    \nDr. Peter Dourmashkin    \nProf. Bruce Knuteson    \nProf. Gunther Roland    \nProf. Bolek Wyslouch    \nDr. Brian Wecht    \nProf. Eric Katsavounidis    \nProf. Robert Simcoe    \nProf. Joseph Formaggio\n\nCourse Co-Administrators:    \nDr. Peter Dourmashkin    \nProf. Robert Redwine\n\nTechnical Instructors:    \nAndy Neely    \nMatthew Strafuss\n\nCourse Material:    \nDr. Peter Dourmashkin    \nProf. Eric Hudson    \nDr. Sen-Ben Liao\n\nAcknowledgements\n\nThe TEAL project is supported by The [Alex and Brit d'Arbeloff Fund for Excellence in MIT Education](http://web.mit.edu/newsoffice/1999/darb-0310.html), [MIT iCampus](http://icampus.mit.edu/), the [Davis Educational Foundation](http://www.davisfoundations.org/site/educational.asp), the [National Science Foundation](http://www.nsf.gov/), the [Class of 1960 Endowment for Innovation in Education](http://1960.alumclass.mit.edu/s/1314/clubs-classes-interior.aspx?sid=1314&gid=51&pgid=2684), the [Class of 1951 Fund for Excellence in Education](http://web.mit.edu/acadinfo/alumnifunds/about.html), the [Class of 1955 Fund for Excellence in Teaching](http://web.mit.edu/acadinfo/alumnifunds/about.html), and the Helena Foundation. Many people have contributed to the development of the course materials. ([PDF](/courses/8-02-physics-ii-electricity-and-magnetism-spring-2007/resources/acknowledgements))",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Physics",
+      "Electromagnetism"
+    ]
+  },
+  {
+    "id": "mit-6-033-computer-system-engineering-spring-2018",
+    "source": "mit_ocw",
+    "title": "Computer System Engineering",
+    "url": "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/",
+    "description": "This class covers topics on the engineering of computer software and hardware systems. Topics include techniques for controlling complexity; strong modularity using client-server design, operating systems; performance, networks; naming; security and privacy; fault-tolerant systems, atomicity and coordination of concurrent activities, and recovery; impact of computer systems on society.",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Computer Design and Engineering",
+      "Engineering",
+      "Computer Science",
+      "Computer Networks",
+      "Engineering",
+      "Computer Science",
+      "Operating Systems",
+      "Engineering",
+      "Computer Science",
+      "Software Design and Engineering"
+    ]
+  },
+  {
+    "id": "mit-18-657-mathematics-of-machine-learning-fall-2015",
+    "source": "mit_ocw",
+    "title": "Mathematics of Machine Learning",
+    "url": "https://ocw.mit.edu/courses/18-657-mathematics-of-machine-learning-fall-2015/",
+    "description": "Broadly speaking, Machine Learning refers to the automated identification of patterns in data. As such it has been a fertile ground for new statistical and algorithmic developments. The purpose of this course is to provide a mathematically rigorous introduction to these developments with emphasis on methods and their analysis.\n\nYou can read more about Prof. Rigollet's work and courses [on his website](http://www-math.mit.edu/~rigollet/).\n",
+    "level": "Graduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Algorithms and Data Structures",
+      "Mathematics",
+      "Applied Mathematics",
+      "Mathematics",
+      "Probability and Statistics",
+      "Mathematics",
+      "Discrete Mathematics",
+      "Engineering",
+      "Computer Science",
+      "Artificial Intelligence",
+      "Engineering",
+      "Computer Science",
+      "Data Mining"
+    ]
+  },
+  {
+    "id": "mit-18-02sc-multivariable-calculus-fall-2010",
+    "source": "mit_ocw",
+    "title": "Multivariable Calculus",
+    "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/",
+    "description": "This course covers differential, integral and vector calculus for functions of more than one variable. These mathematical tools and methods are used extensively in the physical sciences, engineering, economics and computer graphics.\n\nThe materials have been organized to support independent study. The website includes all of the materials you will need to understand the concepts covered in this subject. The materials in this course include:\n\n- **Lecture Videos** recorded on the MIT campus\n- **Recitation Videos** with problem-solving tips\n- **Examples** of solutions to sample problems\n- **Problems** for you to solve, with solutions\n- **Exams** with solutions\n- **Interactive Java Applets** (\"Mathlets\") to reinforce key concepts\n\nContent Development\n\nDenis Auroux   \nArthur Mattuck   \nJeremy Orloff   \nJohn Lewis\n\nHeidi Burgiel   \nChristine Breiner   \nDavid Jordan   \nJoel Lewis",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Calculus",
+      "Mathematics",
+      "Linear Algebra",
+      "Mathematics",
+      "Differential Equations"
+    ]
+  },
+  {
+    "id": "mit-6-042j-mathematics-for-computer-science-fall-2010",
+    "source": "mit_ocw",
+    "title": "Mathematics for Computer Science",
+    "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/",
+    "description": "This course covers elementary discrete mathematics for computer science and engineering. It emphasizes mathematical definitions and proofs as well as applicable methods. Topics include formal logic notation, proof methods; induction, well-ordering; sets, relations; elementary graph theory; integer congruences; asymptotic notation and growth of functions; permutations and combinations, counting principles; discrete probability. Further selected topics may also be covered, such as recursive definition and structural induction; state machines and invariants; recurrences; generating functions.\n",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Mathematics",
+      "Probability and Statistics",
+      "Mathematics",
+      "Applied Mathematics",
+      "Mathematics",
+      "Discrete Mathematics"
+    ]
+  },
+  {
+    "id": "mit-18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013",
+    "source": "mit_ocw",
+    "title": "Topics in Mathematics with Applications in Finance",
+    "url": "https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/",
+    "description": "The purpose of the class is to expose undergraduate and graduate students to the mathematical concepts and techniques used in the financial industry. Mathematics lectures are mixed with lectures illustrating the corresponding application in the financial industry. MIT mathematicians teach the mathematics part while industry professionals give the lectures on applications in finance.\n",
+    "level": "Undergraduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Finance",
+      "Mathematics",
+      "Applied Mathematics",
+      "Mathematics",
+      "Probability and Statistics"
+    ]
+  },
+  {
+    "id": "mit-res-6-007-signals-and-systems-spring-2011",
+    "source": "mit_ocw",
+    "title": "Signals and Systems",
+    "url": "https://ocw.mit.edu/courses/res-6-007-signals-and-systems-spring-2011/",
+    "description": "This course was developed in 1987 by the MIT Center for Advanced Engineering Studies. It was designed as a distance-education course for engineers and scientists in the workplace.\n\nSignals and Systems is an introduction to analog and digital signal processing, a topic that forms an integral part of engineering systems in many diverse areas, including seismic data processing, communications, speech processing, image processing, defense electronics, consumer electronics, and consumer products.\n\nThe course presents and integrates the basic concepts for both continuous-time and discrete-time signals and systems. Signal and system representations are developed for both time and frequency domains. These representations are related through the Fourier transform and its generalizations, which are explored in detail. Filtering and filter design, modulation, and sampling for both analog and digital systems, as well as exposition and demonstration of the basic concepts of feedback systems for both analog and digital systems, are discussed and illustrated.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Electrical Engineering",
+      "Signal Processing",
+      "Engineering",
+      "Electrical Engineering",
+      "Digital Systems",
+      "Engineering",
+      "Systems Engineering",
+      "Computational Modeling and Simulation"
+    ]
+  },
+  {
+    "id": "mit-6-002-circuits-and-electronics-spring-2007",
+    "source": "mit_ocw",
+    "title": "Circuits and Electronics",
+    "url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/",
+    "description": "6.002 is designed to serve as a first course in an undergraduate electrical engineering (EE), or electrical engineering and computer science (EECS) curriculum. At MIT, 6.002 is in the core of department subjects required for all undergraduates in EECS.\n\nThe course introduces the fundamentals of the lumped circuit abstraction. Topics covered include: resistive elements and networks; independent and dependent sources; switches and MOS transistors; digital abstraction; amplifiers; energy storage elements; dynamics of first- and second-order networks; design in the time and frequency domains; and analog and digital circuits and applications. Design and lab exercises are also significant components of the course. 6.002 is worth 4 Engineering Design Points. The 6.002 content was created collaboratively by Profs. Anant Agarwal and Jeffrey H. Lang.\n\nThe course uses the required textbook _Foundations of Analog and Digital Electronic Circuits_. Agarwal, Anant, and Jeffrey H. Lang. San Mateo, CA: Morgan Kaufmann Publishers, Elsevier, July 2005. ISBN: 9781558607354.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Electrical Engineering",
+      "Engineering",
+      "Electrical Engineering",
+      "Electronics"
+    ]
+  },
+  {
+    "id": "mit-14-01-principles-of-microeconomics-fall-2023",
+    "source": "mit_ocw",
+    "title": "Principles of Microeconomics ",
+    "url": "https://ocw.mit.edu/courses/14-01-principles-of-microeconomics-fall-2023/",
+    "description": "This introductory undergraduate course covers the fundamentals of microeconomics. Topics include supply and demand, market equilibrium, consumer theory, production and the behavior of firms, monopoly, oligopoly, welfare economics, public goods, and externalities.",
+    "level": "Undergraduate",
+    "subject": "Social Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Social Science",
+      "Economics",
+      "Microeconomics"
+    ]
+  },
+  {
+    "id": "mit-15-401-finance-theory-i-fall-2008",
+    "source": "mit_ocw",
+    "title": "Finance Theory I",
+    "url": "https://ocw.mit.edu/courses/15-401-finance-theory-i-fall-2008/",
+    "description": "This course introduces the core theory of modern financial economics and financial management, with a focus on capital markets and investments. Topics include functions of capital markets and financial intermediaries, asset valuation, fixed-income securities, common stocks, capital budgeting, diversification and portfolio selection, equilibrium pricing of risky assets, the theory of efficient markets, and an introduction to derivatives and options.\n",
+    "level": "Graduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Social Science",
+      "Economics",
+      "Financial Economics",
+      "Business",
+      "Finance"
+    ]
+  },
+  {
+    "id": "mit-11-521-spatial-database-management-and-advanced-geographic-information-systems-spring-2003",
+    "source": "mit_ocw",
+    "title": "Spatial Database Management and Advanced Geographic Information Systems",
+    "url": "https://ocw.mit.edu/courses/11-521-spatial-database-management-and-advanced-geographic-information-systems-spring-2003/",
+    "description": "This semester long subject (11.521) is divided into two halves. The first half focuses on learning spatial database management techniques and methods and the second half focuses on using these skills to address a 'real world,' client-oriented planning problem. The first half of the semester may be taken separately using the class number 11.523 and the second half may be taken separately as 11.524.\n\nIn order to help shape and utilize the information infrastructure that will support the management and development of our metropolitan areas, planners need a basic understanding of the tools and technology for querying, analyzing, and sharing complex databases and maps. Managing online access to large and constantly-changing spatial datasets can be a powerful aid to planning and can facilitate inter-agency cooperation and collaboration in an increasingly decentralized world. But it requires the use of knowledge representation methods, client-server technologies and access control issues that are quite different from what are needed to model and visualize standalone datasets on a personal computer. Hence, planners should acquire basic skills in database management, digital spatial data analysis, and networking.\n\nThe **11.523 portion of the semester** addresses these issues while retaining a focus on planning (rather than on computer science). This is an intensive, hands-on class that stresses learning by doing. Exercises and examples involving real-world data, maps, and images are used to develop skills with database query languages and the design development and use of structured databases. Class work utilizes web tools, GIS, and database software with lab exercises primarily on the new high-performance PC computing cluster. Specifically, we will access an Oracle 8i database using SQL (structured query language) and use ArcView for GIS. Each week there are two sixty to ninety-minute classes plus another 90+ minute hands-on lab in electronic classrooms. Class lectures will focus on concepts and case discussion, the scheduled lab time focuses on computer mechanics and skill building. Specific topics during 11.523 include:\n\n*   finding, understanding and structuring digital spatial data that are available on the Internet using various browsing, visualization, and data management tools;\n*   considerable work with relational database technologies and the Structured Query Language (SQL) to design, construct, query, and update urban planning databases;\n*   some experience with so-called 'client/server' and 'enterprise GIS' technologies for facilitating distributed access to complex spatial data and urban planning applications;\n*   advanced GIS topics such as 3D visualizations and geospatial web services.\n\nThe **11.524 portion of the semester** will treat the classroom like a professional planning office, working as a team to produce a two deliverables for their client, Lawrence Community Works, Inc. (LCW), a community development corporation located in the City of Lawrence, Massachusetts. LCW and DUSP recently agreed to work together for the next five years to design and implement a multi-tier web-based planning system that promotes democratic involvement and informs community development projects. Your involvement this semester is critical, because the implementation plan that you craft this semester will serve as the road map for both organizations for years to come and the simple web-based planning tool that you design will engage stakeholders by giving them a better sense of how technologies can aid decision-making processes. To assist you with the more technical aspects of the project, we hired Robert Cheetham, President of Azavea, Inc. ([http://www.azavea.com/](http://www.azavea.com/) ), to provide exactly 100 hours of consultancy services. Through their project work, students will enhance important professional skills by:\n\n*   formulating an implementation plan for a real client;\n*   designing a simple web-based tool for understanding problems;\n*   engaging constituents and stakeholders in a real setting;\n*   integrating theory and practice by evaluating the role of technology in community development;\n*   learning to communicate effectively within a group and with a professional consultant;\n*   working with such tools as the WWW, Access, ArcView, ArcIMS, SDE, etc.\n",
+    "level": "Graduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Information Technology",
+      "Engineering",
+      "Civil Engineering",
+      "Surveying",
+      "Social Science",
+      "Urban Studies",
+      "Urban Planning",
+      "Engineering",
+      "Computer Science",
+      "Graphics and Visualization",
+      "Engineering",
+      "Computer Science",
+      "Data Mining",
+      "Social Science",
+      "Sociology",
+      "Community Development"
+    ]
+  },
+  {
+    "id": "mit-6-857-network-and-computer-security-spring-2014",
+    "source": "mit_ocw",
+    "title": "Network and Computer Security",
+    "url": "https://ocw.mit.edu/courses/6-857-network-and-computer-security-spring-2014/",
+    "description": "_6.857_ _Network and Computer Security_ is an upper-level undergraduate, first-year graduate course on network and computer security. It fits within the Computer Systems and Architecture Engineering concentration.\n",
+    "level": "Graduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Computer Networks",
+      "Engineering",
+      "Computer Science",
+      "Cryptography",
+      "Social Science",
+      "Public Administration",
+      "Security Studies"
+    ]
+  },
+  {
+    "id": "mit-15-390-new-enterprises-spring-2013",
+    "source": "mit_ocw",
+    "title": "New Enterprises",
+    "url": "https://ocw.mit.edu/courses/15-390-new-enterprises-spring-2013/",
+    "description": "This course covers the process of identifying and quantifying market opportunities, then conceptualizing, planning, and starting a new, technology-based enterprise. Students develop detailed business plans for a startup. It is intended for students who want to start their own business, further develop an existing business, be a member of a management team in a new enterprise, or better understand the entrepreneur and the entrepreneurial process.\n",
+    "level": "Graduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Entrepreneurship",
+      "Business",
+      "Leadership",
+      "Business",
+      "Management"
+    ]
+  },
+  {
+    "id": "mit-8-01sc-classical-mechanics-fall-2016",
+    "source": "mit_ocw",
+    "title": "Classical Mechanics",
+    "url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/",
+    "description": "This first course in the physics curriculum introduces classical mechanics. Historically, a set of core concepts—space, time, mass, force, momentum, torque, and angular momentum—were introduced in classical mechanics in order to solve the most famous physics problem, the motion of the planets.\n\nThe principles of mechanics successfully described many other phenomena encountered in the world. Conservation laws involving energy, momentum and angular momentum provided a second parallel approach to solving many of the same problems. In this course, we will investigate both approaches: Force and conservation laws.\n\nOur goal is to develop a conceptual understanding of the core concepts, a familiarity with the experimental verification of our theoretical laws, and an ability to apply the theoretical framework to describe and predict the motions of bodies.",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Physics",
+      "Classical Mechanics"
+    ]
+  },
+  {
+    "id": "mit-res-6-012-introduction-to-probability-spring-2018",
+    "source": "mit_ocw",
+    "title": "Introduction to Probability",
+    "url": "https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/",
+    "description": "The tools of probability theory, and of the related field of statistical inference, are the keys for being able to analyze and make sense of data. These tools underlie important advances in many fields, from the basic sciences to engineering and management.\n\nThis resource is a companion site to [6.041SC Probabilistic Systems Analysis and Applied Probability](/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/). It covers the same content, using videos developed for an [edX](https://www.edx.org/) version of the course.\n",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Systems Engineering",
+      "Mathematics",
+      "Probability and Statistics"
+    ]
+  },
+  {
+    "id": "mit-15-s50-poker-theory-and-analytics-january-iap-2015",
+    "source": "mit_ocw",
+    "title": "Poker Theory and Analytics",
+    "url": "https://ocw.mit.edu/courses/15-s50-poker-theory-and-analytics-january-iap-2015/",
+    "description": "This course takes a broad-based look at poker theory and applications of poker analytics to investment management and trading.\n\nThis course is offered during the [Independent Activities Period (IAP)](http://web.mit.edu/IAP/), which is a special 4-week term at MIT in January. IAP provides members of the MIT community including students, faculty, staff, and alums with an opportunity to organize, sponsor and participate in a wide variety of activities and topics that are often outside of the regular MIT curriculum.\n\n**Faculty Advisor**: Paul Mende\n",
+    "level": "Graduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Management",
+      "Mathematics",
+      "Probability and Statistics"
+    ]
+  },
+  {
+    "id": "mit-18-03sc-differential-equations-fall-2011",
+    "source": "mit_ocw",
+    "title": "Differential Equations",
+    "url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/",
+    "description": "The laws of nature are expressed as differential equations. Scientists and engineers must know how to model the world in terms of differential equations, and how to solve those equations and interpret the solutions. This course focuses on the equations and techniques most useful in science and engineering.\n\nCourse Format\n\nThis course has been designed for independent study. It provides everything you will need to understand the concepts covered in the course. The materials include:\n\n- **Lecture Videos** by Professor Arthur Mattuck.\n- **Course Notes** on every topic.\n- **Practice Problems** with **Solutions**.\n- **Problem Solving Videos** taught by experienced MIT Recitation Instructors.\n- **Problem Sets** to do on your own with **Solutions** to check your answers against when you're done.\n- A selection of **Interactive Java® Demonstrations** called _Mathlets_ to illustrate key concepts.\n- A full set of **Exams with Solutions**, including practice exams to help you prepare.\n\nContent Development\n\nHaynes Miller   \nJeremy Orloff   \nDr. John Lewis   \nArthur Mattuck",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Differential Equations",
+      "Mathematics",
+      "Linear Algebra"
+    ]
+  },
+  {
+    "id": "mit-8-03sc-physics-iii-vibrations-and-waves-fall-2016",
+    "source": "mit_ocw",
+    "title": "Physics III: Vibrations and Waves",
+    "url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/",
+    "description": "Vibrations and waves are everywhere. If you take any system and disturb it from a stable equilibrium, the resultant motion will be waves and vibrations. Think of a guitar string—pluck the string, and it vibrates. The sound waves generated make their way to our ears, and we hear the string’s sound. Our eyes see what’s happening because they receive the electromagnetic waves of the light reflected from the guitar string, so that we can recognize the beautiful sinusoidal waves on the string. In fact, without vibrations and waves, we could not recognize the universe around us at all!\n\n[![Click to get started.](/images/button_start.png)](pages/syllabus)\n\nThe amazing thing is that we can describe many fascinating phenomena arising from very different physical systems with mathematics. This course will provide you with the concepts and mathematical tools necessary to understand and explain a broad range of vibrations and waves. You will learn that waves come from many interconnected (coupled) objects when they are vibrating together. We will discuss many of these phenomena, along with related topics, including mechanical vibrations and waves, sound waves, electromagnetic waves, optics, and gravitational waves.\n",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Physics",
+      "Classical Mechanics",
+      "Science",
+      "Physics",
+      "Electromagnetism",
+      "Science",
+      "Physics",
+      "Atomic, Molecular, Optical Physics"
+    ]
+  },
+  {
+    "id": "mit-5-111sc-principles-of-chemical-science-fall-2014",
+    "source": "mit_ocw",
+    "title": "Principles of Chemical Science",
+    "url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/",
+    "description": "This course provides an introduction to the chemistry of biological, inorganic, and organic molecules. The emphasis is on basic principles of atomic and molecular electronic structure, thermodynamics, acid-base and redox equilibria, chemical kinetics, and catalysis. One year of high school chemistry is the expected background for this freshman-level course.\n\nThe aims include developing a unified and intuitive view of how electronic structure controls the three-dimensional shape of molecules, the physical and chemical properties of molecules in gases, liquids and solids, and ultimately the assembly of macromolecules as in polymers and DNA. Relationships between chemistry and other fundamental sciences such as biology and physics are emphasized, as are the relationships between the science of chemistry to its applications in environmental science, atmospheric chemistry and electronic devices. \n\n[![Click to get started.](/images/button_start.png)](pages/syllabus)\n\n### Acknowledgements\n\nProfessor Drennan would like to acknowledge the contributions of MIT Lecturer Dr. Elizabeth Vogel Taylor, Professor Sylvia Ceyer, and Professor Robert Silbey to the development of this course and its materials.\n",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Chemistry",
+      "Inorganic Chemistry",
+      "Science",
+      "Chemistry",
+      "Organic Chemistry",
+      "Science",
+      "Chemistry",
+      "Physical Chemistry"
+    ]
+  },
+  {
+    "id": "mit-3-091sc-introduction-to-solid-state-chemistry-fall-2010",
+    "source": "mit_ocw",
+    "title": "Introduction to Solid State Chemistry",
+    "url": "https://ocw.mit.edu/courses/3-091sc-introduction-to-solid-state-chemistry-fall-2010/",
+    "description": "*Introduction to Solid State Chemistry* is a first-year single-semester college course on the principles of chemistry. This unique and popular course satisfies MIT's general chemistry degree requirement, with an emphasis on solid-state materials and their application to engineering systems.\n\nCourse Format\n\nThis course has been designed for independent study. It provides everything you will need to understand the concepts covered in the course. The materials include:\n\n- A complete set of **Lecture Videos** by Prof. Sadoway.\n- Detailed **Course Notes** for most video sessions, plus readings in several suggested textbooks.\n- **Homework** problems with solution keys, to further develop your understanding.\n- **For Further Study** collections of links to supplemental online content.\n- **Self-Assessment** pages containing quiz and exam problems to assess your mastery, and **Help Session Videos** in which teaching assistants take you step-by-step through exam problem solutions.\n\nAbout OCW Scholar\n\nOCW Scholar courses are designed specifically for OCW’s single largest audience: independent learners. These courses are substantially more complete than typical OCW courses, and include new custom-created content as well as materials repurposed from previously published courses. [Learn more about OCW Scholar](https://ocw-studio.odl.mit.edu/courses/ocw-scholar/).",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Chemistry",
+      "Engineering",
+      "Chemical Engineering",
+      "Engineering",
+      "Materials Science and Engineering"
+    ]
+  },
+  {
+    "id": "mit-6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011",
+    "source": "mit_ocw",
+    "title": "Introduction to Electrical Engineering and Computer Science I",
+    "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/",
+    "description": "This course provides an integrated introduction to electrical engineering and computer science, taught using substantial laboratory experiments with mobile robots. Our primary goal is for you to learn to appreciate and use the fundamental design principles of modularity and abstraction in a variety of contexts from electrical engineering and computer science.\n\nOur second goal is to show you that making mathematical models of real systems can help in the design and analysis of those systems. Finally, we have the more typical goals of teaching exciting and important basic material from electrical engineering and computer science, including modern software engineering, linear systems analysis, electronic circuits, and decision-making.\n\nCourse Format\n\nThis course has been designed for independent study. It includes all of the materials you will need to understand the concepts covered in this subject. The materials in this course include:\n\n- Lecture videos from Spring 2011, taught by Prof. Dennis Freeman\n- Recitation videos, developed for OCW Scholar by teaching assistant Kendra Pugh\n- Course notes\n- Software and design labs\n- Homework assignments and additional exercises\n- Nano-quizzes and exams with solutions\n\nContent Development\n\nLeslie Kaelbling   \nJacob White   \nHarold Abelson   \nDennis Freeman\n\nTomás Lozano-Pérez   \nIsaac Chuang",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Software Design and Engineering",
+      "Engineering",
+      "Electrical Engineering",
+      "Robotics and Control Systems",
+      "Engineering",
+      "Computer Science",
+      "Artificial Intelligence"
+    ]
+  },
+  {
+    "id": "mit-2-003sc-engineering-dynamics-fall-2011",
+    "source": "mit_ocw",
+    "title": "Engineering Dynamics",
+    "url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/",
+    "description": "This course is an introduction to the dynamics and vibrations of lumped-parameter models of mechanical systems. Topics covered include kinematics, force-momentum formulation for systems of particles and rigid bodies in planar motion, work-energy concepts, virtual displacements and virtual work. Students will also become familiar with the following topics: Lagrange's equations for systems of particles and rigid bodies in planar motion, and linearization of equations of motion. After this course, students will be able to evaluate free and forced vibration of linear multi-degree of freedom models of mechanical systems and matrix eigenvalue problems.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Mechanical Engineering",
+      "Solid Mechanics",
+      "Science",
+      "Physics",
+      "Classical Mechanics"
+    ]
+  },
+  {
+    "id": "mit-6-622-power-electronics-spring-2023",
+    "source": "mit_ocw",
+    "title": "Power Electronics",
+    "url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/",
+    "description": "6.622 covers modeling, analysis, design, control, and application of circuits for energy conversion and control. As described by the Institute of Electrical and Electronics Engineers (IEEE), power electronics technology \"encompasses the use of electronic components, the application of circuit theory and design techniques, and the development of analytical tools toward efficient electronic conversion, control, and conditioning of electric power.\" Students taking this class will come away with an understanding of the fundamental principles of power electronics, and knowledge of how to both analyze and design power electronic components and systems.",
+    "level": "Graduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Energy",
+      "Electricity",
+      "Engineering",
+      "Electrical Engineering",
+      "Electronics"
+    ]
+  },
+  {
+    "id": "mit-7-016-introductory-biology-fall-2018",
+    "source": "mit_ocw",
+    "title": "Introductory Biology",
+    "url": "https://ocw.mit.edu/courses/7-016-introductory-biology-fall-2018/",
+    "description": "_7.016 Introductory Biology_ provides an introduction to fundamental principles of biochemistry, molecular biology, and genetics for understanding the functions of living systems. Taught for the first time in Fall 2013, this course covers examples of the use of chemical biology and twenty-first-century molecular genetics in understanding human health and therapeutic intervention.\n\nThe MIT Biology Department Introductory Biology courses [7.012](/courses/7-012-introduction-to-biology-fall-2004/), [7.013](/courses/7-013-introductory-biology-spring-2013/), [7.014](/courses/7-014-introductory-biology-spring-2005/), 7.015, and [7.016](/courses/7-016-introductory-biology-fall-2018) all cover the same core material, which includes the fundamental principles of biochemistry, genetics, molecular biology, and cell biology. Biological function at the molecular level is particularly emphasized and covers the structure and regulation of genes, as well as the structure and synthesis of proteins, how these molecules are integrated into cells, and how these cells are integrated into multicellular systems and organisms. In addition, each version of the subject has its own distinctive material.\n",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Health and Medicine",
+      "Cancer",
+      "Health and Medicine",
+      "Functional Genomics",
+      "Science",
+      "Biology",
+      "Biochemistry",
+      "Science",
+      "Biology",
+      "Cell Biology",
+      "Science",
+      "Biology",
+      "Genetics",
+      "Science",
+      "Biology",
+      "Microbiology",
+      "Science",
+      "Biology",
+      "Molecular Biology",
+      "Science",
+      "Biology",
+      "Virology"
+    ]
+  },
+  {
+    "id": "mit-18-100a-real-analysis-fall-2020",
+    "source": "mit_ocw",
+    "title": "Real Analysis",
+    "url": "https://ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/",
+    "description": "This course covers the fundamentals of mathematical analysis: convergence of sequences and series, continuity, differentiability, Riemann integral, sequences and series of functions, uniformity, and the interchange of limit operations. It shows the utility of abstract concepts through a study of real numbers, and teaches an understanding and construction of proofs.",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Mathematics",
+      "Calculus",
+      "Mathematics",
+      "Mathematical Analysis"
+    ]
+  },
+  {
+    "id": "mit-9-13-the-human-brain-spring-2019",
+    "source": "mit_ocw",
+    "title": "The Human Brain",
+    "url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/",
+    "description": "This course surveys the core perceptual and cognitive abilities of the human mind and asks how they are implemented in the brain. Key themes include the representations, development, and degree of functional specificity of these components of mind and brain. The course will take students straight to the cutting edge of the field, empowering them to understand and critically evaluate empirical articles in the current literature.\n",
+    "level": "Undergraduate",
+    "subject": "Physical Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Health and Medicine",
+      "Sensory-Neural Systems",
+      "Science",
+      "Cognitive Science",
+      "Science",
+      "Biology",
+      "Neuroscience"
+    ]
+  },
+  {
+    "id": "mit-22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016",
+    "source": "mit_ocw",
+    "title": "Introduction to Nuclear Engineering and Ionizing Radiation",
+    "url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/",
+    "description": "This course provides an introduction to nuclear science and its engineering applications. It describes basic nuclear models, radioactivity, nuclear reactions, and kinematics; covers the interaction of ionizing radiation with matter, with an emphasis on radiation detection, radiation shielding, and radiation effects on human health; and presents energy systems based on fission and fusion nuclear reactions, as well as industrial and medical applications of nuclear science.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Nuclear Engineering",
+      "Science",
+      "Physics",
+      "Nuclear Physics"
+    ]
+  },
+  {
+    "id": "mit-18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018",
+    "source": "mit_ocw",
+    "title": "Matrix Methods in Data Analysis, Signal Processing, and Machine Learning",
+    "url": "https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/",
+    "description": "Linear algebra concepts are key for understanding and creating machine learning algorithms, especially as applied to deep learning and neural networks. This course reviews linear algebra with applications to probability and statistics and optimization–and above all a full explanation of deep learning.\n",
+    "level": "Undergraduate",
+    "subject": "Mathematics",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Electrical Engineering",
+      "Signal Processing",
+      "Mathematics",
+      "Applied Mathematics",
+      "Mathematics",
+      "Computation",
+      "Mathematics",
+      "Linear Algebra"
+    ]
+  },
+  {
+    "id": "mit-15-s12-blockchain-and-money-fall-2018",
+    "source": "mit_ocw",
+    "title": "Blockchain and Money",
+    "url": "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
+    "description": "This course is for students wishing to explore blockchain technology's potential use—by entrepreneurs and incumbents—to change the world of money and finance. The course begins with a review of Bitcoin and an understanding of the commercial, technical, and public policy fundamentals of blockchain technology, distributed ledgers, and smart contracts. The class then continues on to current and potential blockchain applications in the financial sector.\n",
+    "level": "Graduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Finance",
+      "Business",
+      "Information Technology",
+      "Engineering",
+      "Computer Science",
+      "Engineering",
+      "Computer Science",
+      "Algorithms and Data Structures",
+      "Engineering",
+      "Computer Science",
+      "Computer Networks",
+      "Engineering",
+      "Computer Science",
+      "Cryptography"
+    ]
+  },
+  {
+    "id": "mit-15-s08-fintech-shaping-the-financial-world-spring-2020",
+    "source": "mit_ocw",
+    "title": "FinTech: Shaping the Financial World ",
+    "url": "https://ocw.mit.edu/courses/15-s08-fintech-shaping-the-financial-world-spring-2020/",
+    "description": "This course about financial technology, or FinTech, is for students wishing to explore the ways in which new technologies are disrupting the financial services industry—driving material change in business models, products, applications and customer user interface. Amongst the significant technological trends affecting financial services into the 2020’s, the class will explore AI, deep learning, blockchain technology and open APIs. Students will gain an understanding of the key technologies, market structure, participants, regulation and the dynamics of change being brought about by FinTech.\n",
+    "level": "Graduate",
+    "subject": "Business",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Business",
+      "Finance",
+      "Business",
+      "Information Technology",
+      "Business",
+      "Innovation",
+      "Engineering",
+      "Computer Science",
+      "Engineering",
+      "Computer Science",
+      "Artificial Intelligence"
+    ]
+  },
+  {
+    "id": "mit-introduction-to-r-and-gis-fall-2023",
+    "source": "mit_ocw",
+    "title": "Introduction to R and Geographic Information Systems (GIS)",
+    "url": "https://ocw.mit.edu/courses/introduction-to-r-and-gis-fall-2023/",
+    "description": "The goal of these videos is to provide students with tools and concepts for working with R, a free software environment for statistical computing and graphics. The students will learn the basics of R, how to navigate the R interface and deal with different data formats, how to run and interpret linear models with R, and how to use Geographic Information Systems (GIS) in R. These practical sessions were developed as part of the course *1.845 Terrestrial Carbon Cycle and Ecosystem Ecology* but will be useful for anyone looking to learn about R and GIS.",
+    "level": "Undergraduate",
+    "subject": "Computer Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Graphics and Visualization",
+      "Engineering",
+      "Computer Science",
+      "Programming Languages",
+      "Engineering",
+      "Environmental Engineering"
+    ]
+  },
+  {
+    "id": "mit-ec-701j-d-lab-i-development-fall-2009",
+    "source": "mit_ocw",
+    "title": "D-Lab I: Development",
+    "url": "https://ocw.mit.edu/courses/ec-701j-d-lab-i-development-fall-2009/",
+    "description": "D-Lab Development addresses issues of technological improvements at the micro level for developing countries—in particular, how the quality of life of low-income households can be improved by adaptation of low cost and sustainable technologies. Discussion of development issues as well as project implementation challenges are addressed through lectures, case studies, guest speakers and laboratory exercises. Students form project teams to partner with mostly local level organizations in developing countries, and formulate plans for an IAP site visit. (Previous field sites include Ghana, Brazil, Honduras and India.) Project team meetings focus on developing specific projects and include cultural, social, political, environmental and economic overviews of the countries and localities to be visited as well as an introduction to the local languages.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Earth Science",
+      "Sustainability",
+      "Social Science",
+      "Economics",
+      "Developmental Economics",
+      "Society",
+      "The Developing World",
+      "Engineering"
+    ]
+  },
+  {
+    "id": "mit-ec-720j-d-lab-ii-design-spring-2010",
+    "source": "mit_ocw",
+    "title": "D-Lab II: Design",
+    "url": "https://ocw.mit.edu/courses/ec-720j-d-lab-ii-design-spring-2010/",
+    "description": "D-Lab: Design addresses problems faced by undeserved communities with a focus on design, experimentation, and prototyping processes. Particular attention is placed on constraints faced when designing for developing countries. Multidisciplinary teams work on semester-long projects in collaboration with community partners, field practitioners, and experts in relevant fields. Topics covered include design for affordability, design for manufacture, sustainability, and strategies for working effectively with community partners and customers. Students may continue projects begun in [_EC.701J D-Lab I: Development_](courses/sp-721-d-lab-i-development-fall-2009).\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Mechanical Engineering",
+      "Mechanical Design",
+      "Social Science",
+      "Economics",
+      "Developmental Economics",
+      "Engineering",
+      "Science",
+      "Earth Science",
+      "Sustainability",
+      "Society",
+      "The Developing World"
+    ]
+  },
+  {
+    "id": "mit-ec-716-d-lab-waste-fall-2015",
+    "source": "mit_ocw",
+    "title": "D-Lab: Waste",
+    "url": "https://ocw.mit.edu/courses/ec-716-d-lab-waste-fall-2015/",
+    "description": "This introductory course will provide you with a multidisciplinary approach to managing waste in low- and middle-income countries, with strategies that diminish greenhouse gas emissions and provide enterprise opportunities for marginalized populations. You will focus on understanding some of the multiple dimensions of waste generation and management. Topics are presented in real contexts through case studies, field visits, civic engagement and research, and include consumer culture, waste streams, waste management, entrepreneurship and innovation on waste, technology evaluation, downcycling / upcycling, Life Cycle Analysis and waste assessment. Labs include building low-cost, small scale technology, field trips to waste-related institutions and businesses, art workshops and e-waste scrapping taught by practitioners, artists and waste enthusiasts.\n",
+    "level": "Undergraduate",
+    "subject": "Engineering",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Science",
+      "Earth Science",
+      "Sustainability",
+      "Social Science",
+      "Public Administration",
+      "Environmental Policy",
+      "Social Science",
+      "Urban Studies",
+      "Urban Planning",
+      "Society",
+      "The Developing World"
+    ]
+  },
+  {
+    "id": "mit-21l-011-the-film-experience-fall-2013",
+    "source": "mit_ocw",
+    "title": "The Film Experience",
+    "url": "https://ocw.mit.edu/courses/21l-011-the-film-experience-fall-2013/",
+    "description": "This course concentrates on close analysis and criticism of a wide range of films, from the early silent period, classic Hollywood genres including musicals, thrillers and westerns, and European and Japanese art cinema. It explores the work of Griffith, Chaplin, Keaton, Capra, Hawks, Hitchcock, Altman, Renoir, DeSica, and Kurosawa. Through comparative reading of films from different eras and countries, students develop the skills to turn their in-depth analyses into interpretations and explore theoretical issues related to spectatorship.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Fine Arts",
+      "Fine Arts",
+      "Visual Arts",
+      "Film and Video"
+    ]
+  },
+  {
+    "id": "mit-cms-611j-creating-video-games-fall-2014",
+    "source": "mit_ocw",
+    "title": "Creating Video Games",
+    "url": "https://ocw.mit.edu/courses/cms-611j-creating-video-games-fall-2014/",
+    "description": "CMS.611J / 6.073 Creating Video Games is a class that introduces students to the complexities of working in small, multidisciplinary teams to develop video games. Students will learn creative design and production methods, working together in small teams to design, develop, and thoroughly test their own original digital games. Design iteration across all aspects of video game development (game design, audio design, visual aesthetics, fiction and programming) will be stressed. Students will also be required to focus test their games, and will need to support and challenge their game design decisions with appropriate focus testing and data analysis.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Engineering",
+      "Computer Science",
+      "Software Design and Engineering",
+      "Fine Arts",
+      "Game Design",
+      "Fine Arts",
+      "Media Studies",
+      "Digital Media",
+      "Business",
+      "Project Management"
+    ]
+  },
+  {
+    "id": "mit-sts-042-einstein-oppenheimer-feynman-physics-in-the-20th-century-fall-2020",
+    "source": "mit_ocw",
+    "title": "Einstein, Oppenheimer, Feynman: Physics in the 20th Century",
+    "url": "https://ocw.mit.edu/courses/sts-042-einstein-oppenheimer-feynman-physics-in-the-20th-century-fall-2020/",
+    "description": "This class explores the changing roles of physics and physicists during the 20th century. Topics range from relativity theory and quantum mechanics to high-energy physics and cosmology. We examine the development of modern physics and the role of physicists within shifting institutional, cultural, and political contexts, such as Imperial Britain, Nazi Germany, and the US during World War II, and the Cold War.",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "History",
+      "History of Science and Technology",
+      "Humanities",
+      "History",
+      "Modern History",
+      "Science",
+      "Physics",
+      "Society"
+    ]
+  },
+  {
+    "id": "mit-24-900-introduction-to-linguistics-spring-2022",
+    "source": "mit_ocw",
+    "title": "Introduction to Linguistics",
+    "url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/",
+    "description": "This class provides some answers to basic questions about the nature of human language. Throughout the course, we examine a number of ways in which human language is a complex but law-governed mental system. Much of the class is devoted to studying some core aspects of this system in detail; we also spend individual classes discussing a number of other issues, including how language is acquired, how languages change over time, language endangerment, and others.",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "Linguistics"
+    ]
+  },
+  {
+    "id": "mit-17-41-introduction-to-international-relations-spring-2023",
+    "source": "mit_ocw",
+    "title": "Introduction to International Relations",
+    "url": "https://ocw.mit.edu/courses/17-41-introduction-to-international-relations-spring-2023/",
+    "description": "This course provides an introduction to the causes of international conflict and cooperation. Topics include war initiation, crisis bargaining, international terrorism, nuclear strategy, interstate economic relations, economic growth, international law, human rights, and environmental politics.",
+    "level": "Undergraduate",
+    "subject": "Social Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Social Science",
+      "Political Science",
+      "International Relations"
+    ]
+  },
+  {
+    "id": "mit-21g-223-listening-speaking-and-pronunciation-fall-2004",
+    "source": "mit_ocw",
+    "title": "Listening, Speaking, and Pronunciation",
+    "url": "https://ocw.mit.edu/courses/21g-223-listening-speaking-and-pronunciation-fall-2004/",
+    "description": "This course is designed for high-intermediate ESL students who need to develop better listening comprehension and oral skills, which will primarily be achieved by detailed instructions on pronunciation. Our focus will be on (1) producing accurate and intelligible English, (2) becoming more comfortable listening to rapidly spoken English, and (3) learning common expressions, gambits, and idioms used in both formal and informal contexts.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "Language",
+      "English as a Second Language"
+    ]
+  },
+  {
+    "id": "mit-24-912-black-matters-introduction-to-black-studies-spring-2017",
+    "source": "mit_ocw",
+    "title": "Black Matters: Introduction to Black Studies",
+    "url": "https://ocw.mit.edu/courses/24-912-black-matters-introduction-to-black-studies-spring-2017/",
+    "description": "Interdisciplinary survey of people of African descent that draws on the overlapping approaches of history, literature, anthropology, legal studies, media studies, performance, linguistics, and creative writing. This course connects the experiences of African-Americans and of other American minorities, focusing on social, political, and cultural histories, and on linguistic patterns.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "Humanities",
+      "Language",
+      "Humanities",
+      "Literature",
+      "Humanities",
+      "Philosophy",
+      "Society",
+      "African American Studies"
+    ]
+  },
+  {
+    "id": "mit-cms-608-game-design-spring-2014",
+    "source": "mit_ocw",
+    "title": "Game Design",
+    "url": "https://ocw.mit.edu/courses/cms-608-game-design-spring-2014/",
+    "description": "This course is built around practical instruction in the design and analysis of non-­digital games. It provides students the texts, tools, references, and historical context to analyze and compare game designs across a variety of genres. In teams, students design, develop, and thoroughly test their original games to better understand the interaction and evolution of game rules. Covers various genres and types of games, including sports, game shows, games of chance, card games, schoolyard games, board games, and role-­playing games.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Fine Arts",
+      "Game Design",
+      "Fine Arts",
+      "Media Studies"
+    ]
+  },
+  {
+    "id": "mit-17-50-introduction-to-comparative-politics-fall-2022",
+    "source": "mit_ocw",
+    "title": "Introduction to Comparative Politics",
+    "url": "https://ocw.mit.edu/courses/17-50-introduction-to-comparative-politics-fall-2022/",
+    "description": "This course examines why democracy emerges and survives in some countries rather than in others; how political institutions affect economic development; and how American politics compares to that of other countries. It reviews economic, cultural, and institutional explanations for political outcomes. It also includes case studies of politics in several countries. Assignments include several papers of varying lengths and extensive structured and unstructured class participation.",
+    "level": "Undergraduate",
+    "subject": "Social Science",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "Philosophy",
+      "Political Philosophy",
+      "Social Science",
+      "Political Science",
+      "American Politics",
+      "Social Science",
+      "Political Science",
+      "Comparative Politics"
+    ]
+  },
+  {
+    "id": "mit-21h-001-how-to-stage-a-revolution-fall-2013",
+    "source": "mit_ocw",
+    "title": "How to Stage a Revolution",
+    "url": "https://ocw.mit.edu/courses/21h-001-how-to-stage-a-revolution-fall-2013/",
+    "description": "This course explores fundamental questions about the causes and nature of revolutions by looking at how people overthrow their rulers and establish new governments. Considers a set of major political transformations throughout the world and across centuries to understand the meaning of revolution and evaluate its impact. Examines how revolutionaries have attempted to establish their ideals and realize their goals. Asks whether radical upheavals require bloodshed, violence, or even terror. Seeks to explain why some revolutions succeed and others fail. Materials include the writings of revolutionaries, declarations and constitutions, music, films, art, novels, memoirs, and newspapers.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "History",
+      "American History",
+      "Humanities",
+      "History",
+      "Middle Eastern History",
+      "Humanities",
+      "History",
+      "Modern History"
+    ]
+  },
+  {
+    "id": "mit-sts-003-the-rise-of-modern-science-fall-2010",
+    "source": "mit_ocw",
+    "title": "The Rise of Modern Science",
+    "url": "https://ocw.mit.edu/courses/sts-003-the-rise-of-modern-science-fall-2010/",
+    "description": "This subject introduces the history of science from antiquity to the present. Students consider the impact of philosophy, art, magic, social structure, and folk knowledge on the development of what has come to be called \"science\" in the Western tradition, including those fields today designated as physics, biology, chemistry, medicine, astronomy and the mind sciences. Topics include concepts of matter, nature, motion, body, heavens, and mind as these have been shaped over the course of history. Students read original works by Aristotle, Vesalius, Newton, Lavoisier, Darwin, Freud, and Einstein, among others.\n",
+    "level": "Undergraduate",
+    "subject": "Arts and Humanities",
+    "duration_weeks": 16,
+    "prerequisites_detected": true,
+    "tags": [
+      "Humanities",
+      "History",
+      "History of Science and Technology",
+      "Social Science",
+      "Public Administration",
+      "Science and Technology Policy"
+    ]
+  }
+]

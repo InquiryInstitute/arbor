@@ -101,15 +101,15 @@ export async function fetchMITOCWFromAPI(): Promise<ExternalCourse[]> {
     });
     
     if (!response.ok) {
-      // If JSON endpoint doesn't exist, try alternative approaches
-      console.warn(`JSON endpoint returned ${response.status}, trying alternative...`);
-      return await fetchMITOCWAlternative();
+      // If JSON endpoint doesn't exist, try ocw-to-go
+      console.warn(`JSON endpoint returned ${response.status}, trying ocw-to-go...`);
+      return await fetchAllOCWToGoCourses();
     }
     
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      console.warn('Response is not JSON, trying alternative...');
-      return await fetchMITOCWAlternative();
+      console.warn('Response is not JSON, trying ocw-to-go...');
+      return await fetchAllOCWToGoCourses();
     }
     
     const data = await response.json();

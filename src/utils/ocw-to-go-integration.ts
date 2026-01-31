@@ -7,13 +7,29 @@ import type { ExternalCourse } from '../types/external-course';
  * ocw-to-go course JSON structure
  */
 interface OCWToGoCourse {
-  course_name: string;
+  id?: string;
+  name?: string;
+  course_name?: string;
   title?: string;
   description?: string;
+  descriptionHtml?: string;
   url?: string;
+  category?: string;
+  courseNumber?: string;
+  courseLevel?: string;
+  topics?: string[];
+  instructors?: string[];
   videos?: Array<{
     title: string;
     url: string;
+  }>;
+  videoGroups?: Array<{
+    category: string;
+    videos: Array<{
+      title: string;
+      videoUrl?: string;
+      youtubeKey?: string;
+    }>;
   }>;
   // Additional fields may exist
 }
@@ -69,18 +85,25 @@ export function convertOCWToGoToExternalCourse(
   courseId: string,
   ocwCourse: OCWToGoCourse
 ): ExternalCourse {
-  // Extract course metadata
-  const title = ocwCourse.title || ocwCourse.course_name || courseId;
-  const description = ocwCourse.description;
+  // Extract course metadata - ocw-to-go uses 'name' field
+  const title = ocwCourse.name || ocwCourse.title || ocwCourse.course_name || courseId;
+  const description = ocwCourse.description || ocwCourse.descriptionHtml?.replace(/<[^>]*>/g, '').substring(0, 500);
   
   // Extract course number and department from course ID
   // Format: "18-01sc-single-variable-calculus-fall-2010"
   const parts = courseId.split('-');
   const deptNumber = parts[0] ? parseInt(parts[0]) : null;
-  const level = deptNumber && deptNumber >= 17 ? 'Graduate' : 'Undergraduate';
   
-  // Map department numbers to subjects (MIT course numbering)
-  const subject = deptNumber ? getSubjectFromDeptNumber(deptNumber) : 'Unknown';
+  // Use courseLevel if available, otherwise infer from department number
+  let level = 'Undergraduate';
+  if (ocwCourse.courseLevel) {
+    level = ocwCourse.courseLevel.includes('Graduate') ? 'Graduate' : 'Undergraduate';
+  } else if (deptNumber && deptNumber >= 17) {
+    level = 'Graduate';
+  }
+  
+  // Use category if available, otherwise map department numbers to subjects
+  const subject = ocwCourse.category || (deptNumber ? getSubjectFromDeptNumber(deptNumber) : 'Unknown');
   
   return {
     id: `mit-${courseId}`,
@@ -92,6 +115,7 @@ export function convertOCWToGoToExternalCourse(
     subject,
     duration_weeks: 16, // Standard semester
     prerequisites_detected: true, // Will need to fetch from MIT OCW directly
+    tags: ocwCourse.topics || [],
   };
 }
 
