@@ -17,6 +17,10 @@ export interface Credential {
   parent_seasonal_id?: string; // For 🌙 → 🌱 composition
   summary?: string;
   tags?: string[];
+  // External resource links
+  khan_academy_url?: string; // Link to Khan Academy course/topic
+  mit_ocw_url?: string; // Link to MIT OpenCourseWare course
+  estimated_duration_source?: 'manual' | 'estimated'; // How duration was determined
 }
 
 export interface CredentialRelation {

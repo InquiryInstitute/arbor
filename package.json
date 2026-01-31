@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync-courses": "tsx src/scripts/sync-external-courses.ts",
+    "enhance-credentials": "tsx src/scripts/enhance-credentials.ts",
+    "import-prerequisites": "tsx src/scripts/import-prerequisites.ts"
   },
   "dependencies": {
     "astro": "^4.0.0",
