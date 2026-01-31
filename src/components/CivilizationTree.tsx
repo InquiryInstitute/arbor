@@ -586,7 +586,7 @@ export default function CivilizationTree({
           <pattern id="branchPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
             <circle cx="10" cy="10" r="1" fill="#5a7a5a" opacity="0.2" />
           </pattern>
-        <defs>
+          
           {/* Gradient definitions for beautiful nodes */}
           <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
@@ -614,6 +614,7 @@ export default function CivilizationTree({
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
+          
           {/* Tree trunk gradient */}
           <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#8b6f47" />
