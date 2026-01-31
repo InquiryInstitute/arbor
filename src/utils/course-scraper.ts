@@ -2,6 +2,7 @@
 // Designed to discover and catalog thousands of courses
 
 import type { ExternalCourse } from '../types/external-course';
+import { fetchAllOCWToGoCourses } from './ocw-to-go-integration';
 
 /**
  * Khan Academy API/Scraping
