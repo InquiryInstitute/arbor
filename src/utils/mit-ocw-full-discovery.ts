@@ -3,6 +3,7 @@
 
 import type { ExternalCourse } from '../types/external-course';
 import { mapSubjectToCollege } from './ocw-to-go-integration';
+import { discoverMITOCWFromSitemap } from './mit-ocw-sitemap-discovery';
 
 /**
  * Fetch all course IDs from MIT OCW by scraping their course listing pages
@@ -11,11 +12,19 @@ import { mapSubjectToCollege } from './ocw-to-go-integration';
 export async function discoverAllMITOCWCourses(): Promise<ExternalCourse[]> {
   console.log('Discovering all MIT OCW courses...');
   
-  // MIT OCW has course listings by department
-  // We can fetch from their browse pages or search API
-  const courses: ExternalCourse[] = [];
+  // Use sitemap method - most reliable
+  console.log('Using sitemap discovery method...');
+  try {
+    const courses = await discoverMITOCWFromSitemap();
+    if (courses.length > 0) {
+      return courses;
+    }
+  } catch (error) {
+    console.error('Sitemap discovery failed:', error);
+  }
   
-  // Known MIT OCW department URLs
+  // Fallback: Department page scraping
+  console.log('Falling back to department page scraping...');
   const departments = [
     'aeronautics-astronautics',
     'anthropology',
@@ -86,8 +95,11 @@ async function fetchDepartmentCourses(department: string): Promise<ExternalCours
     const html = await response.text();
     
     // Extract course links - MIT OCW course URLs follow pattern: /courses/{course-id}/
-    // Look for links like: <a href="/courses/18-01-single-variable-calculus-fall-2006/">
-    const courseLinkRegex = /\/courses\/([a-z0-9-]+)\//gi;
+    // Look for links in various formats:
+    // - href="/courses/18-01-single-variable-calculus-fall-2006/"
+    // - href="/courses/18-01-single-variable-calculus-fall-2006"
+    // - data-course-id="18-01-single-variable-calculus-fall-2006"
+    const courseLinkRegex = /(?:href|data-course-id)="\/?courses\/([a-z0-9-]+)\/?"/gi;
     const matches = [...html.matchAll(courseLinkRegex)];
     const courseIds = [...new Set(matches.map(m => m[1]))]
       .filter(id => 
@@ -97,6 +109,15 @@ async function fetchDepartmentCourses(department: string): Promise<ExternalCours
         id.length > 3 &&
         /^\d+/.test(id) // Course IDs start with numbers
       );
+    
+    // Also try a more general pattern for course IDs
+    if (courseIds.length === 0) {
+      const generalPattern = /(\d{1,2}-\d{3}[a-z]?-[a-z0-9-]+)/gi;
+      const generalMatches = [...html.matchAll(generalPattern)];
+      const generalIds = [...new Set(generalMatches.map(m => m[1]))]
+        .filter(id => id.length > 5);
+      courseIds.push(...generalIds);
+    }
     
     // For each course, try to fetch its JSON endpoint
     const courses: ExternalCourse[] = [];
