@@ -105,6 +105,9 @@ export function convertOCWToGoToExternalCourse(
   // Use category if available, otherwise map department numbers to subjects
   const subject = ocwCourse.category || (deptNumber ? getSubjectFromDeptNumber(deptNumber) : 'Unknown');
   
+  // Map subject to our college system
+  const college = mapSubjectToCollege(subject);
+  
   return {
     id: `mit-${courseId}`,
     source: 'mit_ocw',
@@ -116,7 +119,9 @@ export function convertOCWToGoToExternalCourse(
     duration_weeks: 16, // Standard semester
     prerequisites_detected: true, // Will need to fetch from MIT OCW directly
     tags: ocwCourse.topics || [],
-  };
+    // Add college mapping for microcredential generation
+    college_mapped: college,
+  } as ExternalCourse & { college_mapped?: string };
 }
 
 /**
@@ -148,6 +153,71 @@ function getSubjectFromDeptNumber(deptNum: number): string {
   };
   
   return deptMap[deptNum] || 'Unknown';
+}
+
+/**
+ * Map subject/category to our College type
+ */
+export function mapSubjectToCollege(subject: string): string {
+  const subjectLower = subject.toLowerCase();
+  
+  // Mathematics
+  if (subjectLower.includes('mathematics') || subjectLower.includes('math')) {
+    return 'MATH';
+  }
+  
+  // Natural Sciences
+  if (subjectLower.includes('biology') || 
+      subjectLower.includes('chemistry') || 
+      subjectLower.includes('physics') ||
+      subjectLower.includes('earth') ||
+      subjectLower.includes('planetary')) {
+    return 'NAT';
+  }
+  
+  // Computer Science / AI
+  if (subjectLower.includes('computer') || 
+      subjectLower.includes('computing') ||
+      subjectLower.includes('electrical engineering')) {
+    return 'AINS';
+  }
+  
+  // Humanities
+  if (subjectLower.includes('humanities') || 
+      subjectLower.includes('linguistics') ||
+      subjectLower.includes('philosophy') ||
+      subjectLower.includes('language') ||
+      subjectLower.includes('literature')) {
+    return 'HUM';
+  }
+  
+  // Social Sciences
+  if (subjectLower.includes('economics') || 
+      subjectLower.includes('political') ||
+      subjectLower.includes('psychology') ||
+      subjectLower.includes('urban studies')) {
+    return 'SOC';
+  }
+  
+  // Arts
+  if (subjectLower.includes('arts') || subjectLower.includes('architecture')) {
+    return 'ARTS';
+  }
+  
+  // Business/Management
+  if (subjectLower.includes('management') || 
+      subjectLower.includes('business') ||
+      subjectLower.includes('finance')) {
+    return 'META'; // Or create a business college
+  }
+  
+  // Engineering
+  if (subjectLower.includes('engineering') && !subjectLower.includes('computer')) {
+    return 'META'; // Or create an engineering college
+  }
+  
+  // Default
+  return 'META';
 }
 
 /**
