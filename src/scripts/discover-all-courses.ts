@@ -14,8 +14,8 @@ const KHAN_ACADEMY_CACHE = `${CACHE_DIR}/khan-academy-courses.json`;
 /**
  * Discover all MIT OCW courses
  */
-async function discoverMITOCWCourses(useCache: boolean = true): Promise<ExternalCourse[]> {
-  if (useCache && existsSync(MIT_OCW_CACHE)) {
+async function discoverMITOCWCourses(useCache: boolean = true, fullDiscovery: boolean = false): Promise<ExternalCourse[]> {
+  if (useCache && existsSync(MIT_OCW_CACHE) && !fullDiscovery) {
     console.log('Loading MIT OCW courses from cache...');
     const cached = await loadCoursesFromFile(MIT_OCW_CACHE);
     if (cached.length > 0) {
@@ -25,7 +25,16 @@ async function discoverMITOCWCourses(useCache: boolean = true): Promise<External
   }
   
   console.log('Discovering MIT OCW courses...');
-  const courses = await fetchMITOCWFromAPI();
+  let courses: ExternalCourse[] = [];
+  
+  if (fullDiscovery) {
+    // Use full discovery to get all courses
+    const { discoverAllMITOCWCourses } = await import('../utils/mit-ocw-full-discovery');
+    courses = await discoverAllMITOCWCourses();
+  } else {
+    // Use fast method (ocw-to-go or JSON API)
+    courses = await fetchMITOCWFromAPI();
+  }
   
   if (courses.length > 0) {
     // Ensure cache directory exists
@@ -68,12 +77,13 @@ async function discoverKhanAcademyCourses(useCache: boolean = true): Promise<Ext
  */
 async function generateDiscoveryReport(
   refresh: boolean = false,
-  limit: number = 0
+  limit: number = 0,
+  fullDiscovery: boolean = false
 ): Promise<void> {
   console.log('=== Course Discovery Report ===\n');
   
   // Discover courses
-  const mitCourses = await discoverMITOCWCourses(!refresh);
+  const mitCourses = await discoverMITOCWCourses(!refresh, fullDiscovery);
   const khanCourses = await discoverKhanAcademyCourses(!refresh);
   
   console.log('\nDiscovery Summary:');
@@ -147,10 +157,11 @@ async function generateDiscoveryReport(
 async function main() {
   const args = process.argv.slice(2);
   const refresh = args.includes('--refresh');
+  const fullDiscovery = args.includes('--full');
   const limitArg = args.find(arg => arg.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1]) : 10;
   
-  await generateDiscoveryReport(refresh, limit);
+  await generateDiscoveryReport(refresh, limit, fullDiscovery);
 }
 
 if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('discover-all-courses.ts')) {

@@ -3,6 +3,7 @@
 
 import type { ExternalCourse } from '../types/external-course';
 import { fetchAllOCWToGoCourses } from './ocw-to-go-integration';
+import { discoverAllMITOCWCourses } from './mit-ocw-full-discovery';
 
 /**
  * Khan Academy API/Scraping
