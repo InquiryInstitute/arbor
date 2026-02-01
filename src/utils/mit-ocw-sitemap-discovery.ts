@@ -98,14 +98,115 @@ async function fetchCourseFromJSON(courseId: string): Promise<ExternalCourse | n
       return null;
     }
     
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
+    // Check content type, but be lenient - some endpoints might return HTML
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      // Try to parse anyway - might be JSON with wrong content-type
+      const text = await response.text();
+      if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+        try {
+          const courseData = JSON.parse(text);
+          return processCourseData(courseId, courseData);
+        } catch (e) {
+          return null;
+        }
+      }
       return null;
     }
     
     const courseData = await response.json();
+    return processCourseData(courseId, courseData);
+  } catch (error) {
+    // JSON endpoint might not exist - try HTML scraping as fallback
+    return await fetchCourseFromHTML(courseId);
+  }
+}
+
+/**
+ * Fetch course from HTML page (fallback when JSON not available)
+ */
+async function fetchCourseFromHTML(courseId: string): Promise<ExternalCourse | null> {
+  try {
+    const url = `https://ocw.mit.edu/courses/${courseId}/`;
+    const response = await fetch(url);
     
-    // Extract course metadata
+    if (!response.ok) {
+      return null;
+    }
+    
+    const html = await response.text();
+    
+    // Extract title from HTML
+    const titleMatch = html.match(/<title>([^<]+)<\/title>/);
+    const title = titleMatch ? titleMatch[1].replace(' | MIT OpenCourseWare', '').trim() : courseId;
+    
+    // Extract description from meta tag
+    const descMatch = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
+    const description = descMatch ? descMatch[1] : undefined;
+    
+    // Infer level from course number
+    let level = 'Undergraduate';
+    const deptMatch = courseId.match(/^(\d+)-/);
+    if (deptMatch) {
+      const deptNum = parseInt(deptMatch[1]);
+      level = deptNum >= 17 ? 'Graduate' : 'Undergraduate';
+    }
+    
+    // Extract subject from department number
+    const subject = deptMatch ? getSubjectFromDeptNumber(parseInt(deptMatch[1])) : 'Unknown';
+    
+    return {
+      id: `mit-${courseId}`,
+      source: 'mit_ocw',
+      title,
+      url,
+      description: description?.substring(0, 500),
+      level,
+      subject,
+      duration_weeks: 16,
+      prerequisites_detected: true,
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * Get subject from department number
+ */
+function getSubjectFromDeptNumber(deptNum: number): string {
+  const deptMap: Record<number, string> = {
+    1: 'Civil and Environmental Engineering',
+    2: 'Mechanical Engineering',
+    3: 'Materials Science and Engineering',
+    4: 'Architecture',
+    5: 'Chemistry',
+    6: 'Electrical Engineering and Computer Science',
+    7: 'Biology',
+    8: 'Physics',
+    9: 'Brain and Cognitive Sciences',
+    10: 'Chemical Engineering',
+    11: 'Urban Studies and Planning',
+    12: 'Earth, Atmospheric, and Planetary Sciences',
+    14: 'Economics',
+    15: 'Management',
+    16: 'Aeronautics and Astronautics',
+    17: 'Political Science',
+    18: 'Mathematics',
+    20: 'Biological Engineering',
+    21: 'Humanities',
+    22: 'Nuclear Science and Engineering',
+    24: 'Linguistics and Philosophy',
+  };
+  
+  return deptMap[deptNum] || 'Unknown';
+}
+
+/**
+ * Process course data into ExternalCourse format
+ */
+function processCourseData(courseId: string, courseData: any): ExternalCourse | null {
+  // Extract course metadata
     const title = courseData.title || courseData['course-title'] || courseId;
     const description = courseData.description || courseData['course-description'];
     
