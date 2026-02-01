@@ -28,7 +28,7 @@ function parseSitemapXML(xml: string): string[] {
 /**
  * Discover all MIT OCW courses using sitemap
  */
-export async function discoverMITOCWFromSitemap(): Promise<ExternalCourse[]> {
+export async function discoverMITOCWFromSitemap(limit?: number): Promise<ExternalCourse[]> {
   console.log('Discovering MIT OCW courses from sitemap...');
   
   try {
@@ -43,16 +43,27 @@ export async function discoverMITOCWFromSitemap(): Promise<ExternalCourse[]> {
     
     console.log(`Found ${courseIds.length} course IDs in sitemap`);
     
+    // Apply limit if specified
+    const coursesToProcess = limit ? courseIds.slice(0, limit) : courseIds;
+    if (limit) {
+      console.log(`  Processing first ${limit} courses (remove limit to process all)`);
+    }
+    
     // Fetch course details
     const courses: ExternalCourse[] = [];
     let successCount = 0;
     let errorCount = 0;
     
-    for (let i = 0; i < courseIds.length; i++) {
+    for (let i = 0; i < coursesToProcess.length; i++) {
       const courseId = courseIds[i];
       
       try {
-        const course = await fetchCourseFromJSON(courseId);
+        let course = await fetchCourseFromJSON(courseId);
+        // If JSON fetch failed, try HTML scraping
+        if (!course) {
+          course = await fetchCourseFromHTML(courseId);
+        }
+        
         if (course) {
           courses.push(course);
           successCount++;
@@ -61,8 +72,8 @@ export async function discoverMITOCWFromSitemap(): Promise<ExternalCourse[]> {
         }
         
         // Progress logging
-        if ((i + 1) % 50 === 0) {
-          console.log(`  Progress: ${i + 1}/${courseIds.length} (${successCount} found, ${errorCount} failed)`);
+        if ((i + 1) % 50 === 0 || (i + 1) === coursesToProcess.length) {
+          console.log(`  Progress: ${i + 1}/${coursesToProcess.length} (${successCount} found, ${errorCount} failed)`);
         }
         
         // Rate limiting - be respectful
@@ -206,7 +217,8 @@ function getSubjectFromDeptNumber(deptNum: number): string {
  * Process course data into ExternalCourse format
  */
 function processCourseData(courseId: string, courseData: any): ExternalCourse | null {
-  // Extract course metadata
+  try {
+    // Extract course metadata
     const title = courseData.title || courseData['course-title'] || courseId;
     const description = courseData.description || courseData['course-description'];
     
